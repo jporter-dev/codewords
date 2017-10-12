@@ -19,7 +19,7 @@
              seed = Math.floor((Math.random() * 999) + 1);
              $("#seed_input").attr("placeholder", seed)
          }
-         $.post("set_seed_leader", {"seed_input" : seed, "size_select" : $("#size_select").val()}).done(function(data) {
+         $.post("set_seed_leader", {"seed_input" : seed, "size_select" : $("#size_select").val(), "players_select" : $("#players_select").val()}).done(function(data) {
              $("#code_html").html(data);
          });
      });
@@ -41,6 +41,11 @@
                     <select class="form-control" name="size_select" id="size_select">
 		        <option value="normal">Normal Size</option>
                         <option value="big">Big Size</option>
+                    </select>
+
+                    <select class="form-control" name="players_select" id="players_select">
+		        <option value="2">2 Teams</option>
+                        <option value="3">3 Teams</option>
                     </select>
             
                   <button type="submit" class="btn btn-default btn-custom">Submit</button>

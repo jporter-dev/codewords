@@ -18,7 +18,9 @@ FILE_LOOKUP_SERVER={"CAH" : SERVER_CAH_FILE, "Pop Culture" : SERVER_POP_CULTURE_
 red_color = '#df2020'
 blue_color= '#207fdf'
 black_color= '#505050'
+green_color = '#33cc33'
 white_color= '#cccccc'
+
 blackout_color= '#000000'
 
 SIZE_TYPE_NORMAL='normal'
@@ -40,6 +42,8 @@ def get_color(char):
         return red_color
     elif char == 'B':
         return blue_color
+    elif char == 'G':
+        return green_color
     elif char == 'X':
         return black_color
     elif char == '-':
@@ -57,26 +61,50 @@ def get_player_info(dictionary, num_words=NUM_WORDS_NORMAL):
     final_words = words[0:num_words]
     return final_words
     
-def get_game_info(size=SIZE_TYPE_NORMAL):
+def get_game_info(size=SIZE_TYPE_NORMAL, players=2):
     ginfo = game_info.GameInfo()
     ginfo.game_id = 0
     ginfo.adv_color = game_info.RED
+    green=0
     if size == SIZE_TYPE_NORMAL:
-        blue = 8
-        red = 8
-        bystanders = 7
+        if players==3:
+            blue = 5
+            red = 5
+            green = 5
+        else:
+            blue = 8
+            red = 8
+
+        bystanders = 25 - blue - red - green - 2
     else:
-        blue = 8
-        red = 8
+        if players == 2:
+            blue = 8
+            red = 8
+        elif players == 3:
+            blue = 8
+            red = 8
+            green = 8
         num_blackouts = 9
-        bystanders = 81 - num_blackouts - blue - red - 1
-    if random.random() < 0.5:
-        blue += 1
-        ginfo.adv_color = game_info.BLUE
+        bystanders = 81 - num_blackouts - blue - red - green - 3
+    if players == 2:
+        if random.random() < 0.5:
+            blue += 1
+            ginfo.adv_color = game_info.BLUE
+        else:
+            red += 1
     else:
-        red += 1
+        if random.random() < 0.333:
+            blue += 1
+            ginfo.adv_color = game_info.BLUE
+        elif random.random() > 0.666:
+            green += 1
+            ginfo.adv_color = game_info.GREEN
+        else:
+            red += 1
     mix = ["B"] * blue
     mix.extend(["R"] * red)
+    if green > 0:
+        mix.extend(['G'] * green)
     mix.extend(["X"])
     if size == SIZE_TYPE_BIG:
         mix.extend(['X'])
@@ -88,14 +116,16 @@ def get_game_info(size=SIZE_TYPE_NORMAL):
     ginfo.layout = mix
     return ginfo
     
-def get_leader_html(seed=None, size=SIZE_TYPE_NORMAL):
+def get_leader_html(seed=None, size=SIZE_TYPE_NORMAL, players=2):
     if seed:
         random.seed(seed)
     html = ''
-    ginfo = get_game_info(size)
+    ginfo = get_game_info(size, players)
     color_text = "Red"
     if ginfo.adv_color == game_info.BLUE:
         color_text = "Blue"
+    elif ginfo.adv_color == game_info.GREEN:
+        color_text = "Green"
     count = 0
     html += '<h3 style="color: ' + get_color(ginfo.adv_color) + '">' + color_text + ' starts</h3>'
     if size == SIZE_TYPE_NORMAL:
@@ -119,8 +149,6 @@ def get_leader_html(seed=None, size=SIZE_TYPE_NORMAL):
         html += "</table>"
     
     return html
-
-
 
 def get_game_html(dictionary,seed=None, size=SIZE_TYPE_NORMAL):
     if seed:

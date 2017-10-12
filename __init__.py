@@ -40,7 +40,9 @@ def leader():
 def set_seed_leader():
     seed=int(request.form["seed_input"].strip())
     size=request.form["size_select"].strip()
-    return codename_view.get_leader_html(seed, size)
+    players=request.form["players_select"].strip()
+    players=int(players)
+    return codename_view.get_leader_html(seed, size, players)
 
 @app.route('/codename/set_seed_game', methods=('POST','GET'))
 def set_seed_game():
@@ -49,6 +51,7 @@ def set_seed_game():
         seed=int(request.form["seed_input"].strip())
     dict_select=request.form["dict_select"].strip()
     size=request.form["size_select"].strip()
+    
     return codename_view.get_game_html(dict_select,seed,size)
 
 @app.route('/codename/play')

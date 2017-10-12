@@ -1,5 +1,6 @@
 BLUE = 'B'
 RED = 'R'
+GREEN = 'G'
 
 class GameInfo:
     def __init__(self, game_id=0, adv_color='', layout='', words=[]):
