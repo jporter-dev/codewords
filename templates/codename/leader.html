@@ -1,0 +1,59 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+<style type="text/css">
+ body { background: #000 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+ 
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script type=text/javascript>
+ $(document).ready(function(){
+     $('#seed_form').on('submit', function(e) {
+         e.preventDefault();
+         seed=$("#seed_input").val()
+         if (seed == '') {
+             seed = Math.floor((Math.random() * 999) + 1);
+             $("#seed_input").attr("placeholder", seed)
+         }
+         $.post("set_seed_leader", {"seed_input" : seed, "size_select" : $("#size_select").val()}).done(function(data) {
+             $("#code_html").html(data);
+         });
+     });
+     $("#seed_form").submit()
+ });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br/>
+
+    <form role="form" class="form-inline" id="seed_form">
+        <div class="form-group">
+            <label for="seed_input" class="sr-only">Seed Number</label>
+                    <input type="text" class="form-control" id="seed_input" placeholder="Seed number">
+            
+                    <select class="form-control" name="size_select" id="size_select">
+		        <option value="normal">Normal Size</option>
+                        <option value="big">Big Size</option>
+                    </select>
+            
+                  <button type="submit" class="btn btn-default btn-custom">Submit</button>
+                
+            </span>
+        </div>
+    </form>
+
+    
+    <div id="code_html">{{ code_html|safe }}</div>
+    <br/>
+    <a href="play">Player</a>
+</div>
+{% endblock %}
+
+

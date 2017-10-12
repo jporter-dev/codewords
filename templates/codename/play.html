@@ -1,0 +1,113 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+<style type="text/css">
+ body { cursor: pointer; background: #000 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+ .btn-custom { background-color: #ddd;}
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script type=text/javascript>
+ $(document).ready(function(){
+     var cur_cell = ""
+     
+     $(document).on('click', '.codename_cell', function() {
+         cur_cell = $(this).attr('id')
+             $("#myModal").modal("show")
+     });
+
+     $('.red_btn').click(function() {
+         $('#' + cur_cell).css("background", "#ff0000")
+     });
+     $('.blue_btn').click(function() {
+         $('#' + cur_cell).css("background", "#9999ff")
+     });
+     $('.bystander_btn').click(function() {
+         $('#' + cur_cell).css("background", "#ffffff")
+     });
+     $('.assassin_btn').click(function() {
+         $('#' + cur_cell).css("background", "#505050")
+     });
+     $('.reset_btn').click(function() {
+         $('#' + cur_cell).css("background", "#cccccc")
+     });
+
+     $('#seed_form').on('submit', function(e) {
+         e.preventDefault();
+         seed=$("#seed_input").val()
+         if (seed == '') {
+             seed = Math.floor((Math.random() * 999) + 1);
+             $("#seed_input").attr("placeholder", seed)
+         }
+         
+         $.post("set_seed_game", {"seed_input" : seed, "dict_select" : $("#dict_select").val(), "size_select" : $("#size_select").val()}).done(function(data) {
+             $("#code_html").html(data);
+         });
+     });
+     $('#dict_select').change(function() {
+         $('#seed_form').submit()
+     });
+     $("#seed_form").submit()
+ });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br/>
+    <form role="form" class="form-inline" id="seed_form">
+        <div class="form-group">
+            <label for="seed_input" class="sr-only">Seed Number</label>
+            
+            
+                    <input type="text" class="form-control" id="seed_input" placeholder="Seed number">
+            
+            
+                    <select class="form-control" name="dict_select" id="dict_select">
+		        <option value="Dictionary">Dictionary</option>
+                        <option value="CAH">CAH</option>
+                        <option value="Pop Culture">Pop Culture</option>
+			<option value="Simple">Simple</option>
+                    </select>
+            
+            
+                    <select class="form-control" name="size_select" id="size_select">
+		        <option value="normal">Normal Size</option>
+                        <option value="big">Big Size</option>
+                    </select>
+            
+                  <button type="submit" class="btn btn-default btn-custom">Submit</button>
+                
+            </span>
+        </div>
+    </form>
+    <br/>
+    <div id="code_html">{{ code_html|safe }}</div>
+    <a href="leader">Leader</a>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select Team</h4></div>
+            <div class="modal-body">
+                <button type="button" class="btn red_btn" data-dismiss="modal">Red</button>
+                <button type="button" class="btn blue_btn" data-dismiss="modal">Blue</button>
+                <button type="button" class="btn bystander_btn" data-dismiss="modal">Bystander</button>
+                <button type="button" class="btn assassin_btn" data-dismiss="modal">Assassin</button>
+                <button type="button" class="btn reset_btn" data-dismiss="modal">Reset</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,23 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+<style type="text/css">
+ body { background: #000 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+ 
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br/>
+    <h2><a href="codename">Code Names</a></h2>
+    <h2><a href="avalon">Avalon</a></h2>
+    <h2><a href="secret_hitler">Secret Hitler</a></h2>
+    <h2><a href="wild_magic">Wild Magic</a></h2>
+    <h2><a href="bfstats">Battlefield Stats</a></h2>
+    <h2><a href="interferon">Interferon</a></h2>
+</div>
+{% endblock %}
+
+
