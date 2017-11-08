@@ -1,13 +1,14 @@
-from flask import Flask, render_template, g, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO
 from flask_bootstrap import Bootstrap, StaticCDN
 from codename import codename_view
-import os, sqlite3, random, socket
-import time
+import socket
 import logging
 import logging.handlers
 
 app = Flask(__name__)
 Bootstrap(app)
+socketio = SocketIO(app)
 app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()
 app.extensions['bootstrap']['cdns']['bootstrap'] = StaticCDN()
 app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe8\xe8'
@@ -60,6 +61,7 @@ def play():
 
 if __name__ == '__main__':
     #app.add_url_rule('/favicon.ico',redirect_to=url_for('static', filename='favicon.ico'))                                                                                                                          
-    app.run(host='0.0.0.0', debug=True)
+    # app.run(host='0.0.0.0', debug=True)
+    socketio.run(app, host='0.0.0.0', debug=True)
 
 

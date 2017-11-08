@@ -2,18 +2,17 @@ import random
 import socket
 from codename import codename_game_info as game_info
 
+cur_host = socket.gethostname()
+FILE_ROOT="/home/daniel/development/projects/sprek/codenames"
+if 'webfaction' in cur_host:
+    FILE_ROOT="/home/sprek"
 
-HOME_CAH_FILE="/home/daniel/development/projects/sprek/codenames/cah_code_names.txt"
-HOME_POP_CULTURE_FILE="/home/daniel/development/projects/sprek/codenames/code_names_pop.txt"
-HOME_DICTIONARY_FILE="/home/daniel/development/projects/sprek/codenames/code_names_dict.txt"
-HOME_SIMPLE_FILE="/home/daniel/development/projects/sprek/codenames/code_names_simple.txt"
-SERVER_CAH_FILE="/home/sprek/cah_code_names.txt"
-SERVER_POP_CULTURE_FILE="/home/sprek/code_names_pop.txt"
-SERVER_DICTIONARY_FILE="/home/sprek/code_names_dict.txt"
-SERVER_SIMPLE_FILE="/home/sprek/code_names_simple.txt"
+CAH_FILE = FILE_ROOT + "/cah_code_names.txt"
+POP_CULTURE_FILE = FILE_ROOT + "/code_names_pop.txt"
+DICTIONARY_FILE = FILE_ROOT + "/code_names_dict.txt"
+SIMPLE_FILE = FILE_ROOT + "/code_names_simple.txt"
 
-FILE_LOOKUP_HOME={"CAH" : HOME_CAH_FILE, "Pop Culture" : HOME_POP_CULTURE_FILE, "Dictionary" : HOME_DICTIONARY_FILE, "Simple" : HOME_SIMPLE_FILE}
-FILE_LOOKUP_SERVER={"CAH" : SERVER_CAH_FILE, "Pop Culture" : SERVER_POP_CULTURE_FILE, "Dictionary" : SERVER_DICTIONARY_FILE, "Simple" : SERVER_SIMPLE_FILE}
+FILE_LOOKUP={"CAH" : CAH_FILE, "Pop Culture" : POP_CULTURE_FILE, "Dictionary" : DICTIONARY_FILE, "Simple" : SIMPLE_FILE}
 
 red_color = '#df2020'
 blue_color= '#207fdf'
@@ -31,12 +30,6 @@ NUM_WORDS_BIG=81
 
 BIG_BLACKOUT_SPOTS=[4,20,24,36,40,44,56,60,76]
 
-def get_dict_path(file_lookup):
-    cur_host = socket.gethostname()
-    if 'webfaction' in cur_host:
-        return FILE_LOOKUP_SERVER[file_lookup]
-    return FILE_LOOKUP_HOME[file_lookup]
-
 def get_color(char):
     if char == 'R':
         return red_color
@@ -52,10 +45,10 @@ def get_color(char):
         return white_color
 
 def get_player_info(dictionary, num_words=NUM_WORDS_NORMAL):
-    if not dictionary in FILE_LOOKUP_SERVER.keys():
+    if not dictionary in FILE_LOOKUP.keys():
         print ("Error: dictionary '" + dictionary + "' doesn't exist")
         return None
-    words_file = open(get_dict_path(dictionary), 'r')
+    words_file = open(FILE_LOOKUP[dictionary], 'r')
     words = [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
     random.shuffle(words)
     final_words = words[0:num_words]
