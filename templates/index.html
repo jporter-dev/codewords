@@ -3,21 +3,59 @@
 {% block styles %}
 {{super()}}
 <style type="text/css">
- body { background: #000 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+ body { background: #eee !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
  
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <br/>
-    <h2><a href="codename">Code Names</a></h2>
-    <h2><a href="avalon">Avalon</a></h2>
-    <h2><a href="secret_hitler">Secret Hitler</a></h2>
-    <h2><a href="wild_magic">Wild Magic</a></h2>
-    <h2><a href="bfstats">Battlefield Stats</a></h2>
-    <h2><a href="interferon">Interferon</a></h2>
+<div>
+    <h1>SocketIO Testing</h1>
+    <button id="join" class="submit" onclick="createRoom()">Create</button>
+    <input type="text" id="username" value="tester1">
+    <input type="text" id="room">
+    <button id="join" class="submit" onclick="joinRoom()">Join</button>
+    <button id="leave" class="submit" onclick="leaveRoom()">Leave</button>
 </div>
-{% endblock %}
 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.on('message', function (msg) {
+            console.log(Date.now() + " | " + msg)
+        });
+
+        socket.on('room_created', function (msg) {
+            $('#room').val(msg.room)
+        });
+    });
+
+    function createRoom () {
+        var username = $('#username').val()
+        socket.emit('create', {
+            username: username
+        });
+    }
+
+    function joinRoom () {
+        var username = $('#username').val()
+        var room = $('#room').val()
+        socket.emit('join', {
+            username: username,
+            room: room
+        });
+    }
+
+    function leaveRoom () {
+        var username = $('#username').val()
+        var room = $('#room').val()
+        socket.emit('leave', {
+            username: username,
+            room: room
+        });
+    }
+</script>
+
+{% endblock %}
 

@@ -3,7 +3,7 @@ import socket
 from codename import codename_game_info as game_info
 
 cur_host = socket.gethostname()
-FILE_ROOT="/home/daniel/development/projects/sprek/codenames"
+FILE_ROOT="/Users/jporter/code/codenames"
 if 'webfaction' in cur_host:
     FILE_ROOT="/home/sprek"
 
