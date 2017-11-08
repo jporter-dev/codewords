@@ -70,16 +70,15 @@ def play():
 
 
 # BEGIN CODENAMESv2 -- WEBSOCKETS
-# Actions:
-#   Create a lobby [deck, size] - this will generate a random seed for others to join with
-#   Join the lobby using seed from above
-#   Leave the lobby
-#   Get cards - probably can be sent with the "on join" event as an initializer
-#       This will have to vary based on leader/player
-#   Select and validate a card - this will update all players
-# TODOS for existing architecture
-#   Convert calls to return JSON instead of HTML and templates
+# required params
+#   username
 
+# create a game
+# generate the cards and starting team
+# params: 
+#   card deck
+#   board size
+#   # of teams - v2.1?
 @socketio.on('create')
 def on_create(data):
     id_length = 5
@@ -89,6 +88,7 @@ def on_create(data):
     send(username + ' has created the room. [' + room + ']')
     emit('room_created', {"room": room})
 
+# join a game
 @socketio.on('join')
 def on_join(data):
     username = data['username']
@@ -96,15 +96,24 @@ def on_join(data):
     join_room(room)
     send(username + ' has entered the room.', room=room)
 
+# leave a game
 @socketio.on('leave')
 def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', room=room)
+
+# take a turn
+@socketio.on('turn')
+def on_turn(data):
     print(data)
     username = data['username']
     room = data['room']
     leave_room(room)
     send(username + ' has left the room.', room=room)
 
-# @socketio.on('')
+# set spymaster
 
 if __name__ == '__main__':
     #app.add_url_rule('/favicon.ico',redirect_to=url_for('static', filename='favicon.ico'))                                                                                                                          
