@@ -7,12 +7,10 @@
         label="Dictionary"
         dark
       ></v-select>
-
       <v-radio-group v-model="teams" row label="Teams">
         <v-radio label="2 teams" value="2" ></v-radio>
         <v-radio label="3 teams" value="3"></v-radio>
       </v-radio-group>
-      
       <v-radio-group v-model="size" row label="Board Size">
         <v-radio label="Normal" value="normal" ></v-radio>
         <v-radio label="Large" value="large"></v-radio>

@@ -1,9 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex sm8 offset-sm2 xs12>
-      <join-form v-if="!showCreate"></join-form>
       <v-btn block color="secondary" large @click="showCreate = !showCreate">Create Game</v-btn>
-      <create-form v-if="showCreate"></create-form>
+      <create-form transition="slide-y-transition" v-if="showCreate"></create-form>
+      <join-form v-if="!showCreate" transition="slide-y-transition"></join-form>
     </v-flex>
   </v-layout>
 </template>
