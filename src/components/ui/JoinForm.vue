@@ -4,10 +4,10 @@
       <v-text-field
         label="Room ID"
         v-model="room"
-        required
         autofocus
+        light
+        solo
       ></v-text-field>
-      
       <v-btn block color="primary" large>Join</v-btn>
     </v-card-text>
   </v-card>
