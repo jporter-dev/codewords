@@ -16,6 +16,8 @@
     <input type="text" id="room">
     <button id="join" class="submit" onclick="joinRoom()">Join</button>
     <button id="leave" class="submit" onclick="leaveRoom()">Leave</button>
+    <input type="text" id="card">
+    <button id="flipCard" class="submit" onclick="flipCard()">flip</button>
 </div>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
@@ -23,11 +25,9 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.on('connect', function() {
         socket.on('message', function (msg) {
-            console.log(Date.now() + " | " + msg)
-        });
-
-        socket.on('room_created', function (msg) {
-            $('#room').val(msg.room)
+            console.log(Date.now() + " | " + JSON.stringify(msg))
+            console.log(msg.players)
+            $('#room').val(msg.game_id)
         });
     });
 
@@ -35,6 +35,15 @@
         var username = $('#username').val()
         socket.emit('create', {
             username: username
+        });
+    }
+    function flipCard () {
+        var card = $('#card').val()
+        var room = $('#room').val()
+        console.log(card)
+        socket.emit('flip_card', {
+            card: card,
+            room: room
         });
     }
 
