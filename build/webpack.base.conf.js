@@ -19,6 +19,11 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  devServer: {
+    proxy: {
+      '/socket.io': 'http://localhost:5000'
+    },
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {

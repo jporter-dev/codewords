@@ -1,6 +1,10 @@
 <template>
   <v-card>
     <v-card-text>
+      <v-text-field
+        label="Username"
+        v-model="username"
+      ></v-text-field>
       <v-select
         v-bind:items="dictionaries"
         v-model="dictionary"
@@ -16,7 +20,7 @@
         <v-radio label="Large" value="large"></v-radio>
       </v-radio-group>
 
-      <v-btn block color="accent" large>Create</v-btn>
+      <v-btn block color="accent" large @click="createRoom">Create</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -26,11 +30,23 @@ export default {
   name: 'create-form',
   data() {
     return {
+      username: '',
       dictionaries: ['Simple', 'CAH', 'Standard', 'Extended'],
       dictionary: 'Simple',
       teams: '2',
       size: 'normal',
     };
+  },
+  methods: {
+    createRoom() {
+      const params = {
+        username: this.username,
+        dictionary: this.dictionary,
+        teams: this.teams,
+        size: this.size,
+      };
+      this.$socket.emit('create', params)
+    },
   },
 };
 </script>
