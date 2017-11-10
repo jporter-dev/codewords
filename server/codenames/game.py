@@ -1,9 +1,8 @@
 # object for tracking game status
 import random
-import json
 
 # dictionaries
-FILE_ROOT="/Users/jporter/code/codenames"
+FILE_ROOT="/Users/jporter/code/codenames/server/dictionaries"
 DICTIONARIES={
     "CAH" :         FILE_ROOT + "/cah_code_names.txt", 
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt", 
