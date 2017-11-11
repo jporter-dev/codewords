@@ -21,8 +21,10 @@ export default new Vuex.Store({
     SOCKET_MESSAGE(state, message) {
       state.game = message;
       state.room = message.game_id;
+      state.error = null;
     },
     SOCKET_JOIN_ROOM(state, message) {
+      state.error = null;
       state.room = message.room;
     },
     SOCKET_ERROR(state, message) {

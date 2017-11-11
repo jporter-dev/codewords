@@ -17,7 +17,7 @@
           {{confirmCard}}
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="primary" @click.stop="flipCard">Confirm</v-btn>
+          <v-btn block large color="primary" @click.stop="flipCard">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

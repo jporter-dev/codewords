@@ -2,6 +2,14 @@
   <v-app dark>
     <main>
       <v-content>
+        <v-alert
+          color="error"
+          icon="check_circle"
+          :value="error"
+          transition="scale-transition"
+        >
+          {{error}}
+        </v-alert>
         <v-container fluid pb-5 mb-4>
           <router-view>
           </router-view>
@@ -9,16 +17,16 @@
       </v-content>
     </main>
     <v-bottom-nav :value="this.room" class="secondary">
-      <v-btn flat :to="{ name: 'Home' }">
+      <v-btn flat replace :to="{ name: 'Home' }">
         <v-icon medium>home</v-icon> Home
       </v-btn>
-      <v-btn flat :to="{ name: 'Player', params: { room: room }}">
+      <v-btn flat replace :to="{ name: 'Player', params: { room: room }}">
         <v-icon medium>person</v-icon> Player
       </v-btn>
-      <v-btn flat :to="{ name: 'Spymaster', params: { room: room }}">
+      <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}">
         <v-icon medium>local_library</v-icon> Spymaster
       </v-btn>
-      <v-btn flat v-if="room" class="white--text">
+      <v-btn flat replace v-if="room" class="white--text">
         <span class="body-2">{{ room }}</span>
         <span>Room ID</span>
       </v-btn>
@@ -32,7 +40,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'app',
   computed: {
-    ...mapState(['room']),
+    ...mapState(['room', 'error']),
   },
 };
 </script>
