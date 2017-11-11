@@ -3,7 +3,8 @@
     <main>
       <v-content>
         <v-container fluid pb-5 mb-4>
-          <router-view></router-view>
+          <router-view>
+          </router-view>
         </v-container>
       </v-content>
     </main>

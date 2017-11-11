@@ -2,11 +2,13 @@
   <v-container grid-list-sm pa-0>
     <v-layout row wrap v-for="row in gridSize">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))">
-        <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
-          <v-card-text px-0>
-            {{getWord(row, cell)}}
-          </v-card-text>
-        </v-card>
+        <v-fade-transition appear>
+          <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
+            <v-card-text px-0>
+              {{getWord(row, cell)}}
+            </v-card-text>
+          </v-card>
+        </v-fade-transition>
       </v-flex>
     </v-layout>
     <v-dialog v-model="confirmShow">
