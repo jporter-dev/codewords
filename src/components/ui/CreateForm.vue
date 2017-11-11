@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       // username: 'unknown',
-      dictionaries: ['Simple', 'CAH', 'Standard', 'Extended'],
+      dictionaries: ['Simple', 'CAH', 'Standard', 'Pop Culture'],
       dictionary: 'Standard',
       teams: '2',
       size: 'normal',
