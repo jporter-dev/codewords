@@ -70,7 +70,7 @@ export default {
         case 'B':
           return 'blue darken-1';
         case 'O':
-          return 'black--text amber lighten-2';
+          return 'black--text grey lighten-3';
         case 'X':
           return 'grey darken-4';
         case '-':
