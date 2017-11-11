@@ -47,6 +47,7 @@ class Info:
             "board": self.board,
             "layout": self.layout,
             "solution": self.solution,
+            "teams": self.teams,
         }
 
     def flip_card(self, word):

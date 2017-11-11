@@ -2,8 +2,11 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_bootstrap import Bootstrap, StaticCDN
 from codenames import game
+import eventlet
 import random
 import string
+
+eventlet.monkey_patch()
 
 app = Flask(__name__)
 Bootstrap(app)

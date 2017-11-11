@@ -55,5 +55,7 @@ npm run flask
 
 ## TODO
 
+* Show which team goes first
+* Add a turn timer/turn tracker
 * Build for production
 * Streamline install and build

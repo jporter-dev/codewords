@@ -1,6 +1,6 @@
 <template>
   <v-fade-transition appear>  
-    <v-layout row wrap>
+    <v-layout align-center row wrap>
       <v-flex sm8 offset-sm2 xs12>
         <img src="/static/images/secret-agent-128.png" alt="codenames" height="64">
         <h1 class="title grey--text">Codenames</h1>

@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-sm pa-0>
+  <v-container grid-list-sm mt-5 mb-5 pa-0>
     <v-layout row wrap v-for="row in gridSize">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))">
         <v-fade-transition appear>
@@ -73,9 +73,10 @@
       },
       getColor(word, id) {
         // already flipped cards
+        // if word is null - for starting team card
         // if spymaster and word isn't flipped
         // if not spymaster and word is flipped
-        if ((!this.isSpymaster() && this.game.board[word]) ||
+        if (!word || (!this.isSpymaster() && this.game.board[word]) ||
           (this.isSpymaster() && !this.game.board[word])) {
           switch (id) {
             case 'R':

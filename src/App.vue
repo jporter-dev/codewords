@@ -2,35 +2,35 @@
   <v-app dark>
     <main>
       <v-content>
-        <v-alert
-          color="error"
-          icon="check_circle"
-          :value="error"
-          transition="scale-transition"
-        >
-          {{error}}
-        </v-alert>
-        <v-container fluid pb-5 mb-4>
+        <v-toolbar :color="getColor" dark fixed v-if="room">
+          <v-toolbar-title>{{room}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-title>{{getTurn}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn flat large @click="nextTurn">
+            <v-icon medium>skip_next</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-container fill-height fluid pr-2 pl-2>
           <router-view>
           </router-view>
         </v-container>
+
+        <v-bottom-nav :value="this.room" class="secondary">
+          <v-btn flat replace :to="{ name: 'Home' }">
+            <v-icon medium>home</v-icon> Home
+          </v-btn>
+          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}">
+            <v-icon medium>person</v-icon> Player
+          </v-btn>
+          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}">
+            <v-icon medium>local_library</v-icon> Spymaster
+          </v-btn>
+        </v-bottom-nav>
+
       </v-content>
     </main>
-    <v-bottom-nav :value="this.room" class="secondary">
-      <v-btn flat replace :to="{ name: 'Home' }">
-        <v-icon medium>home</v-icon> Home
-      </v-btn>
-      <v-btn flat replace :to="{ name: 'Player', params: { room: room }}">
-        <v-icon medium>person</v-icon> Player
-      </v-btn>
-      <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}">
-        <v-icon medium>local_library</v-icon> Spymaster
-      </v-btn>
-      <v-btn flat replace v-if="room" class="white--text">
-        <span class="body-2">{{ room }}</span>
-        <span>Room ID</span>
-      </v-btn>
-    </v-bottom-nav>
   </v-app>
 </template>
 
@@ -39,8 +39,60 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'app',
+  data() {
+    return {
+      showSidebar: false,
+      showError: false,
+      currentTeam: '',
+    };
+  },
   computed: {
-    ...mapState(['room', 'error']),
+    ...mapState(['room', 'error', 'game']),
+    getColor() {
+      switch (this.currentTeam) {
+        case 'R':
+          return 'red darken-1';
+        case 'G':
+          return 'green lighten-1';
+        case 'B':
+          return 'blue darken-1';
+        default:
+          return 'secondary';
+      }
+    },
+    getCurrentTeam() {
+      if (!this.currentTeam) {
+        this.currentTeam = this.game.starting_color;
+      }
+      return this.currentTeam;
+    },
+    getTurn() {
+      switch (this.getCurrentTeam) {
+        case 'R':
+          return 'Red\'s Turn';
+        case 'G':
+          return 'Green\'s Turn';
+        case 'B':
+          return 'Blue\'s Turn';
+        default:
+          return '';
+      }
+    },
+  },
+  methods: {
+    nextTurn() {
+      if (this.currentTeam === 'R') {
+        this.currentTeam = 'B';
+      } else if (this.currentTeam === 'B') {
+        if (this.game.teams === 3) {
+          this.currentTeam = 'G';
+        } else {
+          this.currentTeam = 'R';
+        }
+      } else {
+        this.currentTeam = 'R';
+      }
+    },
   },
 };
 </script>
