@@ -23,6 +23,7 @@ module.exports = {
     proxy: {
       '/socket.io': 'http://localhost:5000'
     },
+    disableHostCheck: true,
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

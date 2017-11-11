@@ -9,11 +9,14 @@ export default new Vuex.Store({
     game: {},
     room: '',
     username: '',
+    error: '',
   },
   mutations: {
     SOCKET_CONNECT(state) {
-      console.log('conntec');
       state.connect = true;
+    },
+    SOCKET_DISCONNECT(state) {
+      state.connect = false;
     },
     SOCKET_MESSAGE(state, message) {
       state.game = message;
@@ -21,6 +24,10 @@ export default new Vuex.Store({
     },
     SOCKET_JOIN_ROOM(state, message) {
       state.room = message.room;
+    },
+    SOCKET_ERROR(state, message) {
+      console.log(message.error);
+      state.error = message.error;
     },
     set_game(state, game) {
       state.game = game;

@@ -36,7 +36,7 @@ def on_create(data):
     room = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(id_length))
     join_room(room)
     # create the game
-    rooms[room] = game.Info(game_id=room)
+    rooms[room] = game.Info(game_id=room, size=data['size'], teams=data['teams'])
     rooms[room].add_player(username)
     emit('join_room', {'room': room})
 
@@ -45,10 +45,13 @@ def on_create(data):
 def on_join(data):
     username = data['username']
     room = data['room']
-    # add player and rebroadcast game object
-    rooms[room].add_player(username)
-    join_room(room)
-    send(rooms[room].to_json(), room=room)
+    if room in rooms:
+        # add player and rebroadcast game object
+        rooms[room].add_player(username)
+        join_room(room)
+        send(rooms[room].to_json(), room=room)
+    else:
+        emit('error', {'error': 'Unable to join room. Room does not exist.'})
 
 # leave a game
 @socketio.on('leave')
