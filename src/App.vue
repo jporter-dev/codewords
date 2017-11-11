@@ -8,7 +8,7 @@
         </v-container>
       </v-content>
     </main>
-    <v-bottom-nav :value="true" class="secondary">
+    <v-bottom-nav :value="this.room" class="secondary">
       <v-btn flat :to="{ name: 'Home' }">
         <v-icon medium>home</v-icon> Home
       </v-btn>
