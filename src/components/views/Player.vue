@@ -1,15 +1,14 @@
 <template>
   <v-container grid-list-sm pa-0>
-    <v-layout row wrap>
-      <v-flex xs12 sm3 md3 v-for="(team, word) in game.board">
-        <v-card :color="getColor(team)" tile flat dark>
+    <v-layout row v-for="i in gridSize">
+      <v-flex v-for="x in gridSize">
+        <v-card :color="getColor(game.board[game.words[x*i-1]])" tile flat dark>
           <v-card-text px-0>
-            {{word}}
+            {{game.words[x*i-1]}}
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
-    
   </v-container>
 </template>
 
@@ -20,6 +19,13 @@ export default {
   name: 'player',
   computed: {
     ...mapState(['connected', 'room', 'username', 'game']),
+    gridSize() {
+      let grid = 0;
+      if (this.game.words) {
+        grid = Math.sqrt(this.game.words.length);
+      }
+      return grid;
+    },
   },
   mounted() {
     if (!this.username) this.set_username('#unknown');

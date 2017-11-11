@@ -1,6 +1,8 @@
 <template>
   <v-layout row wrap>
     <v-flex sm8 offset-sm2 xs12>
+      <img src="/static/images/secret-agent-128.png" alt="codenames" height="64">
+      <h1 class="title grey--text">Codenames</h1>
       <v-btn block color="secondary" large @click="showCreate = !showCreate">Create Game</v-btn>
       <create-form transition="slide-y-transition" v-if="showCreate"></create-form>
       <join-form v-if="!showCreate" transition="slide-y-transition"></join-form>

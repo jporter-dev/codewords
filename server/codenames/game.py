@@ -6,7 +6,7 @@ FILE_ROOT="/Users/jporter/code/codenames/server/dictionaries"
 DICTIONARIES={
     "CAH" :         FILE_ROOT + "/cah_code_names.txt", 
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt", 
-    "Dictionary" :  FILE_ROOT + "/code_names_dict.txt", 
+    "Standard" :  FILE_ROOT + "/code_names_dict.txt", 
     "Simple" :      FILE_ROOT + "/code_names_simple.txt"
 }
 # colors per team

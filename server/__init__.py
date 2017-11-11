@@ -36,7 +36,7 @@ def on_create(data):
     room = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(id_length))
     join_room(room)
     # create the game
-    rooms[room] = game.Info(game_id=room, size=data['size'], teams=data['teams'])
+    rooms[room] = game.Info(game_id=room, size=data['size'], teams=data['teams'], dictionary=data['dictionary'])
     rooms[room].add_player(username)
     emit('join_room', {'room': room})
 
