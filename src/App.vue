@@ -9,7 +9,16 @@
         </v-container>
       </v-content>
     </main>
-    <v-footer app></v-footer>
+    <v-footer app>
+      <v-layout row wrap>
+        <v-flex>
+          <v-btn block :to="{ name: 'Player', params: { room: this.$store.state.room }}">Player</v-btn>
+        </v-flex>
+        <v-flex>
+          <v-btn block :to="{ name: 'Spymaster', params: { room: this.$store.state.room }}">Spymaster</v-btn>
+        </v-flex>
+      </v-layout>
+    </v-footer>
   </v-app>
 </template>
 
