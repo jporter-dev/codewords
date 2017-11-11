@@ -1,8 +1,11 @@
 # object for tracking game status
 import random
+import os
 
 # dictionaries
-FILE_ROOT="/Users/jporter/code/codenames/server/dictionaries"
+#FILE_ROOT="/Users/jporter/code/codenames/server/dictionaries"
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
 DICTIONARIES={
     "CAH" :         FILE_ROOT + "/cah_code_names.txt", 
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt", 
