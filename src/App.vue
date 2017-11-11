@@ -22,7 +22,7 @@
             <v-icon medium>home</v-icon> Home
           </v-btn>
           <v-btn flat replace :to="{ name: 'Player', params: { room: room }}">
-            <v-icon medium>person</v-icon> Player
+            <v-icon medium>person</v-icon> Agent
           </v-btn>
           <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}">
             <v-icon medium>local_library</v-icon> Spymaster
