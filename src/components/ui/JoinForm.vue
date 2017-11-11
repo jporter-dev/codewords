@@ -2,7 +2,7 @@
   <v-card>
     <v-card-text>
       <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-      <v-text-field label="Room ID" v-model="room_id" ></v-text-field>
+      <v-text-field label="Room ID" v-model="room_num" ></v-text-field>
       <v-btn block color="primary" large @click="joinGame">Join</v-btn>
     </v-card-text>
   </v-card>
@@ -16,8 +16,13 @@ export default {
   data() {
     return {
       // username: '',
-      room_id: null,
+      room_num: null,
     };
+  },
+  computed: {
+    room_id() {
+      return this.room_num.toUpperCase();
+    },
   },
   methods: {
     ...mapMutations(['set_username', 'set_room']),

@@ -1,44 +1,20 @@
 <template>
-  <v-container grid-list-sm pa-0>
-    <v-layout row wrap v-for="row in gridSize">
-      <v-flex class="cn-card" v-for="cell in gridSize" @click="flipCard(getWord(row, cell))">
-        <v-card :color="getColor(getWord(row, cell), game.solution[getWord(row, cell)])" tile flat dark>
-          <v-card-text px-0 v-if="confirmCard === getWord(row, cell)">
-            {{getWord(row, cell)}}
-          </v-card-text>
-          <v-card-text px-0 v-else-if="confirmCard && confirmCard !== getWord(row, cell)">
-            {{getWord(row, cell)}}
-          </v-card-text>
-          <v-card-text px-0 v-else-if="game.board[getWord(row, cell)]">
-            -
-          </v-card-text>
-          <v-card-text px-0 v-else>
-            {{getWord(row, cell)}}
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <game-board :role="role"></game-board>
 </template>
 
 <script>
+import GameBoard from '@/components/ui/GameBoard';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'spymaster',
-  data() {
-    return {
-      confirmCard: null,
-    };
+  components: {
+    GameBoard,
   },
   computed: {
-    ...mapState(['connected', 'room', 'username', 'game']),
-    gridSize() {
-      let grid = 0;
-      if (this.game.words) {
-        grid = Math.sqrt(this.game.words.length);
-      }
-      return grid;
+    ...mapState(['room', 'username']),
+    role() {
+      return this.$route.name;
     },
   },
   mounted() {
@@ -52,66 +28,10 @@ export default {
   },
   methods: {
     ...mapMutations(['set_room', 'set_username']),
-    getWord(row, cell) {
-      const temp = (((row - 1) * this.gridSize) + (cell - 1));
-      return this.game.words[temp];
-    },
-    getColor(word, id) {
-      if (this.confirmCard === word) {
-        return 'primary';
-      } else if (this.confirmCard && this.confirmCard !== word) {
-        return 'secondary';
-      }
-      switch (id) {
-        case 'R':
-          return 'red darken-1';
-        case 'G':
-          return 'green lighten-1';
-        case 'B':
-          return 'blue darken-1';
-        case 'O':
-          return 'black--text grey lighten-3';
-        case 'X':
-          return 'grey darken-4';
-        case '-':
-          return 'black--text black';
-        default:
-          return '';
-      }
-    },
-    flipCard(word) {
-      if (this.confirmCard && this.confirmCard !== word) {
-        // card staged for confirm, but another card was clicked. cancel confirm.
-        this.confirmCard = null;
-      } else if (!this.game.board[word]) {
-        // check if clicked card has already been clicked
-        if (this.confirmCard === word) {
-          // reset confirmCard
-          this.confirmCard = null;
-          // send request to confirm the card
-          const params = {
-            card: word,
-            room: this.room,
-          };
-          this.$socket.emit('flip_card', params);
-        } else {
-          // otherwise set confirm to current word to require a second click
-          this.confirmCard = word;
-        }
-      } else {
-        // card already flipped
-        this.confirmCard = null;
-      }
-    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.cn-card {
-  cursor: pointer;
-  flex-basis: 0;
-  flex-grow: 1;
-}
 </style>

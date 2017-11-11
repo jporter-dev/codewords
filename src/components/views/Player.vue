@@ -1,30 +1,20 @@
 <template>
-  <v-container grid-list-sm pa-0>
-    <v-layout row wrap v-for="row in gridSize">
-      <v-flex class="cn-card" v-for="cell in gridSize">
-        <v-card :color="getColor(getWord(row, cell), game.board[getWord(row, cell)])" tile flat dark>
-          <v-card-text px-0>
-            {{getWord(row, cell)}}
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <game-board :role="role"></game-board>
 </template>
 
 <script>
+import GameBoard from '@/components/ui/GameBoard';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'player',
+  components: {
+    GameBoard,
+  },
   computed: {
-    ...mapState(['connected', 'room', 'username', 'game']),
-    gridSize() {
-      let grid = 0;
-      if (this.game.words) {
-        grid = Math.sqrt(this.game.words.length);
-      }
-      return grid;
+    ...mapState(['room', 'username']),
+    role() {
+      return this.$route.name;
     },
   },
   mounted() {
@@ -38,37 +28,10 @@ export default {
   },
   methods: {
     ...mapMutations(['set_room', 'set_username']),
-    getWord(row, cell) {
-      const temp = (((row - 1) * this.gridSize) + (cell - 1));
-      return this.game.words[temp];
-    },
-    getColor(word, id) {
-      switch (id) {
-        case 'R':
-          return 'red darken-1';
-        case 'G':
-          return 'green lighten-1';
-        case 'B':
-          return 'blue darken-1';
-        case 'O':
-          return 'black--text amber lighten-2';
-        case 'X':
-          return 'grey darken-4';
-        case '-':
-          return 'black--text black';
-        default:
-          return '';
-      }
-    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.cn-card {
-  cursor: pointer;
-  flex-basis: 0;
-  flex-grow: 1;
-}
 </style>

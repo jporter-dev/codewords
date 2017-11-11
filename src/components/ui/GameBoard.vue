@@ -1,0 +1,131 @@
+<template>
+  <v-container grid-list-sm pa-0>
+    <v-layout row wrap v-for="row in gridSize">
+      <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))">
+        <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
+          <v-card-text px-0>
+            {{getWord(row, cell)}}
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-dialog v-model="confirmShow">
+      <v-card>
+        <v-card-text>
+          {{confirmCard}}
+        </v-card-text>
+        <v-card-actions>
+          <v-btn block color="primary" @click.stop="flipCard">Confirm</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
+</template>
+
+<script>
+  import { mapState, mapMutations } from 'vuex';
+
+  export default {
+    name: 'game-board',
+    props: ['role'],
+    data() {
+      return {
+        confirmShow: false,
+        confirmCard: null,
+        spymaster: 'Spymaster',
+      };
+    },
+    computed: {
+      ...mapState(['connected', 'room', 'username', 'game']),
+      cards() {
+        if (this.isSpymaster()) {
+          return this.game.solution;
+        }
+        return this.game.board;
+      },
+      gridSize() {
+        let grid = 0;
+        if (this.game.words) {
+          grid = Math.sqrt(this.game.words.length);
+        }
+        return grid;
+      },
+    },
+    mounted() {
+      if (!this.username) this.set_username('#unknown');
+      if (!this.room) this.set_room(this.$route.params.room);
+      const params = {
+        username: this.username,
+        room: this.room,
+      };
+      this.$socket.emit('join', params);
+    },
+    methods: {
+      ...mapMutations(['set_room', 'set_username']),
+      isSpymaster() {
+        return this.role === this.spymaster;
+      },
+      getWord(row, cell) {
+        const temp = (((row - 1) * this.gridSize) + (cell - 1));
+        return this.game.words[temp];
+      },
+      getColor(word, id) {
+        // already flipped cards
+        // if spymaster and word isn't flipped
+        // if not spymaster and word is flipped
+        if ((!this.isSpymaster() && this.game.board[word]) ||
+          (this.isSpymaster() && !this.game.board[word])) {
+          switch (id) {
+            case 'R':
+              return 'red darken-1';
+            case 'G':
+              return 'green lighten-1';
+            case 'B':
+              return 'blue darken-1';
+            case 'O':
+              return 'black--text grey lighten-3';
+            case 'X':
+              return 'grey darken-4';
+            case '-':
+              return 'black--text black';
+            default:
+              return '';
+          }
+        }
+        return '';
+      },
+      showFlipCard(word) {
+        if (this.isSpymaster() && !this.game.board[word]) {
+          this.confirmCard = word;
+          this.confirmShow = true;
+        }
+      },
+      flipCard() {
+        // check if card not already clicked and role is spymaster
+        if (this.isSpymaster() && !this.game.board[this.confirmCard] && this.confirmCard) {
+          // send request to confirm the card
+          const params = {
+            card: this.confirmCard,
+            room: this.room,
+          };
+          this.$socket.emit('flip_card', params);
+          // reset confirmCard
+          this.confirmCard = null;
+          this.confirmShow = false;
+        } else {
+          // card already flipped
+          this.confirmCard = null;
+        }
+      },
+    },
+  };
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.cn-card {
+  cursor: pointer;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+</style>
