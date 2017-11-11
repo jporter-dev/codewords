@@ -25,6 +25,10 @@ export default new Vuex.Store({
     SOCKET_JOIN_ROOM(state, message) {
       state.room = message.room;
     },
+    SOCKET_FLIPPED_CARD(state, message) {
+      console.log(message);
+      // state.game.board[message] = message.room;
+    },
     SOCKET_ERROR(state, message) {
       console.log(message.error);
       state.error = message.error;

@@ -1,10 +1,13 @@
 <template>
   <v-container grid-list-sm pa-0>
-    <v-layout row v-for="i in gridSize">
-      <v-flex v-for="x in gridSize">
-        <v-card :color="getColor(game.board[game.words[x*i-1]])" tile flat dark>
+    <v-layout row wrap v-for="row in gridSize">
+      <v-flex class="cn-card" v-for="cell in gridSize" @click="flipCard(getWord(row, cell))">
+        <v-card :color="getColor(getWord(row, cell), game.board[getWord(row, cell)])" tile flat dark>
           <v-card-text px-0>
-            {{game.words[x*i-1]}}
+            {{getWord(row, cell)}}
+          </v-card-text>
+          <v-card-text px-0 v-if="getWord(row, cell) === 'confirm'">
+            Confirm
           </v-card-text>
         </v-card>
       </v-flex>
@@ -17,6 +20,11 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'player',
+  data() {
+    return {
+      confirmCard: null,
+    };
+  },
   computed: {
     ...mapState(['connected', 'room', 'username', 'game']),
     gridSize() {
@@ -38,7 +46,14 @@ export default {
   },
   methods: {
     ...mapMutations(['set_room', 'set_username']),
-    getColor(id) {
+    getWord(row, cell) {
+      const temp = (((row - 1) * this.gridSize) + (cell - 1));
+      return this.game.words[temp];
+    },
+    getColor(word, id) {
+      if (this.confirmCard === word) {
+        return 'grey darken-4';
+      }
       switch (id) {
         case 'R':
           return 'red darken-1';
@@ -56,10 +71,35 @@ export default {
           return '';
       }
     },
+    flipCard(word) {
+      if (!this.game.board[word]) {
+        // check if clicked card has already been clicked
+        if (this.confirmCard === word) {
+          // reset confirmCard
+          this.confirmCard = null;
+          // send request to confirm the card
+          const params = {
+            card: word,
+            room: this.room,
+          };
+          this.$socket.emit('flip_card', params);
+        } else {
+          // otherwise set confirm to current word to require a second click
+          this.confirmCard = word;
+        }
+      } else {
+        console.log('card aleady flipped');
+      }
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.cn-card {
+  cursor: pointer;
+  flex-basis: 0;
+  flex-grow: 1;
+}
 </style>
