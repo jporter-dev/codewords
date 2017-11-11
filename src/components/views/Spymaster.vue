@@ -7,7 +7,7 @@
             {{getWord(row, cell)}}
           </v-card-text>
           <v-card-text px-0 v-else-if="confirmCard && confirmCard !== getWord(row, cell)">
-            &nbsp;
+            {{getWord(row, cell)}}
           </v-card-text>
           <v-card-text px-0 v-else-if="game.board[getWord(row, cell)]">
             -
