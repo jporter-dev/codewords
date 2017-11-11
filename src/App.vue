@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'app',
@@ -43,13 +43,12 @@ export default {
     return {
       showSidebar: false,
       showError: false,
-      currentTeam: '',
     };
   },
   computed: {
-    ...mapState(['room', 'error', 'game']),
+    ...mapState(['room', 'error', 'game', 'turn']),
     getColor() {
-      switch (this.currentTeam) {
+      switch (this.turn) {
         case 'R':
           return 'red darken-1';
         case 'G':
@@ -60,14 +59,8 @@ export default {
           return 'secondary';
       }
     },
-    getCurrentTeam() {
-      if (!this.currentTeam) {
-        this.currentTeam = this.game.starting_color;
-      }
-      return this.currentTeam;
-    },
     getTurn() {
-      switch (this.getCurrentTeam) {
+      switch (this.turn) {
         case 'R':
           return 'Red\'s Turn';
         case 'G':
@@ -80,17 +73,18 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(['set_turn']),
     nextTurn() {
-      if (this.currentTeam === 'R') {
-        this.currentTeam = 'B';
-      } else if (this.currentTeam === 'B') {
+      if (this.turn === 'R') {
+        this.set_turn('B');
+      } else if (this.turn === 'B') {
         if (this.game.teams === 3) {
-          this.currentTeam = 'G';
+          this.set_turn('G');
         } else {
-          this.currentTeam = 'R';
+          this.set_turn('R');
         }
       } else {
-        this.currentTeam = 'R';
+        this.set_turn('R');
       }
     },
   },

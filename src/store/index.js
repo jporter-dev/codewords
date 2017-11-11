@@ -10,6 +10,7 @@ export default new Vuex.Store({
     room: '',
     username: '',
     error: '',
+    turn: '',
   },
   mutations: {
     SOCKET_CONNECT(state) {
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     },
     SOCKET_MESSAGE(state, message) {
       state.game = message;
+      state.turn = message.starting_color;
       state.room = message.game_id;
       state.error = null;
     },
@@ -29,6 +31,9 @@ export default new Vuex.Store({
     },
     SOCKET_ERROR(state, message) {
       state.error = message.error;
+    },
+    set_turn(state, team) {
+      state.turn = team;
     },
     set_game(state, game) {
       state.game = game;
