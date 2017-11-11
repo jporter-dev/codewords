@@ -9,24 +9,18 @@ import Vue from 'vue';
 // import Vuex from 'vuex';
 import App from './App';
 import router from './router';
+import store from './store';
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
-Vue.use(VueSocketio, socketio('http://jporter-dev:5000'));
+Vue.use(VueSocketio, socketio('http://localhost:5000'), store);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App },
-  sockets: {
-    connect() {
-      console.log('connected');
-    },
-    message(msg) {
-      console.log(JSON.stringify(msg));
-    },
-  },
 });

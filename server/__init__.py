@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO, join_room, leave_room, send
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_bootstrap import Bootstrap, StaticCDN
 from codenames import game
 import random
@@ -21,7 +21,6 @@ def index():
 
 # BEGIN CODENAMESv2 -- WEBSOCKETS
 # required params
-#   username
 
 # create a game
 # generate the cards and starting team
@@ -39,7 +38,7 @@ def on_create(data):
     # create the game
     rooms[room] = game.Info(game_id=room)
     rooms[room].add_player(username)
-    send(rooms[room].to_json(), room=room)
+    emit('join_room', {'room': room})
 
 # join a game
 @socketio.on('join')

@@ -4,11 +4,13 @@
       <v-text-field
         label="Username"
         v-model="username"
+        required
       ></v-text-field>
       <v-select
         v-bind:items="dictionaries"
         v-model="dictionary"
         label="Dictionary"
+        required
         dark
       ></v-select>
       <v-radio-group v-model="teams" row label="Teams">
@@ -20,32 +22,45 @@
         <v-radio label="Large" value="large"></v-radio>
       </v-radio-group>
 
-      <v-btn block color="accent" large @click="createRoom">Create</v-btn>
+      <v-btn block color="primary" large @click="createGame">Create</v-btn>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'create-form',
   data() {
     return {
       username: '',
       dictionaries: ['Simple', 'CAH', 'Standard', 'Extended'],
-      dictionary: 'Simple',
+      dictionary: 'Standard',
       teams: '2',
       size: 'normal',
     };
   },
+  computed: {
+    ...mapState(['room']),
+  },
+  watch: {
+    room() {
+      this.set_room(this.room);
+      this.$router.push({ name: 'Player', params: { room: this.room } });
+    },
+  },
   methods: {
-    createRoom() {
+    ...mapMutations(['set_username', 'set_room']),
+    createGame() {
       const params = {
         username: this.username,
         dictionary: this.dictionary,
         teams: this.teams,
         size: this.size,
       };
-      this.$socket.emit('create', params)
+      this.set_username(this.username);
+      this.$socket.emit('create', params);
     },
   },
 };

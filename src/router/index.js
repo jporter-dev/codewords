@@ -14,12 +14,12 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/player',
+      path: '/:room/player',
       name: 'Player',
       component: Player,
     },
     {
-      path: '/spymaster',
+      path: '/:room/spymaster',
       name: 'Spymaster',
       component: Spymaster,
     },
