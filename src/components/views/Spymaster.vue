@@ -25,7 +25,7 @@
 import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'player',
+  name: 'spymaster',
   data() {
     return {
       confirmCard: null,
@@ -99,7 +99,8 @@ export default {
           this.confirmCard = word;
         }
       } else {
-        console.log('card aleady flipped');
+        // card already flipped
+        this.confirmCard = null;
       }
     },
   },

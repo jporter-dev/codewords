@@ -1,13 +1,10 @@
 <template>
   <v-container grid-list-sm pa-0>
     <v-layout row wrap v-for="row in gridSize">
-      <v-flex class="cn-card" v-for="cell in gridSize" @click="flipCard(getWord(row, cell))">
+      <v-flex class="cn-card" v-for="cell in gridSize">
         <v-card :color="getColor(getWord(row, cell), game.board[getWord(row, cell)])" tile flat dark>
           <v-card-text px-0>
             {{getWord(row, cell)}}
-          </v-card-text>
-          <v-card-text px-0 v-if="getWord(row, cell) === 'confirm'">
-            Confirm
           </v-card-text>
         </v-card>
       </v-flex>
@@ -20,11 +17,6 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'player',
-  data() {
-    return {
-      confirmCard: null,
-    };
-  },
   computed: {
     ...mapState(['connected', 'room', 'username', 'game']),
     gridSize() {
@@ -51,9 +43,6 @@ export default {
       return this.game.words[temp];
     },
     getColor(word, id) {
-      if (this.confirmCard === word) {
-        return 'grey darken-4';
-      }
       switch (id) {
         case 'R':
           return 'red darken-1';
@@ -69,26 +58,6 @@ export default {
           return 'black--text black';
         default:
           return '';
-      }
-    },
-    flipCard(word) {
-      if (!this.game.board[word]) {
-        // check if clicked card has already been clicked
-        if (this.confirmCard === word) {
-          // reset confirmCard
-          this.confirmCard = null;
-          // send request to confirm the card
-          const params = {
-            card: word,
-            room: this.room,
-          };
-          this.$socket.emit('flip_card', params);
-        } else {
-          // otherwise set confirm to current word to require a second click
-          this.confirmCard = word;
-        }
-      } else {
-        console.log('card aleady flipped');
       }
     },
   },
