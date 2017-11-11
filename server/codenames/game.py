@@ -28,7 +28,7 @@ class Info:
         self.game_id = game_id
         self.size = BOARD_SIZE[size]
         self.starting_color = RED
-        self.teams = teams
+        self.teams = int(teams)
         self.players = []
         self.dictionary = dictionary
         self.dictionaries = DICTIONARIES.keys()
@@ -76,7 +76,7 @@ class Info:
         green = 0
         # normal board size
         if self.size == BOARD_SIZE['normal']:
-            if int(self.teams) == 3:
+            if self.teams == 3:
                 blue = 5
                 red = 5
                 green = 5
@@ -87,10 +87,10 @@ class Info:
             bystanders = self.size - blue - red - green - 2
         # large board size
         else:
-            if int(self.teams) == 2:
+            if self.teams == 2:
                 blue = 8
                 red = 8
-            elif int(self.teams) == 3:
+            elif self.teams == 3:
                 blue = 8
                 red = 8
                 green = 8
@@ -126,5 +126,6 @@ class Info:
         if self.size == BOARD_SIZE['large']:
             for i in BIG_BLACKOUT_SPOTS:
                 mix.insert(i, '-')
+        print(mix)
         return mix
 
