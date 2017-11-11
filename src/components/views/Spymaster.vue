@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-sm pa-0>
-    <v-layout row v-for="i in gridSize">
-      <v-flex v-for="x in gridSize">
+    <v-layout row wrap v-for="i in gridSize">
+      <v-flex class="cn-card" v-for="x in gridSize">
         <v-card :color="getColor(game.solution[game.words[x*i-1]])" tile flat dark>
           <v-card-text px-0>
             {{game.words[x*i-1]}}
@@ -62,4 +62,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.cn-card {
+  flex-basis: 0;
+  flex-grow: 1;
+}
 </style>

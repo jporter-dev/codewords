@@ -14,7 +14,7 @@ import store from './store';
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
-Vue.use(VueSocketio, socketio('http://localhost:5000'), store);
+Vue.use(VueSocketio, socketio(`http://${location.host}`), store);
 
 /* eslint-disable no-new */
 new Vue({
