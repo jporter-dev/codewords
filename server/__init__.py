@@ -30,24 +30,24 @@ def index():
 #   # of teams - v2.1?
 @socketio.on('create')
 def on_create(data):
-    username = data['username']
+    # username = data['username']
     # create the room
     id_length = 5
     room = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(id_length))
     join_room(room)
     # create the game
     rooms[room] = game.Info(game_id=room, size=data['size'], teams=data['teams'], dictionary=data['dictionary'])
-    rooms[room].add_player(username)
+    # rooms[room].add_player(username)
     emit('join_room', {'room': room})
 
 # join a game
 @socketio.on('join')
 def on_join(data):
-    username = data['username']
+    # username = data['username']
     room = data['room']
     if room in rooms:
         # add player and rebroadcast game object
-        rooms[room].add_player(username)
+        # rooms[room].add_player(username)
         join_room(room)
         send(rooms[room].to_json(), room=room)
     else:
@@ -56,10 +56,10 @@ def on_join(data):
 # leave a game
 @socketio.on('leave')
 def on_leave(data):
-    username = data['username']
+    # username = data['username']
     room = data['room']
     # add player and rebroadcast game object
-    rooms[room].remove_player(username)
+    # rooms[room].remove_player(username)
     leave_room(room)
     send(rooms[room].to_json(), room=room)
 

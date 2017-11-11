@@ -4,21 +4,22 @@
     <!-- <v-toolbar app></v-toolbar> -->
     <main>
       <v-content>
-        <v-container fluid>
+        <v-container fluid pb-5 mb-4>
           <router-view></router-view>
         </v-container>
       </v-content>
     </main>
-    <v-footer app>
-      <v-layout row wrap>
-        <v-flex>
-          <v-btn block :to="{ name: 'Player', params: { room: this.$store.state.room }}">Player</v-btn>
-        </v-flex>
-        <v-flex>
-          <v-btn block :to="{ name: 'Spymaster', params: { room: this.$store.state.room }}">Spymaster</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-footer>
+    <v-bottom-nav :value="true" class="secondary">
+      <v-btn flat :to="{ name: 'Home' }">
+        <v-icon medium>home</v-icon> Home
+      </v-btn>
+      <v-btn flat :to="{ name: 'Player', params: { room: this.$store.state.room }}">
+        <v-icon medium>person</v-icon> Player
+      </v-btn>
+      <v-btn flat :to="{ name: 'Spymaster', params: { room: this.$store.state.room }}">
+        <v-icon medium>local_library</v-icon> Spymaster
+      </v-btn>
+    </v-bottom-nav>
   </v-app>
 </template>
 

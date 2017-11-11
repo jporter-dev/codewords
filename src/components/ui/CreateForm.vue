@@ -1,18 +1,8 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-text-field
-        label="Username"
-        v-model="username"
-        required
-      ></v-text-field>
-      <v-select
-        v-bind:items="dictionaries"
-        v-model="dictionary"
-        label="Dictionary"
-        required
-        dark
-      ></v-select>
+      <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
+      <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark></v-select>
       <v-radio-group v-model="teams" row label="Teams">
         <v-radio label="2 teams" value="2" ></v-radio>
         <v-radio label="3 teams" value="3"></v-radio>
@@ -34,7 +24,7 @@ export default {
   name: 'create-form',
   data() {
     return {
-      username: '',
+      // username: 'unknown',
       dictionaries: ['Simple', 'CAH', 'Standard', 'Extended'],
       dictionary: 'Standard',
       teams: '2',
@@ -54,7 +44,7 @@ export default {
     ...mapMutations(['set_username', 'set_room']),
     createGame() {
       const params = {
-        username: this.username,
+        // username: this.username,
         dictionary: this.dictionary,
         teams: this.teams,
         size: this.size,
