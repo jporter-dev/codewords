@@ -7,9 +7,11 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
-    "flask": "python server/__init__.py",
     "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "flask": "source venv/bin/activate && python server/__init__.py",
+    "serve": "source venv/bin/activate && gunicorn --worker-class eventlet -w 2 server:app",
+    "setup": "source venv/bin/activate && pip install -r requirements.txt && npm install && npm run build"
   },
   "dependencies": {
     "socket.io-client": "^2.0.4",
