@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_bootstrap import Bootstrap, StaticCDN
 from codenames import game
@@ -17,10 +17,20 @@ app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe
 
 rooms = {}
 
-# sprek's homepage
+# main index. serves up built HTML from webpack
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# display room stats
+@app.route('/stats')
+def stats():
+    resp = {
+        "total": len(rooms.items())
+    }
+    if 'rooms' in request.args:
+        resp["rooms"] = {k: v.to_json() for k, v in rooms.items()}
+    return jsonify(resp)
 
 # BEGIN CODENAMESv2 -- WEBSOCKETS
 # required params
