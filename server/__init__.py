@@ -23,6 +23,16 @@ def index():
     return render_template('index.html')
 
 # display room stats
+@app.route('/purge')
+def purge():
+    purged = rooms.keys()
+    rooms.clear()
+    return jsonify({
+        "purged": purged,
+        "total": len(rooms.items())
+    })
+
+# display room stats
 @app.route('/stats')
 def stats():
     resp = {
