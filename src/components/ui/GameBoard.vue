@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-sm mt-5 mb-5 pa-0>
-    <v-layout row wrap v-for="row in gridSize">
-      <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))">
+    <v-layout row wrap v-for="row in gridSize" :key="row">
+      <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
           <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
             <v-card-text px-0>

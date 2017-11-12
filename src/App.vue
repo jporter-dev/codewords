@@ -2,7 +2,7 @@
   <v-app dark>
     <main>
       <v-content>
-        <v-toolbar :color="getColor" dark fixed v-if="room">
+        <v-toolbar :color="getColor" dark fixed scroll-off-screen v-if="room">
           <v-toolbar-title>{{room}}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-title class="hidden-xs-only">{{getTurn}}</v-toolbar-title>
