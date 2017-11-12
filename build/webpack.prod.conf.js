@@ -29,7 +29,20 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     // generate favicons for each device
-    new FaviconsWebpackPlugin('./static/images/secret-agent-256.png'),
+    new FaviconsWebpackPlugin({
+      logo: './static/images/secret-agent-256.png',
+      // The prefix for all image files (might be a folder or a name)
+      prefix: 'static/icons-[hash]/',
+      // Generate a cache file with control hashes and
+      // don't rebuild the favicons until those hashes change
+      persistentCache: true,
+      // Inject the html into the html-webpack-plugin
+      inject: true,
+      // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+      background: '#303030',
+      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+      title: 'Codenames',
+    }),
 
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({

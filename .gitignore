@@ -29,7 +29,6 @@ venv.bak/
 # built files
 server/static
 server/templates
-server/icons-*
 
 # client-side stuff
 .DS_Store
