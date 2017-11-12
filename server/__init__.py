@@ -26,10 +26,11 @@ def index():
 @app.route('/purge')
 def purge():
     purged = rooms.keys()
+    total = len(purged)
     rooms.clear()
     return jsonify({
         "purged": purged,
-        "total": len(rooms.items())
+        "total": total
     })
 
 # display room stats

@@ -1,4 +1,5 @@
 # object for tracking game status
+import datetime
 import random
 import os
 
@@ -29,6 +30,8 @@ class Info:
         self.size = BOARD_SIZE[size]
         self.starting_color = RED
         self.teams = int(teams)
+        self.date_created = datetime.datetime.now()
+        self.date_modified = self.date_created
         self.players = []
         self.dictionary = dictionary
         self.dictionaries = DICTIONARIES.keys()
@@ -42,15 +45,18 @@ class Info:
             "game_id": self.game_id,
             "starting_color": self.starting_color,
             "players": self.players,
-            "words": self.words,
-            "size": self.size,
-            "board": self.board,
-            "layout": self.layout,
-            "solution": self.solution,
+            "date_created": str(self.date_created),
+            "date_modified": str(self.date_modified),
             "teams": self.teams,
+            "size": self.size,
+            "words": self.words,
+            "layout": self.layout,
+            "board": self.board,
+            "solution": self.solution,
         }
 
     def flip_card(self, word):
+        self.date_modified = str(datetime.datetime.now())
         if word not in self.words:
             return 'Invalid word entered.'
         self.board[word] = self.solution[word]
