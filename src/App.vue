@@ -5,8 +5,8 @@
         <v-toolbar :color="getColor" dark fixed scroll-off-screen v-if="room">
           <v-toolbar-title>{{room}}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-title class="hidden-xs-only">{{getTurn}}</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <!-- <v-toolbar-title class="hidden-xs-only">{{getTurn}}</v-toolbar-title> -->
+          <!-- <v-spacer></v-spacer> -->
           <v-btn flat large @click="nextTurn">
             Next Turn<v-icon medium>skip_next</v-icon>
           </v-btn>
@@ -21,11 +21,14 @@
           <v-btn flat replace :to="{ name: 'Home' }">
             <v-icon medium>home</v-icon> Home
           </v-btn>
-          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}">
+          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room">
             <v-icon medium>person</v-icon> Agent
           </v-btn>
-          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}">
+          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room">
             <v-icon medium>local_library</v-icon> Spymaster
+          </v-btn>
+          <v-btn flat replace :to="{ name: 'Help'}">
+            <v-icon medium>help_outline</v-icon> Help
           </v-btn>
         </v-bottom-nav>
 

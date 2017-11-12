@@ -1,10 +1,13 @@
 <template>
-  <v-container grid-list-sm mt-5 mb-5 pa-0>
+  <v-container fluid grid-list-sm mt-5 mb-5 pa-0>
     <v-layout row wrap v-for="row in gridSize" :key="row">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
           <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
-            <v-card-text px-0>
+            <v-card-text px-0 class="body-2 hidden-sm-and-up">
+              {{getWord(row, cell)}}
+            </v-card-text>
+            <v-card-text px-0 class="headline hidden-xs-only">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>
@@ -131,5 +134,6 @@
   flex-basis: 0;
   flex-shrink: 0;
   flex-grow: 1;
+  white-space: nowrap;
 }
 </style>
