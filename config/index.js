@@ -8,8 +8,9 @@ const path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    // modified to build to flask folder
+    index: path.resolve(__dirname, '../server/templates/index.html'),
+    assetsRoot: path.resolve(__dirname, '../server'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,

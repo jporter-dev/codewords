@@ -127,6 +127,5 @@ class Info:
         if self.size == BOARD_SIZE['large']:
             for i in BIG_BLACKOUT_SPOTS:
                 mix.insert(i, '-')
-        print(mix)
         return mix
 
