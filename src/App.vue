@@ -5,14 +5,14 @@
         <v-toolbar :color="getColor" dark fixed v-if="room">
           <v-toolbar-title>{{room}}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-title>{{getTurn}}</v-toolbar-title>
+          <v-toolbar-title class="hidden-xs-only">{{getTurn}}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn flat large @click="nextTurn">
-            <v-icon medium>skip_next</v-icon>
+            Next Turn<v-icon medium>skip_next</v-icon>
           </v-btn>
         </v-toolbar>
 
-        <v-container fill-height fluid pr-2 pl-2>
+        <v-container fill-height fluid pr-2 pl-2 style="overflow-y: auto;">
           <router-view>
           </router-view>
         </v-container>
