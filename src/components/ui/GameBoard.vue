@@ -128,7 +128,8 @@
 <style scoped>
 .cn-card {
   cursor: pointer;
-  flex-basis: initial;
+  flex-basis: 0;
+  flex-shrink: 0;
   flex-grow: 1;
 }
 </style>
