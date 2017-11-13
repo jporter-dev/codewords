@@ -1,6 +1,6 @@
 # codenames
 
-> Realtime webapp implementation of the classic social word game, Codenames. Based on a project by [sprek](https://github.com/sprek).
+> Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek).
 
 <p>
   <img src="screenshots/player-full.png" alt="Large Player View">

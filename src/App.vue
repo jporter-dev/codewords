@@ -17,17 +17,52 @@
           </router-view>
         </v-container>
 
-        <v-bottom-nav :value="this.room" class="secondary">
+        <v-navigation-drawer
+          v-model="drawer"
+          temporary
+          dark
+          right
+        >
+          <v-list class="pa-1">
+            <v-list-tile avatar tag="div">
+              <v-list-tile-action>
+                <v-btn icon @click.stop="drawer = !drawer">
+                  <v-icon>chevron_right</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Codenames</v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-avatar>
+                <img src="/static/images/secret-agent-256.png" />
+              </v-list-tile-avatar>
+            </v-list-tile>
+          </v-list>
+          <v-list class="pt-0" dense>
+            <v-divider light></v-divider>
+            <v-list-tile v-for="item in helpMenu" :key="item.title" router :to="item.path" :href="item.href">
+              <v-list-tile-action>
+                <v-icon>{{item.icon}}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{item.title}}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-navigation-drawer>
+
+        <v-bottom-nav value="true" class="secondary">
           <v-btn flat replace :to="{ name: 'Home' }">
             <v-icon medium>home</v-icon> Home
           </v-btn>
+          <v-spacer></v-spacer>
           <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room">
             <v-icon medium>person</v-icon> Agent
           </v-btn>
           <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room">
             <v-icon medium>local_library</v-icon> Spymaster
           </v-btn>
-          <v-btn flat replace :to="{ name: 'Help'}">
+          <v-btn flat @click.stop="drawer = !drawer">
             <v-icon medium>help_outline</v-icon> Help
           </v-btn>
         </v-bottom-nav>
@@ -44,8 +79,31 @@ export default {
   name: 'app',
   data() {
     return {
+      drawer: false,
       showSidebar: false,
       showError: false,
+      helpMenu: [
+        {
+          title: 'How to Play',
+          icon: 'import_contacts',
+          path: '/help',
+        },
+        {
+          title: 'Contact',
+          icon: 'email',
+          href: 'mailto:joshporter1@gmail.com?subject=Codenames Support',
+        },
+        {
+          title: 'Contribute',
+          icon: 'code',
+          href: 'https://github.com/joshporter1/codenames',
+        },
+        {
+          title: 'Donate',
+          icon: 'attach_money',
+          href: 'https://paypal.me/joshporter1',
+        },
+      ],
     };
   },
   computed: {
