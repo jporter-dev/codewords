@@ -62,6 +62,7 @@
           <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room">
             <v-icon medium>local_library</v-icon> Spymaster
           </v-btn>
+          <v-spacer></v-spacer>
           <v-btn flat @click.stop="drawer = !drawer">
             <v-icon medium>help_outline</v-icon> Help
           </v-btn>
