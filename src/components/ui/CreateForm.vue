@@ -26,7 +26,7 @@ export default {
     return {
       // username: 'unknown',
       dictionaries: ['Simple', 'CAH', 'Standard', 'Pop Culture'],
-      dictionary: 'Standard',
+      dictionary: 'Simple',
       teams: '2',
       size: 'normal',
     };

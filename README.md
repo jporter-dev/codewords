@@ -55,5 +55,6 @@ npm run flask
 
 ## TODO
 
+* Adjust colors for flipped cards on Spymaster view
 * Add a turn timer/turn tracker
 * Streamline install and build
