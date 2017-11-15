@@ -1,106 +1,90 @@
+"""Flask server for Codenames"""
+# pylint: disable=C0103
+
+import eventlet
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
-from flask_bootstrap import Bootstrap, StaticCDN
 from codenames import game
-import eventlet
-import random
-import string
 
 eventlet.monkey_patch()
 
 app = Flask(__name__)
-Bootstrap(app)
 socketio = SocketIO(app)
-app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()
-app.extensions['bootstrap']['cdns']['bootstrap'] = StaticCDN()
 app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe8\xe8'
 
-rooms = {}
+ROOMS = {}
 
-# main index. serves up built HTML from webpack
 @app.route('/')
 def index():
+    """Serve the index HTML"""
     return render_template('index.html')
 
-# display room stats
 @app.route('/purge')
 def purge():
-    purged = rooms.keys()
+    """Delete all rooms"""
+    purged = ROOMS.keys()
     total = len(purged)
-    rooms.clear()
+    ROOMS.clear()
     return jsonify({
         "purged": purged,
         "total": total
     })
 
-# display room stats
 @app.route('/stats')
 def stats():
+    """display room stats"""
     resp = {
-        "total": len(rooms.items())
+        "total": len(ROOMS.items())
     }
     if 'rooms' in request.args:
-        resp["rooms"] = {k: v.to_json() for k, v in rooms.items()}
+        resp["rooms"] = {k: v.to_json() for k, v in ROOMS.items()}
     return jsonify(resp)
 
-# BEGIN CODENAMESv2 -- WEBSOCKETS
-# required params
-
-# create a game
-# generate the cards and starting team
-# params: 
-#   card deck
-#   board size
-#   # of teams - v2.1?
 @socketio.on('create')
 def on_create(data):
+    """Create a game lobby"""
     # username = data['username']
-    # create the room
-    id_length = 5
-    room = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(id_length))
-    join_room(room)
     # create the game
-    rooms[room] = game.Info(game_id=room, size=data['size'], teams=data['teams'], dictionary=data['dictionary'])
+    gm = game.Info(
+        size=data['size'],
+        teams=data['teams'],
+        dictionary=data['dictionary'])
+    room = gm.game_id
+    ROOMS[room] = gm
+    join_room(room)
     # rooms[room].add_player(username)
     emit('join_room', {'room': room})
 
-# join a game
 @socketio.on('join')
 def on_join(data):
+    """Join a game lobby"""
     # username = data['username']
     room = data['room']
-    if room in rooms:
+    if room in ROOMS:
         # add player and rebroadcast game object
         # rooms[room].add_player(username)
         join_room(room)
-        send(rooms[room].to_json(), room=room)
+        send(ROOMS[room].to_json(), room=room)
     else:
         emit('error', {'error': 'Unable to join room. Room does not exist.'})
 
-# leave a game
 @socketio.on('leave')
 def on_leave(data):
+    """Leave the game lobby"""
     # username = data['username']
     room = data['room']
     # add player and rebroadcast game object
     # rooms[room].remove_player(username)
     leave_room(room)
-    send(rooms[room].to_json(), room=room)
+    send(ROOMS[room].to_json(), room=room)
 
-# take a turn
 @socketio.on('flip_card')
 def on_flip_card(data):
-    # flip card and rebroadcast game object
+    """flip card and rebroadcast game object"""
     room = data['room']
     card = data['card']
-    rooms[room].flip_card(card)
-    send(rooms[room].to_json(), room=room)
-
-# set spymaster
+    ROOMS[room].flip_card(card)
+    send(ROOMS[room].to_json(), room=room)
 
 if __name__ == '__main__':
-    #app.add_url_rule('/favicon.ico',redirect_to=url_for('static', filename='favicon.ico'))                                                                                                                          
-    # app.run(host='0.0.0.0', debug=True)
     socketio.run(app, host='0.0.0.0', debug=True)
-
-
