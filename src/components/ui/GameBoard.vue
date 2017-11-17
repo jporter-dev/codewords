@@ -3,11 +3,11 @@
     <v-layout row wrap v-for="row in gridSize" :key="row">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
-          <v-card :color="getColor(getWord(row, cell), cards[getWord(row, cell)])" tile flat dark>
+          <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" tile flat dark>
             <v-card-text px-0 class="body-2 hidden-sm-and-up">
               {{getWord(row, cell)}}
             </v-card-text>
-            <v-card-text px-0 class="headline hidden-xs-only">
+            <v-card-text px-0 class="display-1 hidden-xs-only">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>
@@ -15,12 +15,12 @@
       </v-flex>
     </v-layout>
     <v-dialog v-model="confirmShow">
-      <v-card>
-        <v-card-text>
+      <v-card :color="getColor(confirmCard, getTeam(confirmCard))" tile flat dark>
+        <v-card-text class="headline">
           {{confirmCard}}
         </v-card-text>
         <v-card-actions>
-          <v-btn block large color="primary" @click.stop="flipCard">Confirm</v-btn>
+          <v-btn block large color="secondary" @click.stop="flipCard">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -74,6 +74,12 @@
         const temp = (((row - 1) * this.gridSize) + (cell - 1));
         return this.game.words[temp];
       },
+      getTeam(word) {
+        if (word) {
+          return this.cards[word];
+        }
+        return null;
+      },
       getColor(word, id) {
         // already flipped cards
         // if word is null - for starting team card
@@ -97,17 +103,35 @@
             default:
               return '';
           }
+        } else if (this.isSpymaster() && this.game.board[word]) {
+          switch (id) {
+            case 'R':
+              return 'red--text text--darken-1';
+            case 'G':
+              return 'green--text text--lighten-1';
+            case 'B':
+              return 'blue--text text--darken-1';
+            case 'O':
+              return 'grey--text text--lighten-1';
+            case 'X':
+              return 'grey darken-4';
+            case '-':
+              return 'black--text black';
+            default:
+              return '';
+          }
         }
         return '';
       },
       showFlipCard(word) {
-        if (this.isSpymaster() && !this.game.board[word]) {
+        if (this.isSpymaster() && !this.game.board[word] && this.cards[word] !== '-') {
           this.confirmCard = word;
           this.confirmShow = true;
         }
       },
       flipCard() {
         // check if card not already clicked and role is spymaster
+        // and not a blackout square
         if (this.isSpymaster() && !this.game.board[this.confirmCard] && this.confirmCard) {
           // send request to confirm the card
           const params = {

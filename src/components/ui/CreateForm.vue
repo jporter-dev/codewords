@@ -1,18 +1,20 @@
 <template>
   <v-card>
     <v-card-text>
-      <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-      <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark></v-select>
-      <v-radio-group v-model="teams" row label="Teams">
-        <v-radio label="2 teams" value="2" ></v-radio>
-        <v-radio label="3 teams" value="3"></v-radio>
-      </v-radio-group>
-      <v-radio-group v-model="size" row label="Board Size">
-        <v-radio label="Normal" value="normal" ></v-radio>
-        <v-radio label="Large" value="large"></v-radio>
-      </v-radio-group>
+      <v-form @submit="createGame">
+        <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
+        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark></v-select>
+        <v-radio-group v-model="teams" row label="Teams">
+          <v-radio label="2 teams" value="2" ></v-radio>
+          <v-radio label="3 teams" value="3"></v-radio>
+        </v-radio-group>
+        <v-radio-group v-model="size" row label="Board Size">
+          <v-radio label="Normal" value="normal" ></v-radio>
+          <v-radio label="Large" value="large"></v-radio>
+        </v-radio-group>
 
-      <v-btn block color="primary" large @click="createGame">Create</v-btn>
+        <v-btn block color="primary" large @click.stop="createGame">Create</v-btn>
+      </v-form @click="createGame">
     </v-card-text>
   </v-card>
 </template>
