@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    connect: false,
+    connected: false,
     game: {},
     room: '',
     username: '',
@@ -14,10 +14,10 @@ export default new Vuex.Store({
   },
   mutations: {
     SOCKET_CONNECT(state) {
-      state.connect = true;
+      state.connected = true;
     },
     SOCKET_DISCONNECT(state) {
-      state.connect = false;
+      state.connected = false;
     },
     SOCKET_MESSAGE(state, message) {
       state.game = message;
