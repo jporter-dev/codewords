@@ -11,6 +11,7 @@ export default new Vuex.Store({
     username: '',
     error: '',
     turn: '',
+    spymasterReveal: false,
   },
   mutations: {
     SOCKET_CONNECT(state) {
@@ -43,6 +44,13 @@ export default new Vuex.Store({
     },
     set_username(state, username) {
       state.username = username;
+    },
+    reset_error(state) {
+      state.room = '';
+      state.error = '';
+    },
+    reveal_spymaster(state) {
+      state.spymasterReveal = true;
     },
   },
 });

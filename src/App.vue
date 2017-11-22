@@ -2,13 +2,20 @@
   <v-app dark>
     <main>
       <v-content>
-        <v-toolbar :color="getColor" dark fixed scroll-off-screen v-if="room">
+        <v-toolbar :color="getColor" dark fixed scroll-off-screen v-if="!error && room">
           <v-toolbar-title>{{room}}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-title v-if="isFirstTurn">{{getTurn}}</v-toolbar-title>
         </v-toolbar>
+        <v-alert color="error" icon="warning" value="true" v-if="error" fixed>
+          {{error}}
+        </v-alert>
 
-        <v-container fill-height fluid pr-2 pl-2 style="overflow-y: auto;">
+        <v-container v-if="error">
+          <router-view>
+          </router-view>
+        </v-container>
+        <v-container fill-height fluid pr-2 pl-2 style="overflow-y: auto;" v-else>
           <router-view>
           </router-view>
         </v-container>
@@ -55,10 +62,10 @@
           <v-btn flat v-if="!connected" value="false">
             <v-icon medium>warning</v-icon> Not Connected
           </v-btn>
-          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room && connected">
+          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room && connected && !error">
             <v-icon medium>person</v-icon> Agent
           </v-btn>
-          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room && connected">
+          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room && connected && !error">
             <v-icon medium>local_library</v-icon> Spymaster
           </v-btn>
           <v-spacer></v-spacer>

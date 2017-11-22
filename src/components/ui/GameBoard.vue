@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-sm mt-5 mb-5 pa-0>
+  <v-container fluid grid-list-sm mt-5 mb-5 pa-0 v-if="role">
     <v-layout row wrap v-for="row in gridSize" :key="row">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>

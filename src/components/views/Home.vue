@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import CreateForm from '@/components/ui/CreateForm';
 import JoinForm from '@/components/ui/JoinForm';
 
@@ -28,6 +29,13 @@ export default {
     return {
       showCreate: false,
     };
+  },
+  mounted() {
+    this.reset_error();
+  },
+  methods: {
+    ...mapMutations(['reset_error']),
+
   },
 };
 </script>

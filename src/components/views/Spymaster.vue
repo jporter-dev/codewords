@@ -1,5 +1,8 @@
 <template>
-  <game-board :role="role"></game-board>
+  <div style="width: 100%;">
+    <v-btn block large color="cyan darken-1" v-if="!spymasterReveal" @click="reveal_spymaster">Reveal the Map</v-btn>
+    <game-board :role="role" v-if="role !== 'spymaster' || (role === 'spymaster' && spymasterReveal)"></game-board>
+  </div>
 </template>
 
 <script>
@@ -12,8 +15,11 @@ export default {
     GameBoard,
   },
   computed: {
-    ...mapState(['room', 'username']),
+    ...mapState(['room', 'username', 'spymasterReveal']),
     role() {
+      if (this.$route.name.toLowerCase() === 'spymaster' && !this.spymasterReveal) {
+        return null;
+      }
       return this.$route.name;
     },
   },
@@ -27,7 +33,7 @@ export default {
     this.$socket.emit('join', params);
   },
   methods: {
-    ...mapMutations(['set_room', 'set_username']),
+    ...mapMutations(['set_room', 'set_username', 'reveal_spymaster']),
   },
 };
 </script>
