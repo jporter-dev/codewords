@@ -116,6 +116,9 @@ export default {
   computed: {
     ...mapState(['connected', 'room', 'error', 'game', 'turn']),
     isFirstTurn() {
+      if (!this.connected) {
+        return true;
+      }
       if (this.game.board) {
         return Object.values(this.game.board).every(e => e === false);
       }
