@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import { mapState, mapGetters, mapMutations } from 'vuex';
 
   export default {
     name: 'game-board',
@@ -40,22 +40,6 @@
         spymaster: 'Spymaster',
       };
     },
-    computed: {
-      ...mapState(['connected', 'room', 'username', 'game']),
-      cards() {
-        if (this.isSpymaster()) {
-          return this.game.solution;
-        }
-        return this.game.board;
-      },
-      gridSize() {
-        let grid = 0;
-        if (this.game.words) {
-          grid = Math.sqrt(this.game.words.length);
-        }
-        return grid;
-      },
-    },
     mounted() {
       if (!this.username) this.set_username('#unknown');
       if (!this.room) this.set_room(this.$route.params.room);
@@ -65,6 +49,23 @@
       };
       this.$socket.emit('join', params);
     },
+    computed: {
+      ...mapState(['connected', 'room', 'username', 'game']),
+      ...mapGetters(['words']),
+      cards() {
+        if (this.isSpymaster()) {
+          return this.game.solution;
+        }
+        return this.game.board;
+      },
+      gridSize() {
+        let grid = 0;
+        if (this.words) {
+          grid = Math.sqrt(this.words.length);
+        }
+        return grid;
+      },
+    },
     methods: {
       ...mapMutations(['set_room', 'set_username']),
       isSpymaster() {
@@ -72,7 +73,7 @@
       },
       getWord(row, cell) {
         const temp = (((row - 1) * this.gridSize) + (cell - 1));
-        return this.game.words[temp];
+        return this.words[temp];
       },
       getTeam(word) {
         if (word) {

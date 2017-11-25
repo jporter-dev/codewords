@@ -13,6 +13,14 @@ export default new Vuex.Store({
     turn: '',
     spymasterReveal: false,
   },
+  getters: {
+    words(state) {
+      if (state.game.solution) {
+        return Object.keys(state.game.solution);
+      }
+      return [];
+    },
+  },
   mutations: {
     SOCKET_CONNECT(state) {
       state.connected = true;

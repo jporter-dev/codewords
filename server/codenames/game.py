@@ -50,8 +50,6 @@ class Info(object):
             "players": self.players,
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified),
-            "words": self.words,
-            "layout": self.layout,
             "board": self.board,
             "solution": self.solution,
         }
