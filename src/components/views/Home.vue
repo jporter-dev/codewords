@@ -3,7 +3,6 @@
     <v-layout align-center row wrap>
       <v-flex sm8 offset-sm2 xs12>
         <img src="/static/images/secret-agent-64-grey.png" alt="codenames" height="64">
-        <h1 class="title grey--text">Codenames</h1>
         <v-btn block color="secondary" large @click="showCreate = !showCreate">Create Game</v-btn>
         <v-slide-y-transition>
           <create-form v-if="showCreate"></create-form>

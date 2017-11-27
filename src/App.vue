@@ -34,10 +34,10 @@
                 </v-btn>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Codenames</v-list-tile-title>
+                <v-list-tile-title>Help</v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-avatar>
-                <img src="/static/images/secret-agent-256.png" />
+                <img src="/static/images/secret-agent-64-grey.png" />
               </v-list-tile-avatar>
             </v-list-tile>
           </v-list>
