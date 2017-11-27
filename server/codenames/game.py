@@ -11,7 +11,8 @@ DICTIONARIES = {
     "CAH" :         FILE_ROOT + "/cah_code_names.txt",
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt",
     "Standard" :  FILE_ROOT + "/code_names_dict.txt",
-    "Simple" :      FILE_ROOT + "/code_names_simple.txt"
+    "Simple" :      FILE_ROOT + "/code_names_simple.txt",
+    "French" :      FILE_ROOT + "/code_names_french.txt"
 }
 # colors per team
 RED = 'R'

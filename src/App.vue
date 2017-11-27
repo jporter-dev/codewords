@@ -54,7 +54,7 @@
           </v-list>
         </v-navigation-drawer>
 
-        <v-bottom-nav value="true" :class="{ 'secondary': connected, 'red darken-1 text--white': !connected }">
+        <v-bottom-nav value="true" class="secondary">
           <v-btn flat replace :to="{ name: 'Home' }">
             <v-icon medium>home</v-icon> Home
           </v-btn>
