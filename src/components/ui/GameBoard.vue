@@ -24,6 +24,14 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      color="red darken-1"
+      :vertical="true"
+      v-model="agentAlert"
+    >
+      Only the Spymaster can flip cards.
+      <v-btn flat @click.native="agentAlert = false">Close</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -38,6 +46,7 @@
         confirmShow: false,
         confirmCard: null,
         spymaster: 'Spymaster',
+        agentAlert: false,
       };
     },
     mounted() {
@@ -128,6 +137,10 @@
         if (this.isSpymaster() && !this.game.board[word] && this.cards[word] !== '-') {
           this.confirmCard = word;
           this.confirmShow = true;
+        }
+        // if not spymaster, display warning
+        if (!this.isSpymaster()) {
+          this.agentAlert = true;
         }
       },
       flipCard() {
