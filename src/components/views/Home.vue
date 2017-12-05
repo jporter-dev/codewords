@@ -1,6 +1,6 @@
 <template>
   <v-fade-transition appear>
-    <v-layout align-center row wrap>
+    <v-layout align-center row wrap mb-5>
       <v-flex sm8 offset-sm2 xs12>
         <img src="/static/images/secret-agent-64-grey.png" alt="codenames" height="64">
         <v-btn block color="secondary" large @click="showCreate = !showCreate">Create Game</v-btn>

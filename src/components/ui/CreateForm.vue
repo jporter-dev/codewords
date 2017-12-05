@@ -1,9 +1,21 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-form @submit="createGame">
+      <v-form @submit="createGame" v-model="valid">
         <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark></v-select>
+        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
+        <v-switch v-model="useCustom" dark label="Use a custom work bank"></v-switch>
+        <v-text-field
+          name="custom-wordbank"
+          label="Custom Wordbank"
+          multi-line
+          v-model="rawWordbank"
+          :rules="wordbankRules"
+          placeholder="Enter a comma or newline separated list of words."
+          v-if="useCustom"
+        ></v-text-field>
+        <p>{{wordbank}}</p>
+        <p>{{valid}}</p>
         <v-radio-group v-model="teams" row label="Teams">
           <v-radio label="2 teams" value="2" ></v-radio>
           <v-radio label="3 teams" value="3"></v-radio>
@@ -13,8 +25,8 @@
           <v-radio label="Large" value="large"></v-radio>
         </v-radio-group>
 
-        <v-btn block color="primary" large @click.stop="createGame">Create</v-btn>
-      </v-form @click="createGame">
+        <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid">Create</v-btn>
+      </v-form>
     </v-card-text>
   </v-card>
 </template>
@@ -31,10 +43,20 @@ export default {
       dictionary: 'Simple',
       teams: '2',
       size: 'normal',
+      valid: true,
+      useCustom: false,
+      rawWordbank: '',
+      wordbankRules: [
+        () => (this.wordbank && this.wordbank.length >= 25) || 'Word bank must contain at least 25 words.',
+      ],
     };
   },
   computed: {
     ...mapState(['room']),
+    wordbank() {
+      // return wordbank split on commas and newlines
+      return this.rawWordbank.split(/[\n,]/);
+    },
   },
   watch: {
     room() {
@@ -47,10 +69,14 @@ export default {
     createGame() {
       const params = {
         // username: this.username,
-        dictionary: this.dictionary,
         teams: this.teams,
         size: this.size,
       };
+      if (this.useCustom) {
+        params.wordbank = this.wordbank;
+      } else {
+        params.dictionary = this.dictionary;
+      }
       this.set_username(this.username);
       this.$socket.emit('create', params);
     },
