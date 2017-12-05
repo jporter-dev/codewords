@@ -3,8 +3,8 @@
     <v-card-text>
       <v-form @submit="createGame" v-model="valid">
         <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
         <v-switch v-model="useCustom" dark label="Use a custom work bank"></v-switch>
+        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
         <v-text-field
           name="custom-wordbank"
           label="Custom Wordbank"
@@ -14,8 +14,6 @@
           placeholder="Enter a comma or newline separated list of words."
           v-if="useCustom"
         ></v-text-field>
-        <p>{{wordbank}}</p>
-        <p>{{valid}}</p>
         <v-radio-group v-model="teams" row label="Teams">
           <v-radio label="2 teams" value="2" ></v-radio>
           <v-radio label="3 teams" value="3"></v-radio>

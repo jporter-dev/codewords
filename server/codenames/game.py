@@ -30,7 +30,8 @@ BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 class Info(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
-    def __init__(self, dictionary='Dictionary', size='normal', teams=2):
+    def __init__(self, dictionary='Simple', size='normal', teams=2, wordbank=False):
+        self.wordbank = wordbank
         self.game_id = self.generate_room_id()
         self.starting_color = RED
         self.date_created = datetime.datetime.now()
@@ -84,8 +85,11 @@ class Info(object):
         if not self.dictionary in DICTIONARIES.keys():
             print("Error: dictionary '" + self.dictionary + "' doesn't exist")
             return None
-        words_file = open(DICTIONARIES[self.dictionary], 'r')
-        words = [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
+        # override words with the wordbank
+        words = self.wordbank
+        if not self.wordbank:
+            words_file = open(DICTIONARIES[self.dictionary], 'r')
+            words = [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
         random.shuffle(words)
         final_words = words[0:BOARD_SIZE[size]]
         return final_words

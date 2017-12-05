@@ -45,10 +45,16 @@ def on_create(data):
     """Create a game lobby"""
     # username = data['username']
     # create the game
-    gm = game.Info(
-        size=data['size'],
-        teams=data['teams'],
-        dictionary=data['dictionary'])
+    if 'wordbank' in data:
+        gm = game.Info(
+            size=data['size'],
+            teams=data['teams'],
+            wordbank=data['wordbank'])
+    else:
+        gm = game.Info(
+            size=data['size'],
+            teams=data['teams'],
+            dictionary=data['dictionary'])
     room = gm.game_id
     ROOMS[room] = gm
     join_room(room)
