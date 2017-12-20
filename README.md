@@ -1,6 +1,6 @@
 # codenames
 
-> Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek).
+> Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek). Blog posts about the build-out of this project can be found [here](https://secdevops.ai/weekend-project-part-1-creating-a-real-time-web-based-application-using-flask-vue-and-socket-b71c73f37df7)
 
 <p>
   <img src="screenshots/player-full.png" alt="Large Player View">
