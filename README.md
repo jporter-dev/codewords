@@ -2,7 +2,15 @@
 
 > Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek).
 
-Blog posts about the build-out of this project can be found [here](https://secdevops.ai/weekend-project-part-1-creating-a-real-time-web-based-application-using-flask-vue-and-socket-b71c73f37df7)
+### Blog Series
+
+To read more about how this project came to fruition and how to build an app using the same technologies, follow the links below!
+
+* __Part 1__ - [Introduction and Planning](https://secdevops.ai/weekend-project-part-1-creating-a-real-time-web-based-application-using-flask-vue-and-socket-b71c73f37df7)
+* __Part 2__ - [Enabling Websockets in Flask using Flask-SocketIO](https://secdevops.ai/weekend-project-part-2-turning-flask-into-a-real-time-websocket-server-using-flask-socketio-ab6b45f1d896)
+* __Part 3__ (_In Progress_) - Using Websockets with Vue.js and Vuex
+
+For content related to development, security, devops, AI, etc... check out [SecDevOps.AI](https://secdevops.ai)!
 
 <p>
   <img src="screenshots/player-full.png" alt="Large Player View">
