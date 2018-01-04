@@ -24,6 +24,13 @@ Rules for codenames can be found [here](https://en.wikipedia.org/wiki/Codenames_
 ## Development
 The app uses flask as its back-end and webpack as a front-end dev server.
 
+#### Prerequesites
+* npm
+* python
+* pip
+* _(optional)_ Gunicorn
+* _(optional)_ nginx
+
 ### Flask Server
 ```bash
 # optional: use a virtualenv
@@ -62,6 +69,13 @@ npm run build --report
 # start the flask server
 npm run flask
 ```
+
+#### Running with nginx + Gunicorn
+After installing Gunicorn and nginx...
+* Add your username and/or project folder path to the configs in the `deploy` directory. 
+* Copy `deploy/gunicorn.service` to `/etc/systemd/system`
+* Copy `deploy/codenames.nginx.conf` to `/etc/nginx/sites-available`
+* Create a symbolic link from the new config to `sites-enabled`
 
 ## TODO
 
