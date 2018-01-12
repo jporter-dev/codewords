@@ -2,7 +2,7 @@
   <v-layout align-center row wrap mb-5>
     <v-flex sm8 offset-sm2 xs12>
       <img src="/static/images/secret-agent-64-grey.png" alt="codenames" height="64">
-      <v-btn block color="secondary" large to="Create">Create Game</v-btn>
+      <v-btn block color="secondary" large to="create">Create Game</v-btn>
       <v-slide-y-transition>
         <create-form v-if="showCreate"></create-form>
       </v-slide-y-transition>
