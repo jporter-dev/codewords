@@ -1,32 +1,34 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form @submit="createGame" v-model="valid">
-        <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-        <v-switch v-model="useCustom" dark label="Use a custom work bank"></v-switch>
-        <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
-        <v-text-field
-          name="custom-wordbank"
-          label="Custom Wordbank"
-          multi-line
-          v-model="rawWordbank"
-          :rules="wordbankRules"
-          placeholder="Enter a comma or newline separated list of words."
-          v-if="useCustom"
-        ></v-text-field>
-        <v-radio-group v-model="teams" row label="Teams">
-          <v-radio label="2 teams" value="2" ></v-radio>
-          <v-radio label="3 teams" value="3"></v-radio>
-        </v-radio-group>
-        <v-radio-group v-model="size" row label="Board Size">
-          <v-radio label="Normal" value="normal" ></v-radio>
-          <v-radio label="Large" value="large"></v-radio>
-        </v-radio-group>
+  <v-fade-transition appear>
+    <v-card>
+      <v-card-text>
+        <v-form @submit="createGame" v-model="valid">
+          <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
+          <v-switch v-model="useCustom" dark label="Use a custom work bank"></v-switch>
+          <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
+          <v-text-field
+            name="custom-wordbank"
+            label="Custom Wordbank"
+            multi-line
+            v-model="rawWordbank"
+            :rules="wordbankRules"
+            placeholder="Enter a comma or newline separated list of words."
+            v-if="useCustom"
+          ></v-text-field>
+          <v-radio-group v-model="teams" row label="Teams">
+            <v-radio label="2 teams" value="2" ></v-radio>
+            <v-radio label="3 teams" value="3"></v-radio>
+          </v-radio-group>
+          <v-radio-group v-model="size" row label="Board Size">
+            <v-radio label="Normal" value="normal" ></v-radio>
+            <v-radio label="Large" value="large"></v-radio>
+          </v-radio-group>
 
-        <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid">Create</v-btn>
-      </v-form>
-    </v-card-text>
-  </v-card>
+          <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid">Create</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-fade-transition>
 </template>
 
 <script>

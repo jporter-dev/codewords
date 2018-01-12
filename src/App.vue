@@ -12,8 +12,7 @@
         </v-alert>
 
         <v-container v-if="error">
-          <router-view>
-          </router-view>
+          <router-view></router-view>
         </v-container>
         <v-container fill-height fluid pr-2 pl-2 style="overflow-y: auto;" v-else>
           <router-view>
@@ -181,17 +180,5 @@ html, body { background-color: #303030; }
   text-align: center;
   color: #2c3e50;
   /*margin-top: 60px;*/
-}
-
-/* transitions */
-
-.fade-enter-active {
-  transition: all 1s ease;
-}
-.fade-leave-active {
-  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
 }
 </style>
