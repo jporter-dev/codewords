@@ -109,7 +109,7 @@
             case 'X':
               return 'grey darken-4';
             case '-':
-              return 'black--text black';
+              return 'black--text grey lighten-3';
             default:
               return '';
           }
@@ -126,7 +126,7 @@
             case 'X':
               return 'grey darken-4';
             case '-':
-              return 'black--text black';
+              return 'grey--text text--lighten-1';
             default:
               return '';
           }
@@ -134,7 +134,7 @@
         return '';
       },
       showFlipCard(word) {
-        if (this.isSpymaster() && !this.game.board[word] && this.cards[word] !== '-') {
+        if (this.isSpymaster() && !this.game.board[word]) {
           this.confirmCard = word;
           this.confirmShow = true;
         }
