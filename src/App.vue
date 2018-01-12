@@ -106,9 +106,14 @@ export default {
           href: 'https://github.com/joshporter1/codenames',
         },
         {
-          title: 'Donate',
-          icon: 'attach_money',
+          title: 'Support',
+          icon: 'favorite',
           href: 'https://paypal.me/joshporter1',
+        },
+        {
+          title: 'Report a Bug',
+          icon: 'bug_report',
+          href: 'https://github.com/joshporter1/codenames/issues/new',
         },
       ],
     };
