@@ -1,13 +1,15 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form @submit="joinGame">
-        <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-        <v-text-field label="Enter Room ID" v-model="room_num" solo light></v-text-field>
-        <v-btn block color="primary" large @click.stop="joinGame">Join</v-btn>
-      </v-form>
-    </v-card-text>
-  </v-card>
+  <v-fade-transition appear>
+    <v-card>
+      <v-card-text>
+        <v-form @submit="joinGame">
+          <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
+          <v-text-field label="Enter Room ID" v-model="room_num" solo light></v-text-field>
+          <v-btn block color="primary" large @click.stop="joinGame">Join</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-fade-transition>
 </template>
 
 <script>

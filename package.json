@@ -1,6 +1,6 @@
 {
   "name": "codenames",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Realtime webapp implementation of the classic social word game, Codenames. Edit",
   "author": "Joshua Porter <joshporter1@gmail.com>",
   "private": true,
