@@ -105,9 +105,9 @@ export default {
           href: 'https://github.com/joshporter1/codenames',
         },
         {
-          title: 'Support',
+          title: 'Support Us',
           icon: 'favorite',
-          href: 'https://paypal.me/joshporter1',
+          path: '/donate',
         },
         {
           title: 'Report a Bug',

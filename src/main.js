@@ -5,6 +5,7 @@ import 'vuetify/dist/vuetify.min.css';
 import socketio from 'socket.io-client';
 import VueSocketio from 'vue-socket.io';
 import Vuetify from 'vuetify';
+import Raivue from 'raivue';
 import Vue from 'vue';
 // import Vuex from 'vuex';
 import App from './App';
@@ -14,6 +15,7 @@ import store from './store';
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
+Vue.use(Raivue);
 Vue.use(VueSocketio, socketio(`http://${location.host}`), store);
 
 /* eslint-disable no-new */
