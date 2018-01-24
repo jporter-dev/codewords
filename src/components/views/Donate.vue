@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap pt-5>
     <v-flex>
-      <v-card flat>
+      <v-card flat light>
         <v-card-text px-0 class='text-xs-center'>
           <center>
             <h4><v-icon medium>favorite</v-icon> Support Us!</h4>
@@ -12,7 +12,10 @@
             <v-flex sm2 xs12>
               <v-btn block round large color="primary" dark href="https://www.paypal.me/joshporter1">PayPal</v-btn>
             </v-flex>
-            <RaiPayment address="xrb_3ui4sg4jjdxsfwshjcbkjnthdzmtbgxe7pa597cxsa4aamkkj3b8dmeome4i" :amount="250000"></RaiPayment>
+            <RaiDonation
+              address="xrb_3ui4sg4jjdxsfwshjcbkjnthdzmtbgxe7pa597cxsa4aamkkj3b8dmeome4i"
+              label="Donate"
+            ></RaiDonation>
           </center>
         </v-card-text>
       </v-card>

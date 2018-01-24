@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "favicons-webpack-plugin": "^0.0.7",
-    "raivue": "^0.1.0",
+    "raivue": "^0.1.4",
     "socket.io-client": "^2.0.4",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
