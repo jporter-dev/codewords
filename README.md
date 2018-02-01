@@ -8,7 +8,8 @@ To read more about how this project came to fruition and how to build an app usi
 
 * __Part 1__ - [Introduction and Planning](https://secdevops.ai/weekend-project-part-1-creating-a-real-time-web-based-application-using-flask-vue-and-socket-b71c73f37df7)
 * __Part 2__ - [Enabling Websockets in Flask using Flask-SocketIO](https://secdevops.ai/weekend-project-part-2-turning-flask-into-a-real-time-websocket-server-using-flask-socketio-ab6b45f1d896)
-* __Part 3__ (_In Progress_) - Using Websockets with Vue.js and Vuex
+* __Part 3__ - [Scaffolding a Vue App with vue-cli and Managing State with Vuex](https://secdevops.ai/weekend-project-part-3-centralizing-state-management-with-vuex-5f4387ebc144)
+* __Part 4__ - Integrating Socket.io with Vue.js and Vuex
 
 For content related to development, security, devops, AI, etc... check out [SecDevOps.AI](https://secdevops.ai)!
 
