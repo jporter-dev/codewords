@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap pt-5>
     <v-flex>
-      <v-card flat light>
+      <v-card flat>
         <v-card-text px-0 class='text-xs-center'>
           <center>
             <h4><v-icon medium>favorite</v-icon> Support Us!</h4>
