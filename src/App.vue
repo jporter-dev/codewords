@@ -97,7 +97,7 @@ export default {
         {
           title: 'Contact',
           icon: 'email',
-          href: 'mailto:joshporter1@gmail.com?subject=Codenames Support',
+          href: 'mailto:codecaffeinated@gmail.com?subject=Codenames Support',
         },
         {
           title: 'Contribute',
