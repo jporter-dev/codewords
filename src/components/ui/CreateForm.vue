@@ -4,7 +4,7 @@
       <v-card-text>
         <v-form @submit="createGame" v-model="valid">
           <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
-          <v-switch v-model="useCustom" dark label="Use a custom work bank"></v-switch>
+          <v-switch v-model="useCustom" dark label="Use a custom word bank"></v-switch>
           <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required dark v-if="!useCustom"></v-select>
           <v-text-field
             name="custom-wordbank"
