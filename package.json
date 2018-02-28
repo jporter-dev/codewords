@@ -10,7 +10,7 @@
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
     "flask": "venv/bin/python server/__init__.py",
-    "serve": "venv/bin/gunicorn --worker-class eventlet -w 1 server:app",
+    "serve": "venv/bin/gunicorn --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
     "setup": "venv/bin/pip install -r requirements.txt && npm install && npm run build"
   },
   "dependencies": {

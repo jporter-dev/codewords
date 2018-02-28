@@ -2,6 +2,7 @@
 # pylint: disable=C0103
 
 import eventlet
+import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from codenames import game
@@ -91,6 +92,12 @@ def on_flip_card(data):
     card = data['card']
     ROOMS[room].flip_card(card)
     send(ROOMS[room].to_json(), room=room)
+
+@socketio.on('list_dictionaries')
+def list_dictionaries():
+    """send a list of dictionary names"""
+    # send dict list to client
+    emit('list_dictionaries', {'dictionaries': game.DICTIONARIES.keys()})
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', debug=True)

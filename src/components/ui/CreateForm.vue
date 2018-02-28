@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       // username: 'unknown',
-      dictionaries: ['Simple', 'CAH', 'Standard', 'Pop Culture', 'French'],
       dictionary: 'Simple',
       teams: '2',
       size: 'normal',
@@ -52,7 +51,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['room']),
+    ...mapState(['room', 'dictionaries']),
     wordbank() {
       // return wordbank split on commas and newlines
       return this.rawWordbank.split(/[\n,]/);

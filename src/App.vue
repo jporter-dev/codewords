@@ -164,6 +164,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$socket.emit('list_dictionaries');
+  },
   methods: {
     ...mapMutations(['set_turn']),
   },

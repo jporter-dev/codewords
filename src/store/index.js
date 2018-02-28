@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     connected: false,
+    dictionaries: [],
     game: {},
     room: '',
     username: '',
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     SOCKET_JOIN_ROOM(state, message) {
       state.error = null;
       state.room = message.room;
+    },
+    SOCKET_LIST_DICTIONARIES(state, message) {
+      state.dictionaries = message.dictionaries;
     },
     SOCKET_ERROR(state, message) {
       state.error = message.error;
