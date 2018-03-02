@@ -14,6 +14,7 @@
         </v-fade-transition>
       </v-flex>
     </v-layout>
+    <v-btn block large v-if="gameWon" color="primary" to="/">New Game</v-btn>
     <v-dialog v-model="confirmShow">
       <v-card :color="getColor(confirmCard, getTeam(confirmCard))" tile flat dark>
         <v-card-text class="headline">
@@ -73,6 +74,37 @@
           grid = Math.sqrt(this.words.length);
         }
         return grid;
+      },
+      tileCounts() {
+        if (this.game.solution) {
+          const flippedCounts = {};
+          const totalCounts = { R: 0, B: 0, G: 0, X: 0 };
+          // compile the counts for each team + assassin
+          Object.keys(this.game.solution).forEach((word) => {
+            if (this.game.solution[word] !== 'O') {
+              if (this.game.board[word]) {
+                flippedCounts[this.game.board[word]] = flippedCounts[this.game.board[word]] || 0;
+                flippedCounts[this.game.board[word]] += 1;
+              }
+              totalCounts[this.game.solution[word]] = totalCounts[this.game.solution[word]] || 0;
+              totalCounts[this.game.solution[word]] += 1;
+            }
+          });
+          return {
+            total: totalCounts,
+            flipped: flippedCounts,
+          };
+        }
+        return false;
+      },
+      gameWon() {
+        if (this.tileCounts) {
+          return this.tileCounts.flipped.X > 0 ||
+            this.tileCounts.flipped.R === this.tileCounts.total.R ||
+            this.tileCounts.flipped.B === this.tileCounts.total.B ||
+            this.tileCounts.flipped.G === this.tileCounts.total.G;
+        }
+        return false;
       },
     },
     methods: {
