@@ -14,7 +14,7 @@
         </v-fade-transition>
       </v-flex>
     </v-layout>
-    <v-btn block large v-if="gameWon" color="primary" to="/">New Game</v-btn>
+    <v-btn block large v-if="gameWon" color="primary" @click.native="newGame">New Game</v-btn>
     <v-dialog v-model="confirmShow">
       <v-card :color="getColor(confirmCard, getTeam(confirmCard))" tile flat dark>
         <v-card-text class="headline">
@@ -109,6 +109,13 @@
     },
     methods: {
       ...mapMutations(['set_room', 'set_username']),
+      newGame() {
+        // emit message to start a new game
+        const params = {
+          room: this.room,
+        };
+        this.$socket.emit('regenerate', params);
+      },
       isSpymaster() {
         return this.role === this.spymaster;
       },

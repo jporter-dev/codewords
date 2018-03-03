@@ -93,6 +93,13 @@ def on_flip_card(data):
     ROOMS[room].flip_card(card)
     send(ROOMS[room].to_json(), room=room)
 
+@socketio.on('regenerate')
+def on_regenerate(data):
+    """regenerate the words list"""
+    room = data['room']
+    ROOMS[room].generate_board()
+    send(ROOMS[room].to_json(), room=room)
+
 @socketio.on('list_dictionaries')
 def list_dictionaries():
     """send a list of dictionary names"""

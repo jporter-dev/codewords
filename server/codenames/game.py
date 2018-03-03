@@ -37,12 +37,13 @@ class Info(object):
         self.date_created = datetime.datetime.now()
         self.date_modified = self.date_created
         self.players = []
+        self.size = size
+        self.teams = teams
         self.dictionary = dictionary
         self.dictionaries = DICTIONARIES.keys()
-        self.words = self.__get_words(size)
-        self.layout = self.__get_layout(size, int(teams))
-        self.board = dict.fromkeys(self.words, False)
-        self.solution = dict(zip(self.words, self.layout))
+
+        # gererate board
+        self.generate_board()
 
     def to_json(self):
         """Serialize object to JSON"""
@@ -56,6 +57,12 @@ class Info(object):
             "solution": self.solution,
         }
 
+    def generate_board(self):
+        """Generate a list of words"""
+        self.words = self.__get_words(self.size)
+        self.layout = self.__get_layout(self.size, int(self.teams))
+        self.board = dict.fromkeys(self.words, False)
+        self.solution = dict(zip(self.words, self.layout))
 
     def flip_card(self, word):
         """Assign color to card in solution dict"""
