@@ -2,7 +2,7 @@
 
 > Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek).
 
-### Blog Series
+## Blog Series
 
 To read more about how this project came to fruition and how to build an app using the same technologies, follow the links below!
 
@@ -20,12 +20,15 @@ For content related to development, security, devops, AI, etc... check out [SecD
 </p>
 
 ## Rules
+
 Rules for codenames can be found [here](https://en.wikipedia.org/wiki/Codenames_(board_game)#Rules).
 
 ## Development
+
 The app uses flask as its back-end and webpack as a front-end dev server.
 
-#### Prerequesites
+### Prerequesites
+
 * npm
 * python
 * pip
@@ -33,6 +36,7 @@ The app uses flask as its back-end and webpack as a front-end dev server.
 * _(optional)_ nginx
 
 ### Flask Server
+
 ```bash
 # optional: use a virtualenv
 virtualenv venv
@@ -46,6 +50,7 @@ npm run flask
 ```
 
 ### Webpack
+
 ```bash
 # install dependencies
 npm install
@@ -55,7 +60,9 @@ npm run dev
 ```
 
 ## Production
+
 ### Build
+
 ``` bash
 # install dependencies
 npm install
@@ -72,14 +79,10 @@ npm run flask
 ```
 
 #### Running with nginx + Gunicorn
+
 After installing Gunicorn and nginx...
-* Add your username and/or project folder path to the configs in the `deploy` directory. 
+
+* Add your username and/or project folder path to the configs in the `deploy` directory.
 * Copy `deploy/gunicorn.service` to `/etc/systemd/system`
 * Copy `deploy/codenames.nginx.conf` to `/etc/nginx/sites-available`
 * Create a symbolic link from the new config to `sites-enabled`
-
-## TODO
-
-* Adjust colors for flipped cards on Spymaster view
-* Add a turn timer/turn tracker
-* Streamline install and build
