@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapGetters, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'app',
@@ -119,6 +119,7 @@ export default {
   },
   computed: {
     ...mapState(['connected', 'room', 'error', 'game', 'turn']),
+    ...mapGetters(['gameWon']),
     isFirstTurn() {
       if (!this.connected) {
         return true;

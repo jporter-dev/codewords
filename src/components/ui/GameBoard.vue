@@ -1,5 +1,6 @@
 <template>
   <v-container fluid grid-list-sm mt-5 mb-5 pa-0 v-if="role">
+    <v-btn block large v-if="gameWon" color="primary" @click.native="newGame">New Game</v-btn>
     <v-layout row wrap v-for="row in gridSize" :key="row">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
@@ -14,7 +15,6 @@
         </v-fade-transition>
       </v-flex>
     </v-layout>
-    <v-btn block large v-if="gameWon" color="primary" @click.native="newGame">New Game</v-btn>
     <v-dialog v-model="confirmShow">
       <v-card :color="getColor(confirmCard, getTeam(confirmCard))" tile flat dark>
         <v-card-text class="headline">
@@ -61,7 +61,7 @@
     },
     computed: {
       ...mapState(['connected', 'room', 'username', 'game']),
-      ...mapGetters(['words']),
+      ...mapGetters(['words', 'gameWon']),
       cards() {
         if (this.isSpymaster()) {
           return this.game.solution;
@@ -74,37 +74,6 @@
           grid = Math.sqrt(this.words.length);
         }
         return grid;
-      },
-      tileCounts() {
-        if (this.game.solution) {
-          const flippedCounts = {};
-          const totalCounts = { R: 0, B: 0, G: 0, X: 0 };
-          // compile the counts for each team + assassin
-          Object.keys(this.game.solution).forEach((word) => {
-            if (this.game.solution[word] !== 'O') {
-              if (this.game.board[word]) {
-                flippedCounts[this.game.board[word]] = flippedCounts[this.game.board[word]] || 0;
-                flippedCounts[this.game.board[word]] += 1;
-              }
-              totalCounts[this.game.solution[word]] = totalCounts[this.game.solution[word]] || 0;
-              totalCounts[this.game.solution[word]] += 1;
-            }
-          });
-          return {
-            total: totalCounts,
-            flipped: flippedCounts,
-          };
-        }
-        return false;
-      },
-      gameWon() {
-        if (this.tileCounts) {
-          return this.tileCounts.flipped.X > 0 ||
-            this.tileCounts.flipped.R === this.tileCounts.total.R ||
-            this.tileCounts.flipped.B === this.tileCounts.total.B ||
-            this.tileCounts.flipped.G === this.tileCounts.total.G;
-        }
-        return false;
       },
     },
     methods: {
