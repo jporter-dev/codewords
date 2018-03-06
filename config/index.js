@@ -9,10 +9,10 @@ module.exports = {
   build: {
     env: require('./prod.env'),
     // modified to build to flask folder
-    // index: path.resolve(__dirname, '../server/templates/index.html'),
-    // assetsRoot: path.resolve(__dirname, '../server'),
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../server/templates/index.html'),
     assetsRoot: path.resolve(__dirname, '../server'),
+    // index: path.resolve(__dirname, '../dist/index.html'),
+    // assetsRoot: path.resolve(__dirname, '../server'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
