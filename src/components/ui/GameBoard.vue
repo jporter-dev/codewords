@@ -1,6 +1,7 @@
 <template>
   <v-container fluid grid-list-sm mt-5 mb-5 pa-0 v-if="role">
     <v-btn block large v-if="gameWon" color="primary" @click.native="newGame">New Game</v-btn>
+    <v-btn block large v-if="isFirstTurn" color="primary" @click.native="newGame">Shuffle Words</v-btn>
     <v-layout row wrap v-for="row in gridSize" :key="row">
       <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
@@ -74,6 +75,16 @@
           grid = Math.sqrt(this.words.length);
         }
         return grid;
+      },
+      isFirstTurn() {
+        console.log(this.connected, this.game.board);
+        if (!this.connected) {
+          return true;
+        }
+        if (this.game.board) {
+          return Object.values(this.game.board).every(e => e === false);
+        }
+        return true;
       },
     },
     methods: {
