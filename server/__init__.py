@@ -15,11 +15,6 @@ app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe
 
 ROOMS = {}
 
-@app.route('/')
-def index():
-    """Serve the index HTML"""
-    return render_template('index.html')
-
 @app.route('/purge')
 def purge():
     """Delete all rooms"""
