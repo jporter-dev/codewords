@@ -1,0 +1,26 @@
+[Settings]
+  ID = "codenames"
+
+[build]
+# This is the directory to change to before starting a build.
+  base    = "/"
+  # NOTE: This is where we will look for package.json/.nvmrc/etc, not root.
+# This is the directory that you are publishing from (relative to root of your repo)
+  publish = "dist/"
+# This will be your default build command
+  command = "npm run build"
+# This is where we will look for your lambda functions
+  functions = "functions/"
+
+[[redirects]]
+  from = "/stats"
+  to = "http://codenames.codecaffeinated.com/stats"
+  status = "200"
+  force = "true"
+
+[[redirects]]
+  from = "/socket.io/"
+  to = "http://codenames.codecaffeinated.com/socket.io/"
+  query = {EIO = ":EIO", transport = ":transport", t = ":t"}
+  status = "200"
+  force = "true"

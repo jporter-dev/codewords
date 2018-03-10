@@ -105,8 +105,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: 'manifest',
       chunks: ['vendor']
     }),
-    // copy custom static assets
+    // copy custom static assets and redirect file
     new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/netlify.toml'),
+        to: config.build.assetsRoot
+      },
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,

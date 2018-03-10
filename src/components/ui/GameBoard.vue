@@ -77,7 +77,6 @@
         return grid;
       },
       isFirstTurn() {
-        console.log(this.connected, this.game.board);
         if (!this.connected) {
           return true;
         }
