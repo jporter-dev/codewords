@@ -53,8 +53,8 @@ export default {
   computed: {
     ...mapState(['room', 'dictionaries']),
     wordbank() {
-      // return wordbank split on commas and newlines
-      return this.rawWordbank.split(/[\n,]/);
+      // return wordbank split on commas and newlines and uniqued
+      return [...new Set(this.rawWordbank.split(/[\n,]/))].filter(String);
     },
   },
   watch: {
