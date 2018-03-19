@@ -132,16 +132,16 @@ export default {
     getColor() {
       // override bar color if ws not connected
       if (!this.connected) {
-        return 'red darken-1';
+        return 'red darken-3';
       }
       if (this.isFirstTurn) {
         switch (this.turn) {
           case 'R':
-            return 'red darken-1';
+            return 'red darken-3';
           case 'G':
             return 'green lighten-1';
           case 'B':
-            return 'blue darken-1';
+            return 'blue darken-2';
           default:
             return 'secondary';
         }

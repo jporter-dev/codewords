@@ -27,12 +27,12 @@
       </v-card>
     </v-dialog>
     <v-snackbar
-      color="red darken-1"
+      color="red darken-3"
       :vertical="true"
       v-model="agentAlert"
     >
       Only the Spymaster can flip cards.
-      <v-btn flat @click.native="agentAlert = false">Close</v-btn>
+      <v-btn flat :to="{ name: 'Spymaster', params: { room: room }}">Switch to Spymaster</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -117,11 +117,11 @@
           (this.isSpymaster() && !this.game.board[word])) {
           switch (id) {
             case 'R':
-              return 'red darken-1';
+              return 'red darken-3';
             case 'G':
               return 'green lighten-1';
             case 'B':
-              return 'blue darken-1';
+              return 'blue darken-2';
             case 'O':
               return 'black--text grey lighten-3';
             case 'X':
