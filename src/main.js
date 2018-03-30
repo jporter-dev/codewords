@@ -17,7 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(Raivue);
-Vue.use(VueSocketio, socketio(`http://${location.host}`), store);
+Vue.use(VueSocketio, socketio(`http://${window.location.host}`), store);
 
 /* eslint-disable no-new */
 new Vue({

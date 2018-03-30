@@ -1,80 +1,82 @@
 <template>
-  <v-app dark>
-    <main>
-      <v-content>
-        <v-toolbar :color="getColor" dark fixed scroll-off-screen v-if="!error && room">
-          <v-toolbar-title>{{room}}</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-title v-if="isFirstTurn">{{getTurn}}</v-toolbar-title>
-        </v-toolbar>
-        <v-alert color="error" icon="warning" value="true" v-if="error" fixed>
-          {{error}}
-        </v-alert>
+  <v-app dark id="codenames">
+    <v-navigation-drawer
+      temporary
+      dark
+      right
+      app
+      v-model="drawer">
+      <v-list class="pa-1">
+        <v-list-tile avatar tag="div">
+          <v-list-tile-action>
+            <v-btn icon @click.stop="drawer = !drawer">
+              <v-icon>chevron_right</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Help</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-avatar>
+            <img src="/static/images/secret-agent-64-grey.png" />
+          </v-list-tile-avatar>
+        </v-list-tile>
+      </v-list>
+      <v-list class="pt-0" dense>
+        <v-divider light></v-divider>
+        <v-list-tile v-for="item in helpMenu" :key="item.title" router :to="item.path" :href="item.href">
+          <v-list-tile-action>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{item.title}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-container v-if="error">
-          <router-view></router-view>
-        </v-container>
-        <v-container fill-height fluid pr-2 pl-2 style="overflow-y: auto;" v-else>
-          <router-view>
-          </router-view>
-        </v-container>
+    <v-toolbar
+      app
+      dark
+      fixed
+      :color="getColor"
+      v-if="!error && room">
+      <v-toolbar-title>{{room}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-title v-if="isFirstTurn">{{getTurn}}</v-toolbar-title>
+    </v-toolbar>
 
-        <v-navigation-drawer
-          v-model="drawer"
-          temporary
-          dark
-          right
-        >
-          <v-list class="pa-1">
-            <v-list-tile avatar tag="div">
-              <v-list-tile-action>
-                <v-btn icon @click.stop="drawer = !drawer">
-                  <v-icon>chevron_right</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Help</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-avatar>
-                <img src="/static/images/secret-agent-64-grey.png" />
-              </v-list-tile-avatar>
-            </v-list-tile>
-          </v-list>
-          <v-list class="pt-0" dense>
-            <v-divider light></v-divider>
-            <v-list-tile v-for="item in helpMenu" :key="item.title" router :to="item.path" :href="item.href">
-              <v-list-tile-action>
-                <v-icon>{{item.icon}}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>{{item.title}}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-navigation-drawer>
+    <v-content>
+      <v-alert color="error" icon="warning" value="true" v-if="error" fixed>
+        {{error}}
+      </v-alert>
 
-        <v-bottom-nav value="true" class="secondary">
-          <v-btn flat replace :to="{ name: 'Home' }">
-            <v-icon medium>home</v-icon> Home
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn flat v-if="!connected" value="false">
-            <v-icon medium>warning</v-icon> Not Connected
-          </v-btn>
-          <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room && connected && !error">
-            <v-icon medium>person</v-icon> Agent
-          </v-btn>
-          <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room && connected && !error">
-            <v-icon medium>local_library</v-icon> Spymaster
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn flat @click.stop="drawer = !drawer">
-            <v-icon medium>help_outline</v-icon> Help
-          </v-btn>
-        </v-bottom-nav>
-
-      </v-content>
-    </main>
+      <v-container v-if="error">
+        <router-view></router-view>
+      </v-container>
+      <v-container fill-height fluid pr-2 pl-2 v-else>
+        <router-view>
+        </router-view>
+      </v-container>
+    </v-content>
+    <v-bottom-nav value="true" app>
+      <v-btn flat replace :to="{ name: 'Home' }">
+        <v-icon medium>home</v-icon> Home
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn flat v-if="!connected" value="false">
+        <v-icon medium>warning</v-icon> Not Connected
+      </v-btn>
+      <v-btn flat replace :to="{ name: 'Player', params: { room: room }}" v-if="room && connected && !error">
+        <v-icon medium>person</v-icon> Agent
+      </v-btn>
+      <v-btn flat replace :to="{ name: 'Spymaster', params: { room: room }}" v-if="room && connected && !error">
+        <v-icon medium>local_library</v-icon> Spymaster
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn flat @click.stop="drawer = !drawer">
+        <v-icon medium>help_outline</v-icon> Help
+      </v-btn>
+    </v-bottom-nav>
   </v-app>
 </template>
 
@@ -175,14 +177,4 @@ export default {
 </script>
 
 <style>
-html, body { background-color: #303030; }
-
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  /*margin-top: 60px;*/
-}
 </style>

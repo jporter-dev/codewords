@@ -24,7 +24,12 @@ export default new Vuex.Store({
     tileCounts(state) {
       if (state.game.solution) {
         const flippedCounts = {};
-        const totalCounts = { R: 0, B: 0, G: 0, X: 0 };
+        const totalCounts = {
+          R: 0,
+          B: 0,
+          G: 0,
+          X: 0,
+        };
         // compile the counts for each team + assassin
         Object.keys(state.game.solution).forEach((word) => {
           if (state.game.solution[word] !== 'O') {

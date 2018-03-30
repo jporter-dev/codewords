@@ -1,6 +1,6 @@
 <template>
-  <v-layout align-center row wrap mb-5>
-    <v-flex sm8 offset-sm2 xs12>
+  <v-layout align-center justify-center text-xs-center row wrap mb-5>
+    <v-flex sm8 xs12>
       <img src="/static/images/secret-agent-64-grey.png" alt="codenames" height="64">
       <create-form></create-form>
       <v-btn block color="secondary" large to="home">Back</v-btn>
