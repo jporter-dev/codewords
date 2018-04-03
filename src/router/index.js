@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/components/views/Home';
-import Help from '@/components/views/Help';
-import Donate from '@/components/views/Donate';
-import Create from '@/components/views/Create';
-import Player from '@/components/views/Player';
-import Spymaster from '@/components/views/Spymaster';
+import Home from '@/views/Home';
+import Help from '@/views/Help';
+import Donate from '@/views/Donate';
+import Create from '@/views/Create';
+import Player from '@/views/Player';
+import Spymaster from '@/views/Spymaster';
 
 Vue.use(Router);
 

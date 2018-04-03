@@ -75,7 +75,7 @@ export default new Vuex.Store({
       state.error = null;
       state.room = message.room;
     },
-    SOCKET_LIST_DICTIONARIES(state, message) {
+    SOCKET_LIST_DICTIONARIES: (state, message) => {
       state.dictionaries = message.dictionaries;
     },
     SOCKET_ERROR(state, message) {

@@ -1,7 +1,7 @@
 <template>
   <v-layout align-center justify-center text-xs-center row wrap mb-5>
     <v-flex sm8 xs12>
-      <img src="/static/images/secret-agent-64-grey.png" alt="codenames" height="64">
+      <img src="@/assets/secret-agent-64-grey.png" alt="codenames" height="64">
       <create-form></create-form>
       <v-btn block color="secondary" large to="home">Back</v-btn>
     </v-flex>
@@ -10,7 +10,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import CreateForm from '@/components/ui/CreateForm';
+import CreateForm from '@/components/CreateForm';
 
 export default {
   name: 'Create',

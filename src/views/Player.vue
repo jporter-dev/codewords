@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import GameBoard from '@/components/ui/GameBoard';
+import GameBoard from '@/components/GameBoard';
 import { mapState, mapMutations } from 'vuex';
 
 export default {

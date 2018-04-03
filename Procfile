@@ -1,2 +1,2 @@
-api: npm run serve
-web: npm run dev
+api: npm run flask
+web: npm run serve
