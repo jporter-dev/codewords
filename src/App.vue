@@ -175,4 +175,13 @@ export default {
 </script>
 
 <style>
+/* prevent overscrolling bounce */
+html {
+    overflow: hidden;
+    height: 100%;
+}
+body {
+    height: 100%;
+    overflow: auto;
+}
 </style>
