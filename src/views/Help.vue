@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap pt-5>
     <v-flex>
-      <v-card tile flat dark>
+      <v-card tile flat>
         <v-card-text px-0 class='text-xs-left'>
           <h4>Getting Started</h4>
           <p>

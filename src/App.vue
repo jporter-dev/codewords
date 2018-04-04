@@ -2,7 +2,6 @@
   <v-app dark id="codenames">
     <v-navigation-drawer
       temporary
-      dark
       right
       app
       v-model="drawer">
@@ -36,7 +35,6 @@
 
     <v-toolbar
       app
-      dark
       fixed
       :color="getColor"
       v-if="!error && room">

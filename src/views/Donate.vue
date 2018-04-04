@@ -10,7 +10,7 @@
               and to keep the servers running, or just to buy me a beer! <span class="title">🍻</span>
             </p>
             <v-flex sm2 xs12>
-              <v-btn block round large color="primary" dark href="https://www.paypal.me/joshporter1">PayPal</v-btn>
+              <v-btn block round large color="primary" href="https://www.paypal.me/joshporter1">PayPal</v-btn>
             </v-flex>
             <RaiDonation
               address="xrb_3ui4sg4jjdxsfwshjcbkjnthdzmtbgxe7pa597cxsa4aamkkj3b8dmeome4i"

@@ -5,7 +5,7 @@
     <v-layout row wrap v-for="row in gridRows" :key="row">
       <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
-          <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center" tile flat dark>
+          <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
             <v-card-text px-0 class="body-2 hidden-sm-and-up">
               {{getWord(row, cell)}}
             </v-card-text>
@@ -17,7 +17,7 @@
       </v-flex>
     </v-layout>
     <v-dialog v-model="confirmShow" max-width="290">
-      <v-card :color="getColor(confirmCard, getTeam(confirmCard))" class="text-xs-center" tile flat dark>
+      <v-card :color="getColor(confirmCard, getTeam(confirmCard))" class="text-xs-center">
         <v-card-text class="headline">
           {{confirmCard}}
         </v-card-text>
