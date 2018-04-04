@@ -11,6 +11,15 @@ import App from './App';
 import router from './router';
 import store from './store';
 
+// add bugsnag
+import * as bugsnag from 'bugsnag-js'
+import * as bugsnagVue from 'bugsnag-vue'
+const bugsnagKey = false
+if (bugsnagKey) {
+  const bugsnagClient = bugsnag(bugsnagKey)
+  bugsnagClient.use(bugsnagVue(Vue))
+}
+
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);

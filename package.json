@@ -10,6 +10,8 @@
     "setup": "venv/bin/pip install -r requirements.txt && npm install"
   },
   "dependencies": {
+    "bugsnag-js": "^4.4.0",
+    "bugsnag-vue": "^1.0.1",
     "raivue": "^0.1.6",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
