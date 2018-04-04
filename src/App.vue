@@ -51,7 +51,7 @@
       <v-container v-if="error">
         <router-view></router-view>
       </v-container>
-      <v-container fill-height fluid pr-2 pl-2 v-else>
+      <v-container fill-height fluid pa-2 v-else>
         <router-view>
         </router-view>
       </v-container>
