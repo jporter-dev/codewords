@@ -1,9 +1,9 @@
 <template>
   <v-container fluid grid-list-sm pa-0 v-if="role">
-    <v-btn block large v-if="gameWon" color="primary" @click.native="newGame">New Game</v-btn>
+    <v-btn block large v-if="gameWon && isSpymaster()" color="primary" @click.native="newGame">New Game</v-btn>
     <v-btn block large v-if="isFirstTurn" color="primary" @click.native="newGame">Shuffle Words</v-btn>
-    <v-layout row wrap v-for="row in gridSize" :key="row">
-      <v-flex class="cn-card" v-for="cell in gridSize" @click="showFlipCard(getWord(row, cell))" :key="cell">
+    <v-layout row wrap v-for="row in gridRows" :key="row">
+      <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
           <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center" tile flat dark>
             <v-card-text px-0 class="body-2 hidden-sm-and-up">
@@ -69,12 +69,21 @@
         }
         return this.game.board;
       },
-      gridSize() {
-        let grid = 0;
+      gridRows() {
         if (this.words) {
-          grid = Math.sqrt(this.words.length);
+          switch (this.$vuetify.breakpoint.name) {
+            case 'xs': return '1'
+            case 'sm': return '1'
+            default: return Math.sqrt(this.words.length)
+          }
         }
-        return grid;
+        return 0;
+      },
+      gridCells() {
+        if (this.words) {
+          return this.words.length / this.gridRows
+        }
+        return 0;
       },
       isFirstTurn() {
         if (!this.connected) {
@@ -99,7 +108,7 @@
         return this.role === this.spymaster;
       },
       getWord(row, cell) {
-        const temp = (((row - 1) * this.gridSize) + (cell - 1));
+        const temp = (((row - 1) * this.gridRows) + (cell - 1));
         return this.words[temp];
       },
       getTeam(word) {
