@@ -1,6 +1,13 @@
 <template>
   <div style="width: 100%;">
-    <v-btn block large color="cyan darken-1" v-if="!spymasterReveal" @click="reveal_spymaster">Reveal the Map</v-btn>
+    <v-layout align-center justify-center text-xs-center row wrap mb-5 v-if="!spymasterReveal">
+      <v-flex sm8 xs12>
+        <v-alert outline type="warning" :value="true">
+          <b>Warning!</b> There should only be two spymasters per game.
+        </v-alert>
+        <v-btn block large color="success" @click="reveal_spymaster">I understand. Make me a spymaster!</v-btn>
+      </v-flex>
+    </v-layout>
     <game-board :role="role" v-if="role !== 'spymaster' || (role === 'spymaster' && spymasterReveal)"></game-board>
   </div>
 </template>

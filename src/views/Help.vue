@@ -12,7 +12,7 @@
           <h4 class="header">How to Play</h4>
           <p>Codenames consists of two teams with two roles on each team: a spymaster and field agents.</p>
           <p>
-            <a href="https://www.boardgamebriefs.com/codenames/">View detailed instructons.</a>
+            <a href="https://www.youtube.com/watch?v=zQVHkl8oQEU">Watch an instructional video.</a>
           </p>
         </v-card-text>
       </v-card>
