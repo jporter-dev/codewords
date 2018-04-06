@@ -1,7 +1,7 @@
 <template>
   <v-layout align-center justify-center text-xs-center row wrap>
     <v-flex sm8 xs12>
-      <img src="@/assets/secret-agent-64-grey.png" alt="codenames" height="64">
+      <img src="@/assets/secret-agent-64-grey.png" alt="codenames logo" height="64">
       <v-btn block color="secondary" large to="create">Create Game</v-btn>
       <join-form></join-form>
     </v-flex>

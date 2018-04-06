@@ -7,7 +7,7 @@
           <v-alert type="error" :value="showInputError" transition="slide-y-reverse-transition">
             Room ID required to join.
           </v-alert>
-          <v-text-field placeholder="Enter Room ID" v-model="room_num" :rules="[rules.required]" solo light></v-text-field>
+          <v-text-field label="Enter Room ID" v-model="room_num" :rules="[rules.required]" solo light></v-text-field>
           <v-btn block color="primary" large @click.stop="joinGame">Join</v-btn>
         </v-form>
       </v-card-text>

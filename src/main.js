@@ -24,7 +24,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(Raivue);
-Vue.use(VueSocketio, `http://${window.location.host}`, store);
+Vue.use(VueSocketio, `//${window.location.host}`, store);
 
 new Vue({
   router,

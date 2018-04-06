@@ -8,7 +8,7 @@
       <v-list class="pa-1">
         <v-list-tile avatar tag="div">
           <v-list-tile-action>
-            <v-btn icon @click.stop="drawer = !drawer">
+            <v-btn icon @click.stop="drawer = !drawer" aria-label="Close drawer">
               <v-icon>chevron_right</v-icon>
             </v-btn>
           </v-list-tile-action>
@@ -16,7 +16,7 @@
             <v-list-tile-title>Help</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-avatar>
-            <img src="@/assets/secret-agent-64-grey.png" />
+            <img src="@/assets/secret-agent-64-grey.png" alt="codenames logo"/>
           </v-list-tile-avatar>
         </v-list-tile>
       </v-list>
