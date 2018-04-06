@@ -9,7 +9,7 @@
             <v-card-text px-0 class="body-2 hidden-sm-and-up">
               {{getWord(row, cell)}}
             </v-card-text>
-            <v-card-text px-0 class="display-1 hidden-xs-only">
+            <v-card-text px-0 class="headline hidden-xs-only">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>

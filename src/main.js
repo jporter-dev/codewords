@@ -1,7 +1,6 @@
 import 'vuetify/dist/vuetify.min.css';
 import 'raivue/dist/raivue.css';
 
-import socketio from 'socket.io-client';
 import VueSocketio from 'vue-socket.io';
 import Vuetify from 'vuetify';
 import Raivue from 'raivue';
@@ -10,6 +9,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
+import './registerServiceWorker'
 
 // add bugsnag
 import * as bugsnag from 'bugsnag-js'
