@@ -16,7 +16,7 @@
             <v-list-tile-title>Help</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-avatar>
-            <img src="@/assets/secret-agent-64-grey.png" alt="codenames logo"/>
+            <img src="@/assets/logo-64x64.png" alt="codenames logo"/>
           </v-list-tile-avatar>
         </v-list-tile>
       </v-list>
