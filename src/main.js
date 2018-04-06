@@ -5,11 +5,15 @@ import VueSocketio from 'vue-socket.io';
 import Vuetify from 'vuetify';
 import Raivue from 'raivue';
 import Vue from 'vue';
+import { sync } from 'vuex-router-sync'
 
 import App from './App';
 import router from './router';
 import store from './store';
 import './registerServiceWorker'
+
+// vue router sync with vuex
+sync(store, router) // done. Returns an unsync callback fn
 
 // add bugsnag
 import * as bugsnag from 'bugsnag-js'
