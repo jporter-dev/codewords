@@ -34,29 +34,42 @@ The app uses flask as its back-end and webpack as a front-end dev server.
 * pip
 * _(optional)_ Gunicorn
 * _(optional)_ nginx
+* _(optional)_ Foreman (development only)
 
-### Flask Server
-
+### Install Dependencies
 ```bash
 # optional: use a virtualenv
 virtualenv venv
 source venv/bin/activate
 
-# install python dependencies
-pip install -r requirements.txt
+# install python and js dependencies
+npm run setup
 
-# run the flask server
-npm run flask
+# install dependencies separately
+pip install -r requirements.txt
+npm install
+# or
+yarn install
 ```
 
-### Webpack
+### Development Servers
+
+I recommend using Foreman. Foreman allows us to run both servers simultaneously in one terminal window.
 
 ```bash
-# install dependencies
-npm install
+# install foreman
+npm i -g foreman
+# start foreman
+nf start
+# both flask and webpack-dev-server should be running
 
-# run webpack dev server with hot reload at localhost:8080
-npm run dev
+# run servers separately...
+# start the flask server on port 5000
+npm run flask
+
+# start webpack dev server with hot reload at localhost:8080
+npm run serve
+# navigate to localhost:8080 in browser
 ```
 
 ## Production
@@ -68,14 +81,14 @@ npm run dev
 npm install
 pip install -r requirements.txt
 
+# or install both at once
+npm run setup
+
 # build for production with minification
 npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
-
-# start the flask server
-npm run flask
 ```
 
 #### Running with nginx + Gunicorn
