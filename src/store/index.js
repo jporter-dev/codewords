@@ -10,7 +10,7 @@ export default new Vuex.Store({
     storage: {
       getItem: key => Cookies.get(key),
       // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-      setItem: (key, value) => Cookies.set(key, value, { expires: 1, secure: true }),
+      setItem: (key, value) => Cookies.set(key, value, { expires: 1 }),
       removeItem: key => Cookies.remove(key)
     }
   })],
@@ -23,6 +23,7 @@ export default new Vuex.Store({
     error: '',
     turn: '',
     spymasterReveal: false,
+    popupHides: 0
   },
   getters: {
     words(state) {
@@ -109,6 +110,9 @@ export default new Vuex.Store({
     },
     reveal_spymaster(state) {
       state.spymasterReveal = true;
+    },
+    incrementPopupHides(state) {
+      state.popupHides++
     },
   },
 });

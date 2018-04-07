@@ -47,7 +47,7 @@
       <v-alert color="error" icon="warning" value="true" v-if="error" fixed>
         {{error}}
       </v-alert>
-
+      <ApplePopup/>
       <v-container v-if="error">
         <router-view></router-view>
       </v-container>
@@ -80,14 +80,17 @@
 
 <script>
 import { mapGetters, mapState, mapMutations } from 'vuex';
+import ApplePopup from '@/components/ApplePopup'
 
 export default {
   name: 'app',
+  components: { ApplePopup },
   data() {
     return {
       drawer: false,
       showSidebar: false,
       showError: false,
+      showInstallMessage: true,
       helpMenu: [
         {
           title: 'How to Play',
