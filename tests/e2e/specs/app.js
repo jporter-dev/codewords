@@ -11,9 +11,14 @@ describe('Codenames', () => {
     cy.hash().should('eq', '#/create')
     cy.get('#create-btn').should('contain', 'Create')
   })
-  it('Loads a bad game room', () => {
+  it('Loads the player view', () => {
     cy.visit('/#/12345/player')
     cy.hash().should('eq', '#/12345/player')
-    cy.get('.alert.error > div').should('contain', 'Unable to join room. Room does not exist.')
+    cy.get('#shuffle-btn').should('contain', 'Shuffle Words')
+  })
+  it('Loads the spymaster view', () => {
+    cy.visit('/#/12345/spymaster')
+    cy.hash().should('eq', '#/12345/spymaster')
+    cy.get('#spymaster-btn').should('contain', 'I understand. Make me a spymaster!')
   })
 })

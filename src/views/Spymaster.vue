@@ -5,7 +5,7 @@
         <v-alert outline type="warning" :value="true">
           <b>Warning!</b> There should only be two spymasters per game.
         </v-alert>
-        <v-btn block large color="success" @click="reveal_spymaster">I understand. Make me a spymaster!</v-btn>
+        <v-btn block large color="success" @click="reveal_spymaster" id="spymaster-btn">I understand. Make me a spymaster!</v-btn>
       </v-flex>
     </v-layout>
     <game-board :role="role" v-if="role !== 'spymaster' || (role === 'spymaster' && spymasterReveal)"></game-board>

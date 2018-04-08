@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-sm pa-0 v-if="role">
     <v-btn block large v-if="gameWon && isSpymaster()" color="primary" @click.native="newGame">New Game</v-btn>
-    <v-btn block large v-if="isFirstTurn" color="primary" @click.native="newGame">Shuffle Words</v-btn>
+    <v-btn block large v-if="isFirstTurn" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle Words</v-btn>
     <v-layout row wrap v-for="row in gridRows" :key="row">
       <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
