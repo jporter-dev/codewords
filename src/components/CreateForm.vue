@@ -2,7 +2,7 @@
   <v-fade-transition appear>
     <v-card>
       <v-card-text>
-        <v-form @submit="createGame" v-model="valid">
+        <v-form @submit="createGame" v-model="valid" id="create-form">
           <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
           <v-switch v-model="useCustom" label="Use a custom word bank"></v-switch>
           <v-select v-bind:items="dictionaries" v-model="dictionary" label="Dictionary" required v-if="!useCustom"></v-select>
@@ -24,7 +24,7 @@
             <v-radio label="Large" value="large"></v-radio>
           </v-radio-group>
 
-          <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid">Create</v-btn>
+          <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
         </v-form>
       </v-card-text>
     </v-card>

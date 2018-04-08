@@ -4,7 +4,7 @@
       <v-avatar tile size="128">
         <img src="@/assets/logo-title.png" alt="codenames logo">
       </v-avatar>
-      <v-btn block color="secondary" large to="create">Create Game</v-btn>
+      <v-btn block color="secondary" large to="create" id="create-btn">Create Game</v-btn>
       <join-form></join-form>
     </v-flex>
   </v-layout>

@@ -7,7 +7,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "flask": "venv/bin/gunicorn --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
-    "setup": "venv/bin/pip install -r requirements.txt && npm install"
+    "setup": "venv/bin/pip install -r requirements.txt && npm install",
+    "e2e": "vue-cli-service e2e",
+    "e2e:open": "vue-cli-service e2e:open"
   },
   "dependencies": {
     "bugsnag-js": "^4.4.0",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
+    "@vue/cli-plugin-e2e-cypress": "^3.0.0-beta.6",
     "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
     "@vue/cli-plugin-pwa": "^3.0.0-beta.6",
     "@vue/cli-service": "^3.0.0-beta.6",
