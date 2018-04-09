@@ -21,7 +21,7 @@
         </v-list-tile>
       </v-list>
       <v-list class="pt-0" dense>
-        <v-divider light></v-divider>
+        <v-divider></v-divider>
         <v-list-tile v-for="item in helpMenu" :key="item.title" router :to="item.path" :href="item.href">
           <v-list-tile-action>
             <v-icon>{{item.icon}}</v-icon>
@@ -30,6 +30,23 @@
             <v-list-tile-title>{{item.title}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+      </v-list>
+      <v-list dense two-line>
+        <v-divider></v-divider>
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-icon>wifi</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                Socket Status: {{connected ? 'Connected' : 'Not Connected'}}
+              </v-list-tile-title>
+              <v-list-tile-sub-title v-if="connected">
+                Connection Type: {{this.$socket.io.engine.transport.name}}
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        <v-divider></v-divider>
       </v-list>
     </v-navigation-drawer>
 
