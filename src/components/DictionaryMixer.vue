@@ -97,16 +97,21 @@ export default {
       // return wordbank split on commas and newlines and uniqued
       return [...new Set(this.rawWordbank.split(/[\n,]/))].filter(String);
     },
-    percent (pct) {
-      return pct.toString() + "%"
-    }
   },
   methods: {
     // initialize dict mixes
     setMixes (dicts) {
-      dicts.forEach((dict) => {
-        this.$set(this.mixes, dict, 50)
+      Object.keys(this.mixes).forEach((dict) => {
+        if (!dicts.includes(dict)) {
+          this.$delete(this.mixes, dict)
+        }
       })
+      dicts.forEach((dict) => {
+        this.$set(this.mixes, dict, this.mixes[dict] || 50)
+      })
+    },
+    percent (pct) {
+      return pct.toString() + "%"
     }
   }
 }
