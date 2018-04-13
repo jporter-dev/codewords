@@ -2,23 +2,43 @@
   <v-layout row wrap>
     <v-flex xs12>
       <v-switch
-        label="Mix Dictionaries"
+        label="Use a custom wordbank"
+        v-model="useCustom"
+      ></v-switch>
+      <v-switch
+        v-show="!useCustom"
+        label="Mix Dictionaries (Beta)"
         v-model="mix"
       ></v-switch>
+      <v-text-field
+        v-show="useCustom"
+        name="custom-wordbank"
+        label="Custom Wordbank"
+        multi-line
+        v-model="rawWordbank"
+        :rules="wordbankRules"
+        placeholder="Enter a comma or newline separated list of words."
+      ></v-text-field>
       <v-select
-        :items="dictionaries"
+        v-show="!useCustom"
         v-model="selectedDictionaries"
+        :items="dictionaries"
         :multiple="mix"
         max-height="400"
-        label="Select dictionaries to mix"
+        label="Dictionary"
+        placeholder="Select..."
         persistent-hint
+        @change="setMixes"
       ></v-select>
     </v-flex>
-    <v-flex v-if="mix && typeof selectedDictionaries === 'object'" xs12 v-for="dict in selectedDictionaries" :key="dict">
+    <v-flex
+      v-show="mix && typeof selectedDictionaries === 'object' && selectedDictionaries && selectedDictionaries.length > 1"
+      xs12
+      v-for="(val, dict) in mixes" :key="dict">
       <v-slider v-model="mixes[dict]"
         :hint="dict"
         step="5"
-        :label="mixPercentages[dict]"
+        :label="percent(mixPercentages[dict])"
         persistent-hint
         >
       </v-slider>
@@ -27,29 +47,75 @@
 </template>
 
 <script>
+import { mapState} from 'vuex';
+
 export default {
   name: "DictionaryMixer",
   data () {
     return {
       mix: false,
-      dictionaries: ['Standard', 'CAH', 'German', 'French'],
-      selectedDictionaries: [],
+      selectedDictionaries: 'Simple',
       mixes: {},
+      useCustom: false,
+      rawWordbank: '',
+      wordbankRules: [
+        () => (this.wordbank && this.wordbank.length >= 25) || 'Word bank must contain at least 25 words.',
+      ],
+    }
+  },
+  watch: {
+    dictionaryOptions: {
+      handler: function () { this.$emit('setDictionaryOptions', this.dictionaryOptions) },
+      immediate: true
     }
   },
   computed: {
+    ...mapState(['dictionaries']),
+    dictionaryOptions () {
+      return {
+        mix: this.mix,
+        useCustom: this.useCustom,
+        dictionaries: this.selectedDictionaries,
+        mixPercentages: this.mixPercentages,
+        customWordbank: this.wordbank
+      }
+    },
+    // get total of dict sliders
     mixTotal () {
-      return (this.mix && this.selectedDictionaries.length > 0) ?
+      return (this.mix && this.selectedDictionaries && this.selectedDictionaries.length > 0) ?
         Object.values(this.mixes)
           .map((val) => val || 0) // default values to 0
           .reduce((a, b) => { return a+b }, 0) : 0 // sum values
     },
+    // map dicts to % of total
     mixPercentages () {
       let that = this
       return Object.keys(that.mixes).reduce(function(obj, key) {
-        obj[key] = (Math.floor((that.mixes[key] * 100) / that.mixTotal) || 0).toString() + "%"
+        obj[key] = (Math.round((that.mixes[key] * 100) / that.mixTotal) || 0)
         return obj;
       }, {});
+    },
+    wordbank() {
+      // return wordbank split on commas and newlines and uniqued
+      return [...new Set(this.rawWordbank.split(/[\n,]/))].filter(String);
+    },
+  },
+  methods: {
+    // initialize dict mixes
+    setMixes (dicts) {
+      if (this.mix) {
+        Object.keys(this.mixes).forEach((dict) => {
+          if (!dicts.includes(dict)) {
+            this.$delete(this.mixes, dict)
+          }
+        })
+        dicts.forEach((dict) => {
+          this.$set(this.mixes, dict, this.mixes[dict] || 50)
+        })
+      }
+    },
+    percent (pct) {
+      return pct.toString() + "%"
     }
   }
 }

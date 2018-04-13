@@ -5,7 +5,7 @@ import eventlet
 import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
-from .codenames import game
+from codenames import game
 
 eventlet.monkey_patch()
 
@@ -15,16 +15,16 @@ app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe
 
 ROOMS = {}
 
-@app.route('/purge')
-def purge():
-    """Delete all rooms"""
-    purged = ROOMS.keys()
-    total = len(purged)
-    ROOMS.clear()
-    return jsonify({
-        "purged": purged,
-        "total": total
-    })
+# @app.route('/purge')
+# def purge():
+#     """Delete all rooms"""
+#     purged = ROOMS.keys()
+#     total = len(purged)
+#     ROOMS.clear()
+#     return jsonify({
+#         "purged": purged,
+#         "total": total
+#     })
 
 @app.route('/stats')
 def stats():
@@ -41,16 +41,25 @@ def on_create(data):
     """Create a game lobby"""
     # username = data['username']
     # create the game
-    if 'wordbank' in data:
+    # handle custom wordbanks
+    if data['dictionaryOptions']['useCustom']:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            wordbank=data['wordbank'])
+            wordbank=data['dictionaryOptions']['customWordbank'])
+    # dict mixer
+    elif data['dictionaryOptions']['mix']:
+        gm = game.Info(
+            size=data['size'],
+            teams=data['teams'],
+            mix=data['dictionaryOptions']['mixPercentages'])
+    # handle standard single dictionary
     else:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            dictionary=data['dictionary'])
+            dictionary=data['dictionaryOptions']['dictionaries'])
+
     room = gm.game_id
     ROOMS[room] = gm
     join_room(room)
