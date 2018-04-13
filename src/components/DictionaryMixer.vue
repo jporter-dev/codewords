@@ -54,7 +54,7 @@ export default {
   data () {
     return {
       mix: false,
-      selectedDictionaries: [],
+      selectedDictionaries: 'Simple',
       mixes: {},
       useCustom: false,
       rawWordbank: '',
@@ -103,14 +103,16 @@ export default {
   methods: {
     // initialize dict mixes
     setMixes (dicts) {
-      Object.keys(this.mixes).forEach((dict) => {
-        if (!dicts.includes(dict)) {
-          this.$delete(this.mixes, dict)
-        }
-      })
-      dicts.forEach((dict) => {
-        this.$set(this.mixes, dict, this.mixes[dict] || 50)
-      })
+      if (this.mix) {
+        Object.keys(this.mixes).forEach((dict) => {
+          if (!dicts.includes(dict)) {
+            this.$delete(this.mixes, dict)
+          }
+        })
+        dicts.forEach((dict) => {
+          this.$set(this.mixes, dict, this.mixes[dict] || 50)
+        })
+      }
     },
     percent (pct) {
       return pct.toString() + "%"

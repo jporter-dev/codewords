@@ -2,7 +2,7 @@
   <v-fade-transition appear>
     <v-card>
       <v-card-text>
-        <v-form @submit="createGame" v-model="valid" id="create-form">
+        <v-form @submit="createGame" id="create-form">
           <v-layout row wrap>
             <v-flex xs12>
               <dictionary-mixer @setDictionaryOptions="setDictionaryOptions"></dictionary-mixer>
@@ -20,7 +20,7 @@
               </v-radio-group>
             </v-flex>
             <v-flex xs12>
-              <v-btn block color="primary" large @click.stop="createGame" id="create-btn">Create</v-btn>
+              <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -41,7 +41,8 @@ export default {
       teams: '2',
       size: 'normal',
       valid: true,
-      dictionaryOptions: {}
+      dictionaryOptions: {},
+      errors: []
     };
   },
   computed: {
@@ -62,10 +63,16 @@ export default {
         dictionaryOptions: this.dictionaryOptions
       };
       this.set_username(this.username);
-      this.$socket.emit('create', params);
+      if (this.valid) {
+        this.$socket.emit('create', params);
+      } else {
+        this.errors.push('Please select a dictionary.')
+      }
     },
     setDictionaryOptions (opts) {
       this.dictionaryOptions = opts
+      this.valid = (!opts.useCustom && opts.dictionaries && opts.dictionaries.length > 0) ||
+        (opts.useCustom && opts.customWordbank && opts.customWordbank.length >= 25)
     }
   },
 };
