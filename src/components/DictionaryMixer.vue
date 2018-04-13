@@ -89,7 +89,7 @@ export default {
     mixPercentages () {
       let that = this
       return Object.keys(that.mixes).reduce(function(obj, key) {
-        obj[key] = (Math.floor((that.mixes[key] * 100) / that.mixTotal) || 0)
+        obj[key] = (Math.round((that.mixes[key] * 100) / that.mixTotal) || 0)
         return obj;
       }, {});
     },
