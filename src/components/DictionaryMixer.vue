@@ -38,7 +38,7 @@
       <v-slider v-model="mixes[dict]"
         :hint="dict"
         step="5"
-        :label="mixPercentages[dict]"
+        :label="percent(mixPercentages[dict])"
         persistent-hint
         >
       </v-slider>
@@ -73,7 +73,7 @@ export default {
       return {
         mix: this.mix,
         useCustom: this.useCustom,
-        selectedDictionaries: this.selectedDictionaries,
+        dictionaries: this.selectedDictionaries,
         mixPercentages: this.mixPercentages,
         customWordbank: this.wordbank
       }
@@ -89,7 +89,7 @@ export default {
     mixPercentages () {
       let that = this
       return Object.keys(that.mixes).reduce(function(obj, key) {
-        obj[key] = (Math.floor((that.mixes[key] * 100) / that.mixTotal) || 0).toString() + "%"
+        obj[key] = (Math.floor((that.mixes[key] * 100) / that.mixTotal) || 0)
         return obj;
       }, {});
     },
@@ -97,6 +97,9 @@ export default {
       // return wordbank split on commas and newlines and uniqued
       return [...new Set(this.rawWordbank.split(/[\n,]/))].filter(String);
     },
+    percent (pct) {
+      return pct.toString() + "%"
+    }
   },
   methods: {
     // initialize dict mixes

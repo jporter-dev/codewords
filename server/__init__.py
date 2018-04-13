@@ -41,16 +41,23 @@ def on_create(data):
     """Create a game lobby"""
     # username = data['username']
     # create the game
-    if 'wordbank' in data:
+    # handle custom wordbanks
+    if data['dictionaryOptions']['useCustom']:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            wordbank=data['wordbank'])
-    else:
+            wordbank=data['dictionaryOptions']['customWordbank'])
+    # handle standard single dictionary
+    elif not data['dictionaryOptions']['mix']:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            dictionary=data['dictionary'])
+            dictionary=data['dictionaryOptions']['dictionaries'])
+    # dict mixer
+    elif data['dictionaryOptions']['mix']:
+        #noop yet
+        return
+
     room = gm.game_id
     ROOMS[room] = gm
     join_room(room)
