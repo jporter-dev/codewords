@@ -4,13 +4,14 @@ import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 
 Vue.use(Vuex);
+const inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000);
 
 export default new Vuex.Store({
   plugins: [createPersistedState({
     storage: {
       getItem: key => Cookies.get(key),
       // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-      setItem: (key, value) => Cookies.set(key, value, { expires: 1 }),
+      setItem: (key, value) => Cookies.set(key, value, { expires: inFifteenMinutes }),
       removeItem: key => Cookies.remove(key)
     }
   })],

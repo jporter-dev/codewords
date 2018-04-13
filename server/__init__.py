@@ -5,7 +5,7 @@ import eventlet
 import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
-from codenames import game
+from .codenames import game
 
 eventlet.monkey_patch()
 
