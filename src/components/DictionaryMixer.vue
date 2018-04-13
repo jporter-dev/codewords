@@ -7,7 +7,7 @@
       ></v-switch>
       <v-switch
         v-show="!useCustom"
-        label="Mix Dictionaries"
+        label="Mix Dictionaries (Beta)"
         v-model="mix"
       ></v-switch>
       <v-text-field
@@ -47,12 +47,13 @@
 </template>
 
 <script>
+import { mapState} from 'vuex';
+
 export default {
   name: "DictionaryMixer",
   data () {
     return {
-      mix: true,
-      dictionaries: ['Standard', 'CAH', 'German', 'French'],
+      mix: false,
       selectedDictionaries: [],
       mixes: {},
       useCustom: false,
@@ -69,6 +70,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['dictionaries']),
     dictionaryOptions () {
       return {
         mix: this.mix,

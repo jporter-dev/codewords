@@ -45,7 +45,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['room', 'dictionaries']),
+    ...mapState(['room']),
   },
   watch: {
     room() {
