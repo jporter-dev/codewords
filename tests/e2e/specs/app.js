@@ -4,7 +4,7 @@ describe('Codenames App', () => {
   it('Loads the homepage', () => {
     cy.visit('/')
     cy.hash().should('eq', '#/home')
-
+    cy.get('#create-btn').should('contain', 'Create')
   })
   it('Clicks the create button and displays the loading form', () => {
     cy.get('#create-btn').should('contain', 'Create').click()
@@ -12,12 +12,6 @@ describe('Codenames App', () => {
     cy.contains('Mix Dictionaries')
     // cy.get('#create-btn').should('contain', 'Create').click()
   })
-
-  // it('Creates a game and loads the Player view', () => {
-  //   cy.get('#shuffle-btn').should('contain', 'Shuffle Words')
-  // })
-
-  // it('Switches to the Spymaster view', () => {})
 
   it('Loads the player view', () => {
     cy.visit('/#/12345/player')
@@ -28,11 +22,5 @@ describe('Codenames App', () => {
     cy.visit('/#/12345/spymaster')
     cy.hash().should('eq', '#/12345/spymaster')
     cy.get('#spymaster-btn').should('contain', 'I understand. Make me a spymaster!')
-  })
-
-  it('Visits the homepage', () => {
-    cy.visit('/')
-    cy.hash().should('eq', '#/home')
-    cy.get('#create-btn').should('contain', 'Create')
   })
 })

@@ -43,3 +43,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 .sln
+
+# e2e tests
+tests/e2e/videos
