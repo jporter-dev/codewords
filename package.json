@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "flask": "venv/bin/python server/__init__.py",
-    "gunicorn": "venv/bin/gunicorn --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
+    "gunicorn": "venv/bin/gunicorn --error-logfile - --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
     "setup": "venv/bin/pip install -r requirements.txt && npm install",
     "e2e": "vue-cli-service e2e",
     "test": "vue-cli-service e2e --record",
