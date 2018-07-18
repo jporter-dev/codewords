@@ -6,7 +6,5 @@ cache:
   directories:
     - ~/.npm
     - ~/.cache
-install:
-  - npm ci
 script:
   - npm run test
