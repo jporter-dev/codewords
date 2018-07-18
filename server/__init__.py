@@ -20,9 +20,9 @@ app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe
 
 # set up logging
 if not app.debug:
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)
-    app.logger.addHandler(stream_handler)
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
 ROOMS = {}
 
@@ -45,7 +45,7 @@ def stats():
     }
     if 'rooms' in request.args:
         if ROOMS:
-            resp["rooms"] = sorted([[ v.to_json() for v in ROOMS.values() ]], lambda k: k['date_modified'])
+            resp["rooms"] = sorted([ v.to_json() for v in ROOMS.values() ], key=lambda k: k.get('date_modified'), reverse=True)
         else:
             resp["rooms"] = None
     return jsonify(resp)
