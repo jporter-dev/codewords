@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, join_room, leave_room, send, emit
 # attempt a relative import
 try:
     from .codenames import game
-except ImportError:
+except (ImportError, ValueError):
     from codenames import game
 
 eventlet.monkey_patch()
@@ -38,7 +38,7 @@ def stats():
     }
     if 'rooms' in request.args:
         if ROOMS:
-            resp["rooms"] = sorted(ROOMS.values(), lambda k: k['date_modified'], reverse=True)
+            resp["rooms"] = sorted([[ v.to_json() for v in ROOMS.values() ]], lambda k: k['date_modified'])
         else:
             resp["rooms"] = None
     return jsonify(resp)
