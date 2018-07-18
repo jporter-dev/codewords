@@ -30,10 +30,10 @@ ROOMS = {}
 def stats():
     """display room stats"""
     resp = {
-        "total": len(ROOMS.items())
+        "total": len(ROOMS.keys())
     }
     if 'rooms' in request.args:
-        resp["rooms"] = {k: v.to_json() for k, v in ROOMS.items()}
+        resp["rooms"] = sorted(ROOMS, lambda k: k['date_modified'], reverse=True)
     return jsonify(resp)
 
 @socketio.on('create')
