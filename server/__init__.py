@@ -5,7 +5,7 @@ import eventlet
 import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
-from .codenames import game
+from codenames import game
 
 eventlet.monkey_patch()
 
@@ -33,7 +33,7 @@ def stats():
         "total": len(ROOMS.keys())
     }
     if 'rooms' in request.args:
-        resp["rooms"] = sorted(ROOMS, lambda k: k['date_modified'], reverse=True)
+        resp["rooms"] = sorted(ROOMS.values(), lambda k: k['date_modified'], reverse=True)
     return jsonify(resp)
 
 @socketio.on('create')
