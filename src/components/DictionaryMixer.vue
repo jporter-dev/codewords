@@ -4,21 +4,22 @@
       <v-switch
         label="Use a custom wordbank"
         v-model="useCustom"
+        hide-details
       ></v-switch>
       <v-switch
         v-show="!useCustom"
         label="Mix Dictionaries (Beta)"
         v-model="mix"
+        hide-details
       ></v-switch>
-      <v-text-field
+      <v-textarea
         v-show="useCustom"
         name="custom-wordbank"
         label="Custom Wordbank"
-        multi-line
         v-model="rawWordbank"
         :rules="wordbankRules"
         placeholder="Enter a comma or newline separated list of words."
-      ></v-text-field>
+      ></v-textarea>
       <v-select
         v-show="!useCustom"
         v-model="selectedDictionaries"

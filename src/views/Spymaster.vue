@@ -8,9 +8,11 @@
         <v-btn block large color="success" @click="reveal_spymaster" id="spymaster-btn">I understand. Make me a spymaster!</v-btn>
       </v-flex>
     </v-layout>
-    <v-btn block large v-if="gameWon" color="success" @click.native="newGame">New Game</v-btn>
-    <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
-    <game-board :role="role" v-if="role !== 'spymaster' || (role === 'spymaster' && spymasterReveal)"></game-board>
+    <template v-if="spymasterReveal">
+      <v-btn block large v-if="gameWon" color="success" @click.native="newGame">New Game</v-btn>
+      <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
+      <game-board :role="role" v-if="spymasterReveal"></game-board>
+    </template>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ export default {
     ...mapGetters(['gameWon']),
     ...mapState(['room', 'username', 'spymasterReveal']),
     role() {
-      if (this.$route.name.toLowerCase() === 'spymaster' && !this.spymasterReveal) {
+      if (!this.spymasterReveal) {
         return null;
       }
       return this.$route.name;

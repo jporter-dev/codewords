@@ -196,4 +196,9 @@ export default {
 
 <style lang="scss">
 html, body { background: #303030; }
+.codenames-text {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace!important;
+  font-weight: normal!important;
+  letter-spacing: 1px!important;
+}
 </style>
