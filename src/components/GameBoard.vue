@@ -1,7 +1,5 @@
 <template>
   <v-container fluid grid-list-sm pa-0 v-if="role">
-    <v-btn block large v-if="gameWon && isSpymaster()" color="primary" @click.native="newGame">New Game</v-btn>
-    <v-btn block large v-if="isFirstTurn" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle Words</v-btn>
     <v-layout row wrap v-for="row in gridRows" :key="row">
       <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
@@ -9,7 +7,7 @@
             <v-card-text px-0 class="body-2 hidden-sm-and-up">
               {{getWord(row, cell)}}
             </v-card-text>
-            <v-card-text px-0 class="headline hidden-xs-only">
+            <v-card-text px-0 class="title hidden-xs-only">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>
@@ -62,7 +60,7 @@
     },
     computed: {
       ...mapState(['connected', 'room', 'username', 'game']),
-      ...mapGetters(['words', 'gameWon']),
+      ...mapGetters(['words']),
       cards() {
         if (this.isSpymaster()) {
           return this.game.solution;
@@ -85,25 +83,9 @@
         }
         return 0;
       },
-      isFirstTurn() {
-        if (!this.connected) {
-          return true;
-        }
-        if (this.game.board) {
-          return Object.values(this.game.board).every(e => e === false);
-        }
-        return true;
-      },
     },
     methods: {
       ...mapMutations(['set_room', 'set_username']),
-      newGame() {
-        // emit message to start a new game
-        const params = {
-          room: this.room,
-        };
-        this.$socket.emit('regenerate', params);
-      },
       isSpymaster() {
         return this.role === this.spymaster;
       },
@@ -193,12 +175,19 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .cn-card {
   cursor: pointer;
   flex-basis: 0;
   flex-shrink: 0;
   flex-grow: 1;
   white-space: nowrap;
+  text-transform: uppercase;
+
+  .card__text {
+    font-weight: normal;
+  }
 }
+
+
 </style>

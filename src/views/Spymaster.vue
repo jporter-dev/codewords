@@ -8,13 +8,15 @@
         <v-btn block large color="success" @click="reveal_spymaster" id="spymaster-btn">I understand. Make me a spymaster!</v-btn>
       </v-flex>
     </v-layout>
+    <v-btn block large v-if="gameWon" color="success" @click.native="newGame">New Game</v-btn>
+    <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
     <game-board :role="role" v-if="role !== 'spymaster' || (role === 'spymaster' && spymasterReveal)"></game-board>
   </div>
 </template>
 
 <script>
 import GameBoard from '@/components/GameBoard';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
 export default {
   name: 'spymaster',
@@ -22,12 +24,32 @@ export default {
     GameBoard,
   },
   computed: {
+    ...mapGetters(['gameWon']),
     ...mapState(['room', 'username', 'spymasterReveal']),
     role() {
       if (this.$route.name.toLowerCase() === 'spymaster' && !this.spymasterReveal) {
         return null;
       }
       return this.$route.name;
+    },
+    isFirstTurn() {
+      if (!this.connected) {
+        return true;
+      }
+      if (this.game.board) {
+        return Object.values(this.game.board).every(e => e === false);
+      }
+      return true;
+    },
+  },
+  methods: {
+    ...mapMutations(['set_room', 'set_username', 'reveal_spymaster']),
+    newGame() {
+      // emit message to start a new game
+      const params = {
+        room: this.room,
+      };
+      this.$socket.emit('regenerate', params);
     },
   },
   mounted() {
@@ -38,9 +60,6 @@ export default {
       room: this.room,
     };
     this.$socket.emit('join', params);
-  },
-  methods: {
-    ...mapMutations(['set_room', 'set_username', 'reveal_spymaster']),
   },
 };
 </script>
