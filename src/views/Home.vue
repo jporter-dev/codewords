@@ -4,7 +4,7 @@
       <v-avatar tile size="128">
         <img src="@/assets/logo-256x256.png" alt="codenames logo">
       </v-avatar>
-      <h1 class="codenames-text">Aliases</h1>
+      <h1 class="codenames-text">Codewords</h1>
       <v-btn block color="secondary" large to="create" id="create-btn">Create Game</v-btn>
       <join-form></join-form>
     </v-flex>
