@@ -13,6 +13,7 @@
         hide-details
       ></v-switch>
       <v-textarea
+        box
         v-show="useCustom"
         name="custom-wordbank"
         label="Custom Wordbank"

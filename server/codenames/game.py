@@ -87,7 +87,7 @@ class Info(object):
         """Generate a random room ID"""
         id_length = 5
         return ''.join(random.SystemRandom().choice(
-            string.ascii_uppercase + string.digits) for _ in range(id_length))
+            string.ascii_uppercase) for _ in range(id_length))
 
     def __get_words(self, size):
         """Generate a list of words"""
