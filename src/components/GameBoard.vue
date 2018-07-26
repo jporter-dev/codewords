@@ -4,7 +4,7 @@
       <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
           <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
-            <v-card-text px-0 class="cn-text" :class="cardTextSize">
+            <v-card-text px-0 class="cn-text cn-text--upcase" :class="cardTextSize">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>
@@ -13,7 +13,7 @@
     </v-layout>
     <v-dialog v-model="confirmShow" max-width="290">
       <v-card :color="getColor(confirmCard, getTeam(confirmCard))" class="text-xs-center">
-        <v-card-text class="headline">
+        <v-card-text class="headline cn-text cn-text--upcase">
           {{confirmCard}}
         </v-card-text>
         <v-card-actions>
@@ -185,6 +185,5 @@
   flex-shrink: 0;
   flex-grow: 1;
   white-space: nowrap;
-  text-transform: uppercase;
 }
 </style>

@@ -215,6 +215,12 @@ html, body { background: #303030; }
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace!important;
   font-weight: normal;
   letter-spacing: 1px!important;
+  &--upcase {
+    text-transform: uppercase;
+  }
+  &--caps {
+    text-transform: capitalize;
+  }
 }
 #scoreboard { font-weight: bold; }
 </style>
