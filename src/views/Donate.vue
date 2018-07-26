@@ -9,8 +9,8 @@
               If you enjoy the app, feel free to donate to help support future updates<br/>
               and to keep the servers running, or just to buy me a beer! <span class="title">🍻</span>
             </p>
-            <v-flex sm2 xs12>
-              <v-btn block round large color="primary" href="https://www.paypal.me/joshporter1">PayPal</v-btn>
+            <v-flex sm5 xs11>
+              <v-btn block large color="primary" href="https://www.paypal.me/joshporter1">PayPal</v-btn>
             </v-flex>
             <NanoPayment
               address="xrb_3ui4sg4jjdxsfwshjcbkjnthdzmtbgxe7pa597cxsa4aamkkj3b8dmeome4i"
