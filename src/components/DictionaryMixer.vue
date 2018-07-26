@@ -29,6 +29,7 @@
         max-height="400"
         label="Dictionary"
         placeholder="Select..."
+        hint="Select a dictionary"
         persistent-hint
         @change="setMixes"
       ></v-select>

@@ -5,13 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
+    "test": "vue-cli-service e2e --record",
+    "e2e": "vue-cli-service e2e",
     "lint": "vue-cli-service lint",
     "flask": "venv/bin/python server/__init__.py",
     "gunicorn": "venv/bin/gunicorn --error-logfile - --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
     "setup": "venv/bin/pip install -r requirements.txt && npm install",
-    "e2e": "vue-cli-service e2e",
-    "test": "vue-cli-service e2e --record",
-    "e2e:open": "vue-cli-service e2e:open"
+    "e2e:open": "vue-cli-service e2e:open",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "bugsnag-js": "^4.7.2",
@@ -33,8 +34,12 @@
     "@vue/cli-plugin-e2e-cypress": "^3.0.0-rc.5",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
     "@vue/cli-plugin-pwa": "^3.0.0-rc.5",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.5",
     "@vue/cli-service": "^3.0.0-rc.5",
     "@vue/eslint-config-airbnb": "^3.0.0-rc.5",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
     "node-sass": "^4.9.2",
     "sass-loader": "^6.0.6",
     "vue-template-compiler": "^2.5.13"
