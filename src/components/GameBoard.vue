@@ -4,10 +4,7 @@
       <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
         <v-fade-transition appear>
           <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
-            <v-card-text px-0 class="body-2 hidden-sm-and-up codenames-text">
-              {{getWord(row, cell)}}
-            </v-card-text>
-            <v-card-text px-0 class="headline hidden-xs-only codenames-text">
+            <v-card-text px-0 class="cn-text" :class="cardTextSize">
               {{getWord(row, cell)}}
             </v-card-text>
           </v-card>
@@ -82,6 +79,12 @@
           return this.words.length / this.gridRows
         }
         return 0;
+      },
+      cardTextSize() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 'body-2';
+          default: return 'headline';
+        }
       },
     },
     methods: {
@@ -184,6 +187,4 @@
   white-space: nowrap;
   text-transform: uppercase;
 }
-
-
 </style>

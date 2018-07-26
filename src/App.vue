@@ -55,9 +55,24 @@
       fixed
       :color="getColor"
       v-if="!error && room">
-      <v-toolbar-title>{{room}}</v-toolbar-title>
+      <v-toolbar-title class="cn-text headline">{{room}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-title v-if="isFirstTurn">{{getTurn}}</v-toolbar-title>
+      <v-toolbar-title v-if="isFirstTurn" class="cn-text">{{getTurn}}</v-toolbar-title>
+      <!-- Scoreboard -->
+      <v-toolbar-title v-else class="cn-text headline" id="scoreboard">
+        <span class="red--text text--darken-1">{{tileCounts.flipped.R}}</span>
+        <span style="padding: 0 10px;" v-if="!'G' in tileCounts.flipped">
+          <v-avatar size="32">
+            <img src="@/assets/logo-64x64.png" alt="codenames logo"/>
+          </v-avatar>
+        </span>
+        <span v-else> - </span>
+        <span class="blue--text text--darken-1">{{tileCounts.flipped.B}}</span>
+        <template v-if="'G' in tileCounts.flipped">
+          <span> - </span>
+          <span class="green--text text--lighten-1">{{tileCounts.flipped.G}}</span>
+        </template>
+      </v-toolbar-title>
     </v-toolbar>
 
     <v-content>
@@ -139,7 +154,7 @@ export default {
   },
   computed: {
     ...mapState(['connected', 'room', 'error', 'game', 'turn']),
-    ...mapGetters(['gameWon']),
+    ...mapGetters(['gameWon', 'tileCounts']),
     isFirstTurn() {
       if (!this.connected) {
         return true;
@@ -196,9 +211,10 @@ export default {
 
 <style lang="scss">
 html, body { background: #303030; }
-.codenames-text {
+.cn-text {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace!important;
-  font-weight: normal!important;
+  font-weight: normal;
   letter-spacing: 1px!important;
 }
+#scoreboard { font-weight: bold; }
 </style>

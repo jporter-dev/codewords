@@ -9,7 +9,7 @@
       </v-flex>
     </v-layout>
     <template v-if="spymasterReveal">
-      <v-btn block large v-if="gameWon" color="success" @click.native="newGame">New Game</v-btn>
+      <v-btn block large v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
       <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
       <game-board :role="role" v-if="spymasterReveal"></game-board>
     </template>
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     ...mapGetters(['gameWon']),
-    ...mapState(['room', 'username', 'spymasterReveal']),
+    ...mapState(['room', 'username', 'spymasterReveal', 'game', 'connected']),
     role() {
       if (!this.spymasterReveal) {
         return null;
@@ -45,8 +45,13 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['set_room', 'set_username', 'reveal_spymaster']),
-    newGame() {
+    ...mapMutations(['set_room', 'set_username', 'reveal_spymaster', 'reset_room']),
+    newGame(reset) {
+      // reset spymaster state and go to player view
+      if (reset === true) {
+        this.reset_room()
+        this.$router.push({ path: `/${this.room}/player` })
+      }
       // emit message to start a new game
       const params = {
         room: this.room,

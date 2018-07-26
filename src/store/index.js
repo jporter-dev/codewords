@@ -45,8 +45,8 @@ export default new Vuex.Store({
         // compile the counts for each team + assassin
         Object.keys(state.game.solution).forEach((word) => {
           if (state.game.solution[word] !== 'O') {
+            flippedCounts[state.game.solution[word]] = flippedCounts[state.game.solution[word]] || 0;
             if (state.game.board[word]) {
-              flippedCounts[state.game.board[word]] = flippedCounts[state.game.board[word]] || 0;
               flippedCounts[state.game.board[word]] += 1;
             }
             totalCounts[state.game.solution[word]] = totalCounts[state.game.solution[word]] || 0;
@@ -111,6 +111,10 @@ export default new Vuex.Store({
     },
     reveal_spymaster(state) {
       state.spymasterReveal = true;
+    },
+    reset_room(state) {
+      state.game = {};
+      state.spymasterReveal = false;
     },
     incrementPopupHides(state) {
       state.popupHides++
