@@ -8,7 +8,11 @@
     @click.native="hidePopup"
   >
     <img src="@/assets/ios-action.png" alt="codenames logo" id="ios-share">
-    To install this app, click this icon below and then Add to Homescreen.
+    To install, click this icon below and then "Add to Homescreen"
+    <v-btn flat small class="black--text">
+      Close
+    </v-btn>
+
   </v-snackbar>
 </template>
 
