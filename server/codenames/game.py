@@ -1,5 +1,6 @@
 """Object for tracking game status"""
-import datetime
+from datetime import datetime
+import time
 import random
 import math
 import string
@@ -35,7 +36,7 @@ class Info(object):
         self.wordbank = wordbank
         self.game_id = self.generate_room_id()
         self.starting_color = RED
-        self.date_created = datetime.datetime.now()
+        self.date_created = datetime.now()
         self.date_modified = self.date_created
         self.players = []
         self.size = size
@@ -55,8 +56,16 @@ class Info(object):
             "players": self.players,
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified),
+            "playtime": self.__playtime(),
             "board": self.board,
             "solution": self.solution,
+            "options": {
+                "dictionary": self.dictionary,
+                "size": self.size,
+                "teams": self.teams,
+                "mix": self.mix
+            },
+
         }
 
     def generate_board(self):
@@ -68,7 +77,7 @@ class Info(object):
 
     def flip_card(self, word):
         """Assign color to card in solution dict"""
-        self.date_modified = str(datetime.datetime.now())
+        self.date_modified = datetime.now()
         if word not in self.words:
             return 'Invalid word entered.'
         self.board[word] = self.solution[word]
@@ -88,6 +97,18 @@ class Info(object):
         id_length = 5
         return ''.join(random.SystemRandom().choice(
             string.ascii_uppercase) for _ in range(id_length))
+
+    def __playtime(self):
+        # 2018-08-12 10:12:25.700528
+        fmt = '%Y-%m-%d %H:%M:%S'
+        d1 = self.date_created
+        d2 = self.date_modified
+        # Convert to Unix timestamp
+        d1_ts = time.mktime(d1.timetuple())
+        d2_ts = time.mktime(d2.timetuple())
+
+        return round(float(d2_ts-d1_ts) / 60, 2)
+
 
     def __get_words(self, size):
         """Generate a list of words"""
@@ -174,4 +195,3 @@ class Info(object):
             for i in BIG_BLACKOUT_SPOTS:
                 mix.insert(i, '-')
         return mix
-
