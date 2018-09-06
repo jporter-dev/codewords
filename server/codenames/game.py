@@ -12,9 +12,10 @@ FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
 DICTIONARIES = {
     "CAH" :         FILE_ROOT + "/cah_code_names.txt",
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt",
-    "Standard" :  FILE_ROOT + "/code_names_dict.txt",
+    "Standard" :    FILE_ROOT + "/code_names_dict.txt",
     "Simple" :      FILE_ROOT + "/code_names_simple.txt",
-    "French" :      FILE_ROOT + "/code_names_french.txt"
+    "French" :      FILE_ROOT + "/code_names_french.txt",
+    "Portuguese" :  FILE_ROOT + "/code_names_portuguese.txt"
 }
 # colors per team
 RED = 'R'
