@@ -16,6 +16,7 @@ DICTIONARIES = {
     "Simple" :      FILE_ROOT + "/code_names_simple.txt",
     "French" :      FILE_ROOT + "/code_names_french.txt",
     "Portuguese" :  FILE_ROOT + "/code_names_portuguese.txt"
+    "German" :  FILE_ROOT + "/code_names_german.txt"
 }
 # colors per team
 RED = 'R'
