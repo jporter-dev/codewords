@@ -46,6 +46,7 @@ class Info(object):
         self.dictionary = dictionary
         self.mix = mix
         self.dictionaries = DICTIONARIES.keys()
+        self.minWords = BOARD_SIZE[self.size]
 
         # gererate board
         self.generate_board()
@@ -65,13 +66,18 @@ class Info(object):
                 "dictionary": self.dictionary,
                 "size": self.size,
                 "teams": self.teams,
-                "mix": self.mix
+                "mix": self.mix,
+                "custom": self.wordbank
             },
 
         }
 
-    def generate_board(self):
+    def generate_board(self, newGame=False):
         """Generate a list of words"""
+        # remove current words from bank if newGame and not shuffle
+        if newGame and hasattr(self, 'words') and (self.wordbank and len(self.wordbank) - self.minWords >= self.minWords):
+            for word in self.words:
+                self.wordbank.remove(word)
         self.words = self.__get_words(self.size)
         self.layout = self.__get_layout(self.size, int(self.teams))
         self.board = dict.fromkeys(self.words, False)
