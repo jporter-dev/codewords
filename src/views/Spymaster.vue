@@ -48,14 +48,15 @@ export default {
     ...mapMutations(['set_room', 'set_username', 'reveal_spymaster', 'reset_room']),
     newGame(reset) {
       // reset spymaster state and go to player view
-      if (reset === true) {
-        this.reset_room()
-        this.$router.push({ path: `/${this.room}/player` })
-      }
       // emit message to start a new game
       const params = {
         room: this.room,
       };
+      if (reset === true) {
+        this.reset_room()
+        params['newGame'] = true
+        this.$router.push({ path: `/${this.room}/player` })
+      }
       this.$socket.emit('regenerate', params);
     },
   },
