@@ -93,7 +93,7 @@
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 'body-2';
           case 'lg': return 'display-1';
-          case 'xl': return 'display-3 font-weight-bold';
+          case 'xl': return 'display-1';
           default: return 'headline';
         }
       },
