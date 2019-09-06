@@ -115,7 +115,7 @@ def on_flip_card(data):
 def on_regenerate(data):
     """regenerate the words list"""
     room = data['room']
-    ROOMS[room].generate_board()
+    ROOMS[room].generate_board(data.get('newGame', False))
     send(ROOMS[room].to_json(), room=room)
 
 @socketio.on('list_dictionaries')
