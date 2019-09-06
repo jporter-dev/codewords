@@ -8,14 +8,11 @@
     </v-flex>
   </v-layout>
   <v-layout row wrap v-else>
-    <v-flex xs12>
-      <v-layout>
-        <v-btn block large v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
-        <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
-      </v-layout>
-    </v-flex>
     <v-flex xs12 fill-height>
-      <game-board :role="role" v-if="spymasterReveal"></game-board>
+      <game-board :role="role" v-if="spymasterReveal">
+        <v-btn block large v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
+        <v-btn block large v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
+      </game-board>
     </v-flex>
   </v-layout>
 </template>

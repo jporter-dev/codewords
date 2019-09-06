@@ -1,6 +1,7 @@
 <template>
   <v-container fluid grid-list-md fill-height pa-0 v-if="role">
     <v-layout column>
+      <slot></slot>
       <v-flex xs12 pa-0 v-for="row in gridRows" :key="row">
         <v-layout row wrap fill-height>
           <v-flex d-flex align-self-center class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
