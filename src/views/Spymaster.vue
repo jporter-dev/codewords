@@ -1,19 +1,23 @@
 <template>
-  <div style="width: 100%;">
-    <v-layout align-center justify-center text-xs-center row wrap mb-5 v-if="!spymasterReveal">
-      <v-flex sm8 xs12>
-        <v-alert outline type="warning" :value="true">
-          <b>Warning!</b> There should only be two spymasters per game.
-        </v-alert>
-        <v-btn block large color="success" @click="reveal_spymaster" id="spymaster-btn">I understand. Make me a spymaster!</v-btn>
-      </v-flex>
-    </v-layout>
-    <template v-if="spymasterReveal">
-      <v-btn block large v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
-      <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
+  <v-layout align-center justify-center text-xs-center mb-5 v-if="!spymasterReveal">
+    <v-flex sm8 xs12>
+      <v-alert outline type="warning" :value="true">
+        <b>Warning!</b> There should only be two spymasters per game.
+      </v-alert>
+      <v-btn block large color="success" @click="reveal_spymaster" id="spymaster-btn">I understand. Make me a spymaster!</v-btn>
+    </v-flex>
+  </v-layout>
+  <v-layout row wrap v-else>
+    <v-flex xs12>
+      <v-layout>
+        <v-btn block large v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
+        <v-btn block large v-if="isFirstTurn && !gameWon" color="primary" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
+      </v-layout>
+    </v-flex>
+    <v-flex xs12 fill-height>
       <game-board :role="role" v-if="spymasterReveal"></game-board>
-    </template>
-  </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

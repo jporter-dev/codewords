@@ -1,14 +1,22 @@
 <template>
-  <v-container fluid grid-list-sm pa-0 v-if="role">
-    <v-layout row wrap v-for="row in gridRows" :key="row">
-      <v-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
-        <v-fade-transition appear>
-          <v-card :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
-            <v-card-text px-0 class="cn-text cn-text--upcase" :class="cardTextSize">
-              {{getWord(row, cell)}}
-            </v-card-text>
-          </v-card>
-        </v-fade-transition>
+  <v-container fluid grid-list-md fill-height pa-0 v-if="role">
+    <v-layout column>
+      <v-flex xs12 pa-0 v-for="row in gridRows" :key="row">
+        <v-layout row wrap fill-height>
+          <v-flex d-flex align-self-center class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
+            <v-fade-transition appear>
+              <v-card flat tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
+                <v-layout fill-height align-center>
+                  <v-flex>
+                    <v-card-text px-0 class="cn-text cn-text--upcase" :class="responsiveClass">
+                      {{getWord(row, cell)}}
+                    </v-card-text>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </v-fade-transition>
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
     <v-dialog v-model="confirmShow" max-width="290">
@@ -80,9 +88,11 @@
         }
         return 0;
       },
-      cardTextSize() {
+      responsiveClass() {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 'body-2';
+          case 'lg': return 'display-1';
+          case 'xl': return 'display-3 font-weight-bold';
           default: return 'headline';
         }
       },
@@ -184,6 +194,5 @@
   flex-basis: 0;
   flex-shrink: 0;
   flex-grow: 1;
-  white-space: nowrap;
 }
 </style>
