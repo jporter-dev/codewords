@@ -153,7 +153,7 @@
               return '';
           }
         }
-        return '';
+        return 'grey darken-2';
       },
       showFlipCard(word) {
         if (this.isSpymaster() && !this.game.board[word]) {
