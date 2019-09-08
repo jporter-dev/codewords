@@ -5,6 +5,13 @@
         <img src="@/assets/logo-256x256.png" alt="codenames logo">
       </v-avatar>
       <h1 class="cn-text">Codewords</h1>
+      <v-alert
+        :value="true"
+        type="warning"
+        outline
+      >
+        If you experience issues, please try refreshing the page.
+      </v-alert>
       <v-btn block color="secondary" large to="create" id="create-btn">Create Game</v-btn>
       <join-form></join-form>
     </v-flex>
