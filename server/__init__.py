@@ -107,7 +107,7 @@ def on_leave(data):
 def on_flip_card(data):
     """flip card and rebroadcast game object"""
     room = data['room']
-    card = data['card']
+    card = data['card'].encode('utf-8').strip()
     ROOMS[room].flip_card(card)
     send(ROOMS[room].to_json(), room=room)
 

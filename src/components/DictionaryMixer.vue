@@ -26,7 +26,7 @@
         v-model="selectedDictionaries"
         :items="dictionaries"
         :multiple="mix"
-        max-height="400"
+        :menu-props="{'max-height': 400}"
         label="Dictionary"
         placeholder="Select..."
         hint="Select a dictionary"
@@ -67,6 +67,9 @@ export default {
     }
   },
   watch: {
+    mix (v) {
+      this.selectedDictionaries = v ? [] : 'Simple';
+    },
     dictionaryOptions: {
       handler: function () { this.$emit('setDictionaryOptions', this.dictionaryOptions) },
       immediate: true

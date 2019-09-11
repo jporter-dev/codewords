@@ -133,7 +133,7 @@ class Info(object):
                     tempWords = self.__load_words(key)
                     random.shuffle(tempWords)
                     # get word ratio (rounded up)
-                    numWords = math.ceil((self.mix[key]/100)*BOARD_SIZE[size])
+                    numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
                     words = words + tempWords[0:numWords]
             else:
                 words = self.__load_words(self.dictionary)
