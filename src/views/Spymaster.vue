@@ -10,8 +10,12 @@
   <v-layout row wrap v-else>
     <v-flex xs12 fill-height>
       <game-board :role="role" v-if="spymasterReveal">
-        <v-btn block large class="pa-2" v-if="gameWon" color="success" @click.native="newGame(true)">New Game</v-btn>
-        <v-btn block large class="pa-2" v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">Shuffle New Words</v-btn>
+        <v-btn fab top right absolute large class="pa-2" v-if="gameWon" color="success" @click.native="newGame(true)">
+          <v-icon>autorenew</v-icon>
+        </v-btn>
+        <v-btn fab top right absolute large class="pa-2" v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">
+          <v-icon>shuffle</v-icon>
+        </v-btn>
       </game-board>
     </v-flex>
   </v-layout>

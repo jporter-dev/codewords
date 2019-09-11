@@ -103,7 +103,7 @@
         <v-icon medium>local_library</v-icon> Spymaster
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn flat @click.stop="drawer = !drawer">
+      <v-btn flat @click.stop="drawer = !drawer" to="#">
         <v-icon medium>help_outline</v-icon> Help
       </v-btn>
     </v-bottom-nav>
