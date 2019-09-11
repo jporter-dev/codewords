@@ -8,8 +8,8 @@
             <v-fade-transition appear>
               <v-card flat tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
                 <v-layout fill-height align-center>
-                  <v-flex>
-                    <v-card-text px-0 class="cn-text cn-text--upcase" :class="responsiveClass">
+                  <v-flex pa-0>
+                    <v-card-text class="cn-text cn-text--upcase" v-resize-text>
                       {{getWord(row, cell)}}
                     </v-card-text>
                   </v-flex>

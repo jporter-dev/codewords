@@ -21,6 +21,7 @@
     "raivue": "^0.1.9",
     "register-service-worker": "^1.4.1",
     "vue": "^2.5.13",
+    "vue-resize-text": "^0.1.0",
     "vue-router": "^3.0.1",
     "vue-socket.io": "~2.1.1-b",
     "vuetify": "^1.1.7",

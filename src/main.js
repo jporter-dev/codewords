@@ -1,6 +1,7 @@
 import 'vuetify/dist/vuetify.min.css';
 import 'raivue/dist/raivue.css';
 
+import VueResizeText from 'vue-resize-text';
 import VueSocketio from 'vue-socket.io';
 import Vuetify from 'vuetify';
 import Raivue from 'raivue';
@@ -25,6 +26,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(Raivue);
+Vue.use(VueResizeText)
 Vue.use(VueSocketio, `//${window.location.host}`, store);
 
 new Vue({
