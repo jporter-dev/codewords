@@ -9,7 +9,7 @@
               <v-card flat tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
                 <v-layout fill-height align-center>
                   <v-flex pa-0>
-                    <v-card-text class="cn-text cn-text--upcase" v-resize-text>
+                    <v-card-text class="cn-text cn-text--upcase" v-resize-text="{ratio: 0.9}">
                       {{getWord(row, cell)}}
                     </v-card-text>
                   </v-flex>
@@ -195,5 +195,9 @@
   flex-basis: 0;
   flex-shrink: 0;
   flex-grow: 1;
+}
+
+.cn-text {
+  letter-spacing: 2px!important;
 }
 </style>
