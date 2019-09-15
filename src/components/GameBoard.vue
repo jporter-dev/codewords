@@ -6,10 +6,10 @@
         <v-layout row wrap :fill-height="$vuetify.breakpoint.mdAndUp">
           <v-flex d-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
             <v-fade-transition appear>
-              <v-card flat tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
+              <v-card tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
                 <v-layout fill-height align-center ma-0>
                   <v-flex pa-0>
-                    <v-card-text class="cn-text cn-text--upcase" v-resize-text="{ratio: 0.9, delay: 200}">
+                    <v-card-text class="cn-text cn-text--upcase" v-resize-text="{ratio: 1.1, delay: 200}">
                       {{getWord(row, cell)}}
                     </v-card-text>
                   </v-flex>
