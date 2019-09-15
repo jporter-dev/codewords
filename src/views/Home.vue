@@ -1,12 +1,12 @@
 <template>
   <v-layout align-start justify-center text-xs-center row wrap>
-    <v-flex sm6 xs12>
+    <v-flex lg4 md5 sm6 xs12>
       <v-avatar tile size="128">
         <img src="@/assets/logo-256x256.png" alt="codenames logo">
       </v-avatar>
       <h1 class="cn-text">Codewords</h1>
       <v-alert
-        :value="true"
+        :value="false"
         type="warning"
         outline
       >
