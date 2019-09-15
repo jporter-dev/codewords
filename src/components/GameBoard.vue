@@ -9,7 +9,7 @@
               <v-card tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
                 <v-layout fill-height align-center ma-0>
                   <v-flex pa-0>
-                    <v-card-text class="cn-text cn-text--upcase" v-resize-text="{ratio: 1.1, delay: 200}">
+                    <v-card-text class="cn-text cn-text--upcase font-weight-bold" v-resize-text="{ratio: 1.1, delay: 200}">
                       {{getWord(row, cell)}}
                     </v-card-text>
                   </v-flex>

@@ -13,7 +13,7 @@
         <v-btn fab top right absolute small class="pa-2" v-if="gameWon" color="success" @click.native="newGame(true)">
           <v-icon>autorenew</v-icon>
         </v-btn>
-        <v-btn fab top right fixed small class="pa-2" v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">
+        <v-btn fab top right absolute small class="pa-2" v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">
           <v-icon>shuffle</v-icon>
         </v-btn>
       </game-board>
