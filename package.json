@@ -15,8 +15,8 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "bugsnag-js": "^4.7.2",
-    "bugsnag-vue": "^1.0.1",
+    "@sentry/browser": "^5.6.3",
+    "@sentry/integrations": "^5.6.1",
     "js-cookie": "^2.2.0",
     "raivue": "^0.1.9",
     "register-service-worker": "^1.4.1",

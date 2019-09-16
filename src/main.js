@@ -13,13 +13,15 @@ import router from './router';
 import store from './store';
 import './registerServiceWorker'
 
-// add bugsnag
-import * as bugsnag from 'bugsnag-js'
-import * as bugsnagVue from 'bugsnag-vue'
-const bugsnagKey = false
-if (bugsnagKey) {
-  const bugsnagClient = bugsnag(bugsnagKey)
-  bugsnagClient.use(bugsnagVue(Vue))
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
+
+// add sentry
+if (process.env.VUE_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.VUE_APP_SENTRY_DSN,
+    integrations: [new Integrations.Vue({Vue, attachProps: true})],
+  });
 }
 
 Vue.config.productionTip = false;

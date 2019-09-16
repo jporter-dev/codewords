@@ -40,7 +40,7 @@ The app uses flask as its back-end and webpack as a front-end dev server.
 
 ### Install Dependencies
 ```bash
-# optional: use a virtualenv
+# create a virtualenv
 virtualenv venv
 source venv/bin/activate
 

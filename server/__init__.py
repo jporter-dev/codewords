@@ -6,17 +6,28 @@ import logging
 import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from dotenv import load_dotenv
+load_dotenv()
+
 # attempt a relative import
 try:
     from .codenames import game
 except (ImportError, ValueError):
     from codenames import game
 
-eventlet.monkey_patch()
+# init sentry
+sentry_dsn = os.getenv("SENTRY_DSN")
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        integrations=[FlaskIntegration()]
+    )
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-app.secret_key = b'FF\x90}\xdc\xc5\xaeaT\xd6\xbc\x86O\xa6B\xdd\xa2qp\x9e\xd2f\xe8\xe8'
+app.secret_key = os.getenv("SECRET_KEY", "")
 
 # set up logging
 if not app.debug:
@@ -36,6 +47,10 @@ ROOMS = {}
 #         "purged": purged,
 #         "total": total
 #     })
+
+@app.route('/debug-sentry')
+def trigger_error():
+    division_by_zero = 1 / 0
 
 @app.route('/stats')
 def stats():
