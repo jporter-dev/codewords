@@ -20,7 +20,7 @@
               </v-radio-group>
             </v-flex>
             <v-flex xs12>
-              <v-btn block color="primary" large @click.stop="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
+              <v-btn block color="primary" large @click="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
