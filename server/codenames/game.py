@@ -17,7 +17,8 @@ DICTIONARIES = {
     "French" :      FILE_ROOT + "/code_names_french.txt",
     "Portuguese" :  FILE_ROOT + "/code_names_portuguese.txt",
     "German" :      FILE_ROOT + "/code_names_german.txt",
-    "Italian" :      FILE_ROOT + "/code_names_italian.txt"
+    "Italian" :      FILE_ROOT + "/code_names_italian.txt",
+    "Greek" :       FILE_ROOT + "/code_names_greek.txt"
 }
 # colors per team
 RED = 'R'
