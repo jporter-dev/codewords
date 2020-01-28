@@ -1,7 +1,5 @@
 # codenames
 
-[![Build Status](https://travis-ci.org/joshporter1/codenames.svg?branch=master)](https://travis-ci.org/joshporter1/codenames)
-
 > Realtime webapp implementation of the classic social word game, Codenames, designed to be played on a TV and mobile devices. Based on a project by [sprek](https://github.com/sprek).
 
 ## Blog Series
