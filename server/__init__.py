@@ -3,9 +3,12 @@
 
 import eventlet
 import logging
+import json
 import os
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from datetime import datetime, timedelta
+from functools import reduce
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from dotenv import load_dotenv
@@ -37,16 +40,36 @@ if not app.debug:
 
 ROOMS = {}
 
-# @app.route('/purge')
-# def purge():
-#     """Delete all rooms"""
-#     purged = ROOMS.keys()
-#     total = len(purged)
-#     ROOMS.clear()
-#     return jsonify({
-#         "purged": purged,
-#         "total": total
-#     })
+@app.route('/prune')
+def prune():
+    global ROOMS
+    """Prune rooms stale for more than 6 hours"""
+    cur_path = os.path.dirname(os.path.abspath(__file__))
+    total = 0
+    if ROOMS:
+        total = len(ROOMS.keys())
+        # get stale rooms (delta between now and date_modified >= defined stale_delta_s)
+        stale_delta_s = 21600
+        stale = [v.to_json() for v in ROOMS.values() if (datetime.now() -
+            datetime.strptime(
+                v.to_json().get('date_modified'),'%Y-%m-%d %H:%M:%S.%f'
+            )).total_seconds() >= stale_delta_s]
+        if len(stale) > 0:
+            # add playtimes to master playtimes list
+            sorted_rooms = sorted(stale, key=lambda k: k.get('date_modified'))
+            playtimes = [json.dumps([v['date_created'], v['playtime']]) for v in sorted_rooms if v['playtime'] > 10]
+            with open(os.path.join(cur_path, 'all-playtimes.txt'), 'a+') as f:
+                f.write("\r\n".join(playtimes))
+            # add custom words to master list
+            custom_words = [json.dumps(v['options']['custom']) for v in stale if v['options']['custom'] is not False]
+            with open(os.path.join(cur_path, 'all-custom-words.txt'), 'a+') as f:
+                f.write("\r\n".join(custom_words))
+            # prune master rooms list
+            for game in stale:
+                del ROOMS[game.get('game_id')]
+    return jsonify({
+        "pruned": total - len(ROOMS.keys())
+    })
 
 @app.route('/debug-sentry')
 def trigger_error():
@@ -71,6 +94,9 @@ def on_create(data):
     # username = data['username']
     # create the game
     # handle custom wordbanks
+    global ROOMS
+    # prune old rooms
+    prune()
     if data['dictionaryOptions']['useCustom']:
         gm = game.Info(
             size=data['size'],
