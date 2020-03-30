@@ -21,7 +21,7 @@ export default new Vuex.Store({
     game: {},
     room: '',
     username: '',
-    error: '',
+    error: null,
     turn: '',
     spymasterReveal: false,
     popupHides: 0
@@ -106,8 +106,8 @@ export default new Vuex.Store({
       state.username = username;
     },
     reset_error(state) {
-      state.room = '';
-      state.error = '';
+      state.room = null;
+      state.error = null;
     },
     reveal_spymaster(state) {
       state.spymasterReveal = true;

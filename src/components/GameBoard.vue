@@ -64,6 +64,15 @@
       };
       this.$socket.emit('join', params);
     },
+    watch: {
+      '$store.state.error': {
+        immediate: true,
+        handler () {
+          if (this.$store.state.error !== null)
+            this.$router.push({path: '/home'})
+        }
+      }
+    },
     computed: {
       ...mapState(['connected', 'room', 'username', 'game']),
       ...mapGetters(['words']),
