@@ -5,6 +5,7 @@ import eventlet
 import logging
 import json
 import os
+import gc
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from datetime import datetime, timedelta
@@ -49,7 +50,7 @@ def prune():
     if ROOMS:
         total = len(ROOMS.keys())
         # get stale rooms (delta between now and date_modified >= defined stale_delta_s)
-        stale_delta_s = 21600
+        stale_delta_s = 1
         stale = [v.to_json() for v in ROOMS.values() if (datetime.now() -
             datetime.strptime(
                 v.to_json().get('date_modified'),'%Y-%m-%d %H:%M:%S.%f'
@@ -67,6 +68,7 @@ def prune():
             # prune master rooms list
             for game in stale:
                 del ROOMS[game.get('game_id')]
+            gc.collect()
     return jsonify({
         "pruned": total - len(ROOMS.keys())
     })
