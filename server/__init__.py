@@ -51,7 +51,7 @@ def prune():
     if ROOMS:
         total = len(ROOMS.keys())
         # get stale rooms (delta between now and date_modified >= defined stale_delta_s)
-        stale_delta_s = 1
+        stale_delta_s = 21600
         stale = [v.to_json() for v in ROOMS.values() if (datetime.now() -
             datetime.strptime(
                 v.to_json().get('date_modified'),'%Y-%m-%d %H:%M:%S.%f'
