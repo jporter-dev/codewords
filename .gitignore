@@ -44,5 +44,7 @@ yarn-error.log*
 *.njsproj
 .sln
 
+all-*.*
+
 # e2e tests
 tests/e2e/videos
