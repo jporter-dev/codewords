@@ -5,6 +5,8 @@ import eventlet
 import logging
 import json
 import os
+import gc
+from sys import getsizeof
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from datetime import datetime, timedelta
@@ -67,6 +69,7 @@ def prune():
             # prune master rooms list
             for game in stale:
                 del ROOMS[game.get('game_id')]
+            gc.collect()
     return jsonify({
         "pruned": total - len(ROOMS.keys())
     })
@@ -79,7 +82,8 @@ def trigger_error():
 def stats():
     """display room stats"""
     resp = {
-        "total": len(ROOMS.keys())
+        "total": len(ROOMS.keys()),
+        "bytes_used": getsizeof(ROOMS)
     }
     if 'rooms' in request.args:
         if ROOMS:
