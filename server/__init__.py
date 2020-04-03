@@ -42,9 +42,7 @@ if not app.debug:
 
 ROOMS = {}
 
-@app.route('/prune')
 def prune():
-    global ROOMS
     """Prune rooms stale for more than 6 hours"""
     total = 0
     if ROOMS:
@@ -73,7 +71,8 @@ def prune():
             # prune master rooms list
             for game in stale:
                 del ROOMS[game.get('game_id')]
-            gc.collect()
+        del stale
+        gc.collect()
     return jsonify({
         "pruned": total - len(ROOMS.keys())
     })
@@ -102,7 +101,6 @@ def on_create(data):
     # username = data['username']
     # create the game
     # handle custom wordbanks
-    global ROOMS
     # prune old rooms
     prune()
     if data['dictionaryOptions']['useCustom']:

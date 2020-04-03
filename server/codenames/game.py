@@ -10,7 +10,7 @@ import os
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
 DICTIONARIES = {
-    "CAH" :         FILE_ROOT + "/cah_code_names.txt",
+    "Cards Against Humanity" :         FILE_ROOT + "/cah_code_names.txt",
     "Pop Culture" : FILE_ROOT + "/code_names_pop.txt",
     "Standard" :    FILE_ROOT + "/code_names_dict.txt",
     "Simple" :      FILE_ROOT + "/code_names_simple.txt",
