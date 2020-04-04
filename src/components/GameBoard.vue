@@ -70,7 +70,7 @@
         handler () {
           // if (this.$store.state.error !== null)
             // this.$router.push({path: '/home'})
-        // }
+        }
       }
     },
     computed: {
