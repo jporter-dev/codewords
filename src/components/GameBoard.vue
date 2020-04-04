@@ -68,9 +68,9 @@
       '$store.state.error': {
         immediate: true,
         handler () {
-          if (this.$store.state.error !== null)
-            this.$router.push({path: '/home'})
-        }
+          // if (this.$store.state.error !== null)
+            // this.$router.push({path: '/home'})
+        // }
       }
     },
     computed: {
