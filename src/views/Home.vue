@@ -14,6 +14,17 @@
       </v-alert>
       <v-btn block color="secondary" large to="create" id="create-btn">Create Game</v-btn>
       <join-form></join-form>
+      <v-card class="mt-2 text-xs-left">
+        <v-card-title>
+          <span class="title font-weight-light">Enjoying Codewords.tv?</span>
+        </v-card-title>
+        <v-card-text class="ma-0 py-1">
+          Consider donating to keep this website running and to support future development!
+        </v-card-text>
+        <v-card-actions class="text-xs-left">
+          <coffee-button></coffee-button>
+        </v-card-actions>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -22,12 +33,14 @@
 import { mapMutations } from 'vuex';
 import CreateForm from '@/components/CreateForm';
 import JoinForm from '@/components/JoinForm';
+import CoffeeButton from '@/components/CoffeeButton';
 
 export default {
   name: 'Home',
   components: {
     CreateForm,
     JoinForm,
+    CoffeeButton
   },
   mounted() {
     this.reset_error();

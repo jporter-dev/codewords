@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       mix: false,
-      selectedDictionaries: 'Simple',
+      selectedDictionaries: 'English',
       mixes: {},
       useCustom: false,
       rawWordbank: '',
@@ -68,7 +68,7 @@ export default {
   },
   watch: {
     mix (v) {
-      this.selectedDictionaries = v ? [] : 'Simple';
+      this.selectedDictionaries = v ? [] : 'English';
     },
     dictionaryOptions: {
       handler: function () { this.$emit('setDictionaryOptions', this.dictionaryOptions) },

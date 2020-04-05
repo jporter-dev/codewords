@@ -9,17 +9,19 @@ import os
 # dictionaries
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
-DICTIONARIES = {
-    "Cards Against Humanity" :         FILE_ROOT + "/cah_code_names.txt",
-    "Pop Culture" : FILE_ROOT + "/code_names_pop.txt",
-    "Standard" :    FILE_ROOT + "/code_names_dict.txt",
-    "Simple" :      FILE_ROOT + "/code_names_simple.txt",
-    "French" :      FILE_ROOT + "/code_names_french.txt",
-    "Portuguese" :  FILE_ROOT + "/code_names_portuguese.txt",
-    "German" :      FILE_ROOT + "/code_names_german.txt",
-    "Italian" :      FILE_ROOT + "/code_names_italian.txt",
-    "Greek" :       FILE_ROOT + "/code_names_greek.txt"
-}
+
+DICTIONARIES = {}
+DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
+DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
+DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
+DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
+DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
+DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
+DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
+DICTIONARIES["Russian"] =                   FILE_ROOT + "/Russian.txt"
+DICTIONARIES["Spanish"] =                   FILE_ROOT + "/Spanish.txt"
+DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
+
 # colors per team
 RED = 'R'
 BLUE = 'B'
@@ -34,7 +36,7 @@ BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 class Info(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
-    def __init__(self, dictionary='Simple', size='normal', teams=2, wordbank=False, mix=False):
+    def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
         self.wordbank = wordbank
         self.game_id = self.generate_room_id()
         self.starting_color = RED
@@ -142,7 +144,7 @@ class Info(object):
         return final_words
 
     def __load_words(self, dict):
-        words_file = open(DICTIONARIES[dict], 'r')
+        words_file = open(DICTIONARIES.get(dict), 'r')
         return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
 
     def __get_layout(self, size, teams):
