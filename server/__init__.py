@@ -42,40 +42,45 @@ if not app.debug:
 
 ROOMS = {}
 
+def delete_room(gid):
+    del ROOMS[gid]
+
+def is_stale(room):
+    """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
+    return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*6)) or
+        ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
+        room.playtime() <= 5))
+
 def prune():
     """Prune rooms stale for more than 6 hours"""
-    total = 0
     if ROOMS:
-        total = len(ROOMS.keys())
-        # get stale rooms (delta between now and date_modified >= defined stale_delta_s)
-        stale_delta_s = 21600
-        stale = [v.to_json() for v in ROOMS.values() if (datetime.now() -
-            datetime.strptime(
-                v.to_json().get('date_modified'),'%Y-%m-%d %H:%M:%S.%f'
-            )).total_seconds() >= stale_delta_s]
-        if len(stale) > 0:
-            cur_path = os.path.dirname(os.path.abspath(__file__))
-            # add playtimes to master playtimes list
-            with open(os.path.join(cur_path, 'all-playtimes.txt'), 'a+') as f:
-                playtimes = [json.dumps([v['date_created'], v['playtime']])
-                    for v in sorted(stale, key=lambda k: k.get('date_modified'))
-                    if v['playtime'] > 10]
-                f.write("\r\n".join(playtimes))
-                del playtimes
-            # add custom words to master list
-            with open(os.path.join(cur_path, 'all-custom-words.txt'), 'a+') as f:
-                custom_words = [json.dumps(v['options']['custom'])
-                for v in stale if v['options']['custom'] is not False]
-                f.write("\r\n".join(custom_words))
-                del custom_words
-            # prune master rooms list
-            for game in stale:
-                del ROOMS[game.get('game_id')]
-        del stale
+        rooms = ROOMS.copy()
+        for key in rooms.keys():
+            if is_stale(ROOMS[key]):
+                delete_room(key)
+        del rooms
         gc.collect()
-    return jsonify({
-        "pruned": total - len(ROOMS.keys())
-    })
+        return
+        # if len(stale) > 0:
+        #     cur_path = os.path.dirname(os.path.abspath(__file__))
+        #     # add playtimes to master playtimes list
+        #     with open(os.path.join(cur_path, 'all-playtimes.txt'), 'a+') as f:
+        #         playtimes = [json.dumps([v['date_created'], v['playtime']])
+        #             for v in sorted(stale, key=lambda k: k.get('date_modified'))
+        #             if v['playtime'] > 10]
+        #         f.write("\r\n".join(playtimes))
+        #         del playtimes
+        #     # add custom words to master list
+        #     with open(os.path.join(cur_path, 'all-custom-words.txt'), 'a+') as f:
+        #         custom_words = [json.dumps(v['options']['custom'])
+        #         for v in stale if v['options']['custom'] is not False]
+        #         f.write("\r\n".join(custom_words))
+        #         del custom_words
+        #     # prune master rooms list
+        #     for game in stale:
+        #         del ROOMS[game.get('game_id')]
+        # del stale
+        # gc.collect()
 
 @app.route('/debug-sentry')
 def trigger_error():

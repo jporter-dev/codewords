@@ -31,8 +31,6 @@ BOARD_SIZE = {
 }
 BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 
-
-
 class Info(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
@@ -61,7 +59,7 @@ class Info(object):
             "players": self.players,
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified),
-            "playtime": self.__playtime(),
+            "playtime": self.playtime(),
             "board": self.board,
             "solution": self.solution,
             "options": {
@@ -108,7 +106,7 @@ class Info(object):
         return ''.join(random.SystemRandom().choice(
             string.ascii_uppercase) for _ in range(id_length))
 
-    def __playtime(self):
+    def playtime(self):
         # 2018-08-12 10:12:25.700528
         fmt = '%Y-%m-%d %H:%M:%S'
         d1 = self.date_created
