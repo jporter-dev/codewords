@@ -7,21 +7,6 @@ import string
 import os
 
 # dictionaries
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
-
-DICTIONARIES = {}
-DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
-DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
-DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
-DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
-DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
-DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
-DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
-DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
-DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
-
 # colors per team
 RED = 'R'
 BLUE = 'B'
@@ -36,7 +21,7 @@ BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 class Info(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
-    def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
+    def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False, dictionaries=[]):
         self.wordbank = wordbank
         self.game_id = self.generate_room_id()
         self.starting_color = RED
@@ -46,8 +31,8 @@ class Info(object):
         self.size = size
         self.teams = teams
         self.dictionary = dictionary
+        self.dictionaries = dictionaries
         self.mix = mix
-        self.dictionaries = DICTIONARIES.keys()
         self.minWords = BOARD_SIZE[self.size]
 
         # gererate board
@@ -120,9 +105,6 @@ class Info(object):
 
     def __get_words(self, size):
         """Generate a list of words"""
-        if not self.dictionary in DICTIONARIES.keys():
-            print("Error: dictionary '" + self.dictionary + "' doesn't exist")
-            return None
         # override words with the wordbank
         words = self.wordbank
         if not self.wordbank:
@@ -130,20 +112,17 @@ class Info(object):
                 words = []
                 for key in self.mix:
                     # load and shuffle current dict
-                    tempWords = self.__load_words(key)
+                    tempWords = self.dictionaries[key]
                     random.shuffle(tempWords)
                     # get word ratio (rounded up)
                     numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
                     words = words + tempWords[0:numWords]
             else:
-                words = self.__load_words(self.dictionary)
+                print(self.dictionary)
+                words = self.dictionaries[self.dictionary]
         random.shuffle(words)
         final_words = words[0:BOARD_SIZE[size]]
         return final_words
-
-    def __load_words(self, d):
-        with open(DICTIONARIES.get(d), 'r') as words_file:
-            return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
 
     def __get_layout(self, size, teams):
         """Randomly generate a card layout"""
