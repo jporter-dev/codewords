@@ -60,27 +60,6 @@ def prune():
                 delete_room(key)
         del rooms
         gc.collect()
-        return
-        # if len(stale) > 0:
-        #     cur_path = os.path.dirname(os.path.abspath(__file__))
-        #     # add playtimes to master playtimes list
-        #     with open(os.path.join(cur_path, 'all-playtimes.txt'), 'a+') as f:
-        #         playtimes = [json.dumps([v['date_created'], v['playtime']])
-        #             for v in sorted(stale, key=lambda k: k.get('date_modified'))
-        #             if v['playtime'] > 10]
-        #         f.write("\r\n".join(playtimes))
-        #         del playtimes
-        #     # add custom words to master list
-        #     with open(os.path.join(cur_path, 'all-custom-words.txt'), 'a+') as f:
-        #         custom_words = [json.dumps(v['options']['custom'])
-        #         for v in stale if v['options']['custom'] is not False]
-        #         f.write("\r\n".join(custom_words))
-        #         del custom_words
-        #     # prune master rooms list
-        #     for game in stale:
-        #         del ROOMS[game.get('game_id')]
-        # del stale
-        # gc.collect()
 
 @app.route('/debug-sentry')
 def trigger_error():
@@ -158,10 +137,8 @@ def on_leave(data):
 @socketio.on('flip_card')
 def on_flip_card(data):
     """flip card and rebroadcast game object"""
-    room = data['room']
-    card = data['card']
-    ROOMS[room].flip_card(card)
-    send(ROOMS[room].to_json(), room=room)
+    ROOMS[data['room']].flip_card(data['card'])
+    send(ROOMS[data['room']].to_json(), room=data['room'])
 
 @socketio.on('regenerate')
 def on_regenerate(data):

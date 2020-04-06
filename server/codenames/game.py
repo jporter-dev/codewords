@@ -116,9 +116,7 @@ class Info(object):
         # Convert to Unix timestamp
         d1_ts = time.mktime(d1.timetuple())
         d2_ts = time.mktime(d2.timetuple())
-
         return round(float(d2_ts-d1_ts) / 60, 2)
-
 
     def __get_words(self, size):
         """Generate a list of words"""
@@ -143,9 +141,9 @@ class Info(object):
         final_words = words[0:BOARD_SIZE[size]]
         return final_words
 
-    def __load_words(self, dict):
-        words_file = open(DICTIONARIES.get(dict), 'r')
-        return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
+    def __load_words(self, d):
+        with open(DICTIONARIES.get(d), 'r') as words_file:
+            return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
 
     def __get_layout(self, size, teams):
         """Randomly generate a card layout"""
