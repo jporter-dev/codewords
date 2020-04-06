@@ -18,8 +18,8 @@ DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
 DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
 DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
 DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-DICTIONARIES["Russian"] =                   FILE_ROOT + "/Russian.txt"
-DICTIONARIES["Spanish"] =                   FILE_ROOT + "/Spanish.txt"
+DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
+DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
 DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
 
 # colors per team
