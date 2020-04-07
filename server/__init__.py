@@ -11,7 +11,7 @@ import gc
 from datetime import timedelta
 from sys import getsizeof
 from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from flask_socketio import SocketIO, join_room, leave_room, close_room, send, emit
 from datetime import datetime, timedelta
 from functools import reduce
 import sentry_sdk
@@ -48,11 +48,12 @@ db = redis.Redis(host='redis', port=6379, db=0)
 REDIS_TTL_S = 60
 
 def delete_room(gid):
+    close_room(room)
     del ROOMS[gid]
 
 def is_stale(room):
     """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
-    return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*6)) or
+    return (((datetime.now() - room.date_modified).total_seconds() >= (REDIS_TTL_S)) or
         ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
         room.playtime() <= 5))
 
@@ -116,15 +117,6 @@ def on_create(data):
     join_room(room)
     # rooms[room].add_player(username)
     emit('join_room', {'room': room})
-86400
-@app.route('/test')
-def test():
-    86384
-    ttl = db.ttl('VCFOG')
-    return jsonify({
-        "ttl": ttl,
-        "ttl_m": ttl/60,
-    })
 
 @socketio.on('join')
 def on_join(data):
