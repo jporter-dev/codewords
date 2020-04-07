@@ -153,7 +153,7 @@ def on_regenerate(data):
 def list_dictionaries():
     """send a list of dictionary names"""
     # send dict list to client
-    emit('list_dictionaries', {'dictionaries': list(DICTIONARIES.keys())})
+    emit('list_dictionaries', {'dictionaries': list(game.DICTIONARIES.keys())})
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', debug=True)
