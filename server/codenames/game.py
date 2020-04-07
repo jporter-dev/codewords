@@ -7,6 +7,20 @@ import string
 import os
 
 # dictionaries
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
+DICTIONARIES = {}
+DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
+DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
+DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
+DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
+DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
+DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
+DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
+DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
+DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
+DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
+
 # colors per team
 RED = 'R'
 BLUE = 'B'
@@ -21,7 +35,7 @@ BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 class Info(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
-    def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False, dictionaries=[]):
+    def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
         self.wordbank = wordbank
         self.game_id = self.generate_room_id()
         self.starting_color = RED
@@ -31,7 +45,6 @@ class Info(object):
         self.size = size
         self.teams = teams
         self.dictionary = dictionary
-        self.dictionaries = dictionaries
         self.mix = mix
         self.minWords = BOARD_SIZE[self.size]
 
@@ -103,6 +116,11 @@ class Info(object):
         d2_ts = time.mktime(d2.timetuple())
         return round(float(d2_ts-d1_ts) / 60, 2)
 
+    def __load_dictionary(self, d):
+        with open(DICTIONARIES[d], 'r') as words_file:
+            return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
+
+
     def __get_words(self, size):
         """Generate a list of words"""
         # override words with the wordbank
@@ -112,14 +130,13 @@ class Info(object):
                 words = []
                 for key in self.mix:
                     # load and shuffle current dict
-                    tempWords = self.dictionaries[key]
+                    tempWords = self.__load_dictionary(key)
                     random.shuffle(tempWords)
                     # get word ratio (rounded up)
                     numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
                     words = words + tempWords[0:numWords]
             else:
-                print(self.dictionary)
-                words = self.dictionaries[self.dictionary]
+                words = self.__load_dictionary(self.dictionary)
         random.shuffle(words)
         final_words = words[0:BOARD_SIZE[size]]
         return final_words

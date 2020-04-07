@@ -25,7 +25,6 @@ if (process.env.VUE_APP_SENTRY_DSN) {
 }
 
 Vue.config.productionTip = false;
-
 Vue.use(Vuetify);
 Vue.use(Raivue);
 Vue.use(VueResizeText)

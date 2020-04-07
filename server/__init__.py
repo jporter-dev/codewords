@@ -3,9 +3,12 @@
 
 import eventlet
 import logging
+import pickle
+import redis
 import json
 import os
 import gc
+from datetime import timedelta
 from sys import getsizeof
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
@@ -13,6 +16,7 @@ from datetime import datetime, timedelta
 from functools import reduce
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -35,12 +39,13 @@ socketio = SocketIO(app)
 app.secret_key = os.getenv("SECRET_KEY", "")
 
 # set up logging
-if not app.debug:
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
+# if not app.debug:
+    # gunicorn_logger = logging.getLogger('gunicorn.error')
+    # app.logger.handlers = gunicorn_logger.handlers
+    # app.logger.setLevel(gunicorn_logger.level)
 
-ROOMS = {}
+db = redis.Redis(host='redis', port=6379, db=0)
+REDIS_TTL_S = 60
 
 def delete_room(gid):
     del ROOMS[gid]
@@ -85,8 +90,6 @@ def on_create(data):
     # username = data['username']
     # create the game
     # handle custom wordbanks
-    # prune old rooms
-    prune()
     if data['dictionaryOptions']['useCustom']:
         gm = game.Info(
             size=data['size'],
@@ -97,86 +100,76 @@ def on_create(data):
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            mix=data['dictionaryOptions']['mixPercentages'],
-            dictionaries=DICTIONARIES)
+            mix=data['dictionaryOptions']['mixPercentages'])
 
     # handle standard single dictionary
     else:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            dictionary=data['dictionaryOptions']['dictionaries'],
-            dictionaries=DICTIONARIES)
+            dictionary=data['dictionaryOptions']['dictionaries'])
 
     room = gm.game_id
-    ROOMS[room] = gm
+    # write room to redis
+    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
+
     join_room(room)
     # rooms[room].add_player(username)
     emit('join_room', {'room': room})
+86400
+@app.route('/test')
+def test():
+    86384
+    ttl = db.ttl('VCFOG')
+    return jsonify({
+        "ttl": ttl,
+        "ttl_m": ttl/60,
+    })
 
 @socketio.on('join')
 def on_join(data):
     """Join a game lobby"""
     # username = data['username']
     room = data['room']
-    if room in ROOMS:
+    game = get_game(room)
+
+    if game:
         # add player and rebroadcast game object
         # rooms[room].add_player(username)
         join_room(room)
-        send(ROOMS[room].to_json(), room=room)
-    else:
-        emit('error', {'error': 'Unable to join room. Room does not exist.'})
-
-@socketio.on('leave')
-def on_leave(data):
-    """Leave the game lobby"""
-    # username = data['username']
-    room = data['room']
-    # add player and rebroadcast game object
-    # rooms[room].remove_player(username)
-    leave_room(room)
-    send(ROOMS[room].to_json(), room=room)
+        send(game.to_json(), room=room)
 
 @socketio.on('flip_card')
 def on_flip_card(data):
     """flip card and rebroadcast game object"""
-    ROOMS[data['room']].flip_card(data['card'])
-    send(ROOMS[data['room']].to_json(), room=data['room'])
+    room = data['room']
+    game = get_game(room)
+    game.flip_card(data['card'])
+    db.setex(room, REDIS_TTL_S, pickle.dumps(game))
+    send(game.to_json(), room=room)
 
 @socketio.on('regenerate')
 def on_regenerate(data):
     """regenerate the words list"""
     room = data['room']
-    ROOMS[room].generate_board(data.get('newGame', False))
-    send(ROOMS[room].to_json(), room=room)
+    game = get_game(room)
+    game.generate_board(data.get('newGame', False))
+    db.setex(room, REDIS_TTL_S, pickle.dumps(game))
+    send(game.to_json(), room=room)
 
 @socketio.on('list_dictionaries')
 def list_dictionaries():
     """send a list of dictionary names"""
     # send dict list to client
-    emit('list_dictionaries', {'dictionaries': list(DICTIONARIES.keys())})
+    emit('list_dictionaries', {'dictionaries': list(game.DICTIONARIES.keys())})
 
-def __load_dictionaries():
-    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    FILE_ROOT = os.path.join(APP_ROOT, 'dictionaries')
-
-    DICTIONARIES = {}
-    DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
-    DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
-    DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
-    DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
-    DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
-    DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
-    DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-    DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
-    DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
-    DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
-    def load_dictionary(path):
-        with open(path, 'r') as words_file:
-            return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
-    return {k: load_dictionary(v) for k,v in DICTIONARIES.items()}
+def get_game(room):
+    game = db.get(room)
+    if game:
+        return pickle.loads(game)
+    else:
+        emit('error', {'error': 'Unable to join room ['+ room +']. Room does not exist.'})
+        return None
 
 if __name__ == '__main__':
-    global DICTIONARIES
-    DICTIONARIES = __load_dictionaries()
     socketio.run(app, host='0.0.0.0', debug=True)
