@@ -8,7 +8,7 @@ import os
 import gc
 from sys import getsizeof
 from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from flask_socketio import SocketIO, join_room, leave_room, close_room, send, emit
 from datetime import datetime, timedelta
 from functools import reduce
 import sentry_sdk
@@ -43,6 +43,7 @@ if not app.debug:
 ROOMS = {}
 
 def delete_room(gid):
+    close_room(gid)
     del ROOMS[gid]
 
 def is_stale(room):
@@ -97,16 +98,14 @@ def on_create(data):
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            mix=data['dictionaryOptions']['mixPercentages'],
-            dictionaries=DICTIONARIES)
+            mix=data['dictionaryOptions']['mixPercentages'])
 
     # handle standard single dictionary
     else:
         gm = game.Info(
             size=data['size'],
             teams=data['teams'],
-            dictionary=data['dictionaryOptions']['dictionaries'],
-            dictionaries=DICTIONARIES)
+            dictionary=data['dictionaryOptions']['dictionaries'])
 
     room = gm.game_id
     ROOMS[room] = gm
@@ -156,27 +155,5 @@ def list_dictionaries():
     # send dict list to client
     emit('list_dictionaries', {'dictionaries': list(DICTIONARIES.keys())})
 
-def __load_dictionaries():
-    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    FILE_ROOT = os.path.join(APP_ROOT, 'dictionaries')
-
-    DICTIONARIES = {}
-    DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
-    DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
-    DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
-    DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
-    DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
-    DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
-    DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-    DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
-    DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
-    DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
-    def load_dictionary(path):
-        with open(path, 'r') as words_file:
-            return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
-    return {k: load_dictionary(v) for k,v in DICTIONARIES.items()}
-
 if __name__ == '__main__':
-    global DICTIONARIES
-    DICTIONARIES = __load_dictionaries()
     socketio.run(app, host='0.0.0.0', debug=True)
