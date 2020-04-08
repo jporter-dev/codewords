@@ -42,18 +42,19 @@ if not app.debug:
 
 ROOMS = {}
 
-def delete_room(gid):
-    close_room(gid)
-    del ROOMS[gid]
-
-def is_stale(room):
-    """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
-    return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*6)) or
-        ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
-        room.playtime() <= 5))
 
 def prune():
     """Prune rooms stale for more than 6 hours"""
+    def delete_room(gid):
+        close_room(gid)
+        del ROOMS[gid]
+
+    def is_stale(room):
+        """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
+        return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*24)) or
+            ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
+            room.playtime() <= 5))
+
     if ROOMS:
         rooms = ROOMS.copy()
         for key in rooms.keys():
@@ -87,7 +88,6 @@ def on_create(data):
     # create the game
     # handle custom wordbanks
     # prune old rooms
-    prune()
     if data['dictionaryOptions']['useCustom']:
         gm = game.Info(
             size=data['size'],
@@ -112,6 +112,7 @@ def on_create(data):
     join_room(room)
     # rooms[room].add_player(username)
     emit('join_room', {'room': room})
+    prune()
 
 @socketio.on('join')
 def on_join(data):
