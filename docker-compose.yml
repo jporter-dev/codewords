@@ -1,17 +1,21 @@
 version: '3.7'
 services:
+  redis:
+    image: redis:alpine
+    volumes:
+      - 'redis:/data/db'
   flask:
     build: ./server
+    command: gunicorn -t 60 --worker-class eventlet -w 1 --bind 0.0.0.0:5000 codenames:app
     volumes:
       - ./server:/app
     ports:
       - 5000:5000
     links:
       - redis
-  redis:
-    image: redis:alpine
   frontend:
     build: ./frontend
+    command: npm run serve
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -19,3 +23,5 @@ services:
       - 8080:8080
     links:
       - flask
+volumes:
+  redis:

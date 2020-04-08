@@ -11,4 +11,3 @@ COPY . .
 ENV VUE_APP_FLASK_HOST flask
 ENV HOST 0.0.0.0
 EXPOSE 8080
-CMD ["npm", "run", "serve"]
