@@ -11,7 +11,14 @@ import { sync } from 'vuex-router-sync'
 import App from './App';
 import router from './router';
 import store from './store';
-import './registerServiceWorker'
+
+// temporarily disable service workers
+// import './registerServiceWorker'
+navigator.serviceWorker.getRegistrations().then(function(registrations) {
+  for(let registration of registrations) {
+    registration.unregister()
+  }
+})
 
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
@@ -35,13 +42,13 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  beforeCreate () {
+  // beforeCreate () {
     // before creating vue app, check if current path doesn't match stored path
     // check if store contains a route first
-    if (this.$store.state.route && (this.$route.path !== this.$store.state.route.path)) {
-      this.$router.push(this.$store.state.route.path)
-    }
+    // if (this.$store.state.route && (this.$route.path !== this.$store.state.route.path)) {
+      // this.$router.push(this.$store.state.route.path)
+    // }
     // vue router sync with vuex
-    sync(store, router) // done. Returns an unsync callback fn
-  },
+    // sync(store, router) // done. Returns an unsync callback fn
+  // },
 }).$mount('#app');
