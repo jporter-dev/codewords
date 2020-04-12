@@ -1,17 +1,16 @@
 <template>
   <v-fade-transition appear>
-    <v-card>
-      <v-card-text>
-        <v-form @submit="joinGame">
-          <!-- <v-text-field label="Username" v-model="username" required></v-text-field> -->
+    <v-form @submit="joinGame">
+      <v-card>
+        <v-card-text>
           <v-alert type="error" :value="showInputError" transition="slide-y-reverse-transition">
             Room ID required to join.
           </v-alert>
-          <v-text-field label="Enter Room ID" v-model="room_num" :rules="[rules.required]" mask="AAAAA" solo light hide-details></v-text-field>
+          <v-text-field label="Enter Room ID" v-model="room_num" :rules="[rules.required]" mask="AAAAA" solo light hide-details class="mb-4"></v-text-field>
           <v-btn block color="primary" large @click.stop="joinGame">Join</v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
+        </v-card-text>
+      </v-card>
+    </v-form>
   </v-fade-transition>
 </template>
 

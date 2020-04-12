@@ -1,22 +1,20 @@
 import 'vuetify/dist/vuetify.min.css';
-import 'raivue/dist/raivue.css';
 
-import VueResizeText from 'vue-resize-text';
-import VueSocketio from 'vue-socket.io';
-import Vuetify from 'vuetify';
-import Raivue from 'raivue';
 import Vue from 'vue';
-import { sync } from 'vuex-router-sync'
-
-import App from './App';
 import router from './router';
 import store from './store';
-import './registerServiceWorker'
+import App from './App';
+import VueResizeText from 'vue-resize-text';
 
-import * as Sentry from '@sentry/browser';
-import * as Integrations from '@sentry/integrations';
+import vuetify from '@/plugins/vuetify';
+import io from "socket.io-client";
+import VueSocketIO from "vue-socket.io";
+
+// import './registerServiceWorker'
 
 // add sentry
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
 if (process.env.VUE_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.VUE_APP_SENTRY_DSN,
@@ -25,22 +23,20 @@ if (process.env.VUE_APP_SENTRY_DSN) {
 }
 
 Vue.config.productionTip = false;
-Vue.use(Vuetify);
-Vue.use(Raivue);
 Vue.use(VueResizeText)
-Vue.use(VueSocketio, `//${window.location.host}`, store);
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: io(`http://${window.location.host}`),
+  vuex: {
+      store,
+      actionPrefix: 'WS_',
+      mutationPrefix: 'WS_'
+  },
+}));
 
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App),
-  beforeCreate () {
-    // before creating vue app, check if current path doesn't match stored path
-    // check if store contains a route first
-    if (this.$store.state.route && (this.$route.path !== this.$store.state.route.path)) {
-      this.$router.push(this.$store.state.route.path)
-    }
-    // vue router sync with vuex
-    sync(store, router) // done. Returns an unsync callback fn
-  },
 }).$mount('#app');

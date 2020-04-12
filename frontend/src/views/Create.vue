@@ -1,31 +1,60 @@
 <template>
-  <v-layout align-start justify-center text-xs-center row wrap>
-    <v-flex lg4 md5 sm6 xs12>
-      <v-avatar tile size="128">
-        <img src="@/assets/logo-256x256.png" alt="codenames logo">
-      </v-avatar>
-      <h1 class="cn-text">Codewords</h1>
-      <create-form></create-form>
-      <v-btn block color="secondary" large to="home">Back</v-btn>
-    </v-flex>
-  </v-layout>
+  <v-container>
+    <v-row
+      align="center"
+      justify="center"
+    >
+      <v-col
+        cols="12"
+        sm="8"
+        md="4"
+        align="center"
+        justify="center"
+      >
+        <v-row>
+          <v-col class="py-1">
+            <v-avatar
+              tile
+              size="128"
+            >
+              <img
+                src="@/assets/logo-256x256.png"
+                alt="codenames logo"
+              >
+            </v-avatar>
+            <h1 class="cn-text">Codewords</h1>
+            <create-form></create-form>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="py-1">
+            <v-btn
+              block
+              color="secondary"
+              large
+              to="home"
+            >Back</v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import CreateForm from '@/components/CreateForm';
+import { mapMutations } from "vuex";
+import CreateForm from "@/components/CreateForm";
 
 export default {
-  name: 'Create',
+  name: "Create",
   components: {
-    CreateForm,
+    CreateForm
   },
   mounted() {
     this.reset_error();
   },
   methods: {
-    ...mapMutations(['reset_error']),
-
-  },
+    ...mapMutations(["reset_error"])
+  }
 };
 </script>

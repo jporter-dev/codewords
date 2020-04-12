@@ -11,7 +11,9 @@ export default new Vuex.Store({
     storage: {
       getItem: key => Cookies.get(key),
       // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-      setItem: (key, value) => Cookies.set(key, value, { expires: inFifteenMinutes }),
+      setItem: (key, value) => Cookies.set(key, value, {
+        expires: inFifteenMinutes
+      }),
       removeItem: key => Cookies.remove(key)
     }
   })],
@@ -71,27 +73,11 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SOCKET_CONNECT(state) {
-      state.connected = true;
+    set_connected(state, payload) {
+      state.connected = payload;
     },
-    SOCKET_DISCONNECT(state) {
-      state.connected = false;
-    },
-    SOCKET_MESSAGE(state, message) {
-      state.game = message;
-      state.turn = message.starting_color;
-      state.room = message.game_id;
-      state.error = null;
-    },
-    SOCKET_JOIN_ROOM(state, message) {
-      state.error = null;
-      state.room = message.room;
-    },
-    SOCKET_LIST_DICTIONARIES: (state, message) => {
-      state.dictionaries = message.dictionaries;
-    },
-    SOCKET_ERROR(state, message) {
-      state.error = message.error;
+    set_dictionaries(state, payload) {
+      state.dictionaries = payload;
     },
     set_turn(state, team) {
       state.turn = team;
@@ -105,12 +91,18 @@ export default new Vuex.Store({
     set_username(state, username) {
       state.username = username;
     },
+    set_error(state, payload) {
+      state.error = payload
+    },
     reset_error(state) {
       state.room = null;
       state.error = null;
     },
     reveal_spymaster(state) {
       state.spymasterReveal = true;
+    },
+    forget_spymaster(state) {
+      state.spymasterReveal = false;
     },
     reset_room(state) {
       state.game = {};
@@ -120,4 +112,28 @@ export default new Vuex.Store({
       state.popupHides++
     },
   },
+  actions: {
+    WS_connect(context) {
+      context.commit('set_connected', true);
+    },
+    WS_disconnect(context) {
+      context.commit('set_connected', false);
+    },
+    WS_message(context, message) {
+      context.commit('reset_error')
+      context.commit('set_game', message)
+      context.commit('set_turn', message.starting_color)
+      context.commit('set_room', message.game_id)
+    },
+    WS_join_room(context, message) {
+      context.commit('reset_error')
+      context.commit('set_room', message.room)
+    },
+    WS_list_dictionaries (context, message) {
+      context.commit('set_dictionaries', message.dictionaries)
+    },
+    WS_error(state, message) {
+      state.error = message.error;
+    },
+  }
 });

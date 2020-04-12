@@ -1,17 +1,57 @@
 <template>
-  <div>
-    <v-btn fab top right absolute small class="pa-2" v-if="gameWon" color="success" @click.native="newGame(true)">
-      <v-icon>autorenew</v-icon>
+  <v-speed-dial
+    v-model="fab"
+    top right absolute
+    direction="bottom"
+    open-on-hover
+    transition="slide-y-reverse-transition"
+  >
+    <template v-slot:activator>
+      <v-btn
+        v-model="fab"
+        color="secondary"
+        dark
+        fab
+      >
+        <v-icon v-if="fab">mdi-close</v-icon>
+        <v-icon v-else>mdi-settings</v-icon>
+      </v-btn>
+    </template>
+    <v-btn
+      fab
+      dark
+      small
+      color="green"
+    >
+      <v-icon>mdi-shuffle</v-icon>
     </v-btn>
-    <v-btn fab top right absolute small class="pa-2" v-if="isFirstTurn && !gameWon" color="success" @click.native="newGame" id="shuffle-btn">
-      <v-icon>shuffle</v-icon>
+    <v-btn
+      fab
+      dark
+      small
+      color="indigo"
+    >
+      <v-icon>mdi-plus</v-icon>
     </v-btn>
-  </div>
+    <v-btn
+      fab
+      dark
+      small
+      color="red"
+    >
+      <v-icon>mdi-delete</v-icon>
+    </v-btn>
+  </v-speed-dial>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 export default {
+  data () {
+    return {
+      fab: false,
+    }
+  },
   computed: {
     ...mapState(['room', 'game', 'connected']),
     ...mapGetters(['gameWon']),

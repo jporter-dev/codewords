@@ -1,35 +1,65 @@
 <template>
-  <v-container fluid grid-list-md fill-height pa-0 v-if="role">
-    <v-layout column>
-      <slot></slot>
-      <game-controls></game-controls>
-      <v-flex pa-0 v-for="row in gridRows" :key="row">
-        <v-layout row wrap :fill-height="$vuetify.breakpoint.mdAndUp">
-          <v-flex d-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
-            <v-fade-transition appear>
-              <v-card tile :color="getColor(getWord(row, cell), getTeam(getWord(row, cell)))" class="text-xs-center">
-                <v-layout fill-height align-center ma-0>
-                  <v-flex pa-0>
-                    <v-card-text class="cn-text cn-text--upcase" :class="{'font-weight-bold': $vuetify.breakpoint.mdAndUp}" v-resize-text="{ratio: 1.1}">
-                      {{getWord(row, cell)}}
-                    </v-card-text>
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </v-fade-transition>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-    <v-dialog v-model="confirmShow" max-width="290">
-      <v-card :color="getColor(confirmCard, getTeam(confirmCard))" class="text-xs-center">
-        <v-card-text class="headline cn-text cn-text--upcase">
-          {{confirmCard}}
-        </v-card-text>
-        <v-card-actions>
-          <v-btn block large color="secondary" @click.stop="flipCard">Confirm</v-btn>
-        </v-card-actions>
-      </v-card>
+  <v-container
+    fluid
+    fill-height
+    px-2
+    py-1
+    v-if="role"
+  >
+    <slot></slot>
+    <!-- <game-controls></game-controls> -->
+    <v-row
+      class="fill-height"
+      no-gutters
+    >
+      <v-col
+        cols="12"
+        v-for="row in gridRows"
+        :key="row"
+        class="cn-row"
+      >
+        <v-row
+          wrap
+          class="fill-height"
+          dense
+        >
+          <v-col
+            :class="{'fill-height': $vuetify.breakpoint.mdAndUp}"
+            v-for="cell in gridCells"
+            @click="showFlipCard(getWord(row, cell))"
+            :key="cell"
+          >
+            <game-card
+              :word="getWord(row, cell)"
+              :team="getTeam(getWord(row, cell))"
+              :colors="getColor(getWord(row, cell), getTeam(getWord(row, cell)))"
+            ></game-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+
+    <v-dialog
+      v-model="confirmShow"
+      max-width="290"
+    >
+      <game-card
+        class="dialog-card"
+        :word="confirmCard"
+        :team="getTeam(confirmCard)"
+        :colors="getColor(confirmCard, getTeam(confirmCard))"
+      >
+        <template v-slot:actions>
+          <v-card-actions>
+            <v-btn
+              block
+              large
+              color="secondary"
+              @click.stop="flipCard"
+            >Confirm</v-btn>
+          </v-card-actions>
+        </template>
+      </game-card>
     </v-dialog>
     <v-snackbar
       color="red darken-3"
@@ -37,179 +67,229 @@
       v-model="agentAlert"
     >
       Only the Spymaster can flip cards.
-      <v-btn flat :to="{ name: 'Spymaster', params: { room: room }}">Switch to Spymaster</v-btn>
+      <v-btn
+        text
+        :to="{ name: 'Spymaster', params: { room: room }}"
+      >Switch to Spymaster</v-btn>
     </v-snackbar>
   </v-container>
 </template>
 
 <script>
-  import { mapState, mapGetters, mapMutations } from 'vuex';
-  import GameControls from '@/components/GameControls'
+import { mapState, mapGetters, mapMutations } from "vuex";
+import GameControls from "@/components/GameControls";
+import GameCard from "@/components/GameCard";
 
-  export default {
-    name: 'game-board',
-    components: { GameControls },
-    props: ['role'],
-    data() {
-      return {
-        confirmShow: false,
-        confirmCard: null,
-        spymaster: 'Spymaster',
-        agentAlert: false,
-      };
+export default {
+  name: "game-board",
+  components: { GameControls, GameCard },
+  props: ["role"],
+  data() {
+    return {
+      confirmShow: false,
+      confirmCard: null,
+      spymaster: "Spymaster",
+      agentAlert: false
+    };
+  },
+  mounted() {
+    if (!this.username) this.set_username("#unknown");
+    if (!this.room) this.set_room(this.$route.params.room);
+    const params = {
+      username: this.username,
+      room: this.room
+    };
+    this.$socket.emit("join", params);
+  },
+  watch: {
+    "$store.state.error": {
+      immediate: true,
+      handler() {
+        // if (this.$store.state.error !== null)
+        // this.$router.push({path: '/home'})
+      }
+    }
+  },
+  computed: {
+    ...mapState(["connected", "room", "username", "game"]),
+    ...mapGetters(["words", "gameWon"]),
+    cards() {
+      if (this.isSpymaster()) {
+        return this.game.solution;
+      }
+      return this.game.board;
     },
-    mounted() {
-      if (!this.username) this.set_username('#unknown');
-      if (!this.room) this.set_room(this.$route.params.room);
-      const params = {
-        username: this.username,
-        room: this.room,
-      };
-      this.$socket.emit('join', params);
-    },
-    watch: {
-      '$store.state.error': {
-        immediate: true,
-        handler () {
-          // if (this.$store.state.error !== null)
-            // this.$router.push({path: '/home'})
+    gridRows() {
+      if (this.words) {
+        switch (this.$vuetify.breakpoint.name) {
+          // case 'xs': return '1'
+          // case 'sm': return '1'
+          default:
+            return Math.sqrt(this.words.length);
         }
       }
+      return 0;
     },
-    computed: {
-      ...mapState(['connected', 'room', 'username', 'game']),
-      ...mapGetters(['words', 'gameWon']),
-      cards() {
-        if (this.isSpymaster()) {
-          return this.game.solution;
-        }
-        return this.game.board;
-      },
-      gridRows() {
-        if (this.words) {
-          switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return '1'
-            case 'sm': return '1'
-            default: return Math.sqrt(this.words.length)
-          }
-        }
-        return 0;
-      },
-      gridCells() {
-        if (this.words) {
-          return this.words.length / this.gridRows
-        }
-        return 0;
-      },
-      responsiveClass() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 'body-2';
-          case 'lg': return 'display-1';
-          case 'xl': return 'display-1';
-          default: return 'headline';
-        }
-      },
+    gridCells() {
+      if (this.words) {
+        return this.words.length / this.gridRows;
+      }
+      return 0;
     },
-    methods: {
-      ...mapMutations(['set_room', 'set_username']),
-      isSpymaster() {
-        return this.role === this.spymaster;
-      },
-      getWord(row, cell) {
-        const temp = (((row - 1) * this.gridRows) + (cell - 1));
-        return this.words[temp];
-      },
-      getTeam(word) {
-        if (word) {
-          return this.cards[word];
-        }
-        return null;
-      },
-      getColor(word, id) {
-        // already flipped cards
-        // if word is null - for starting team card
-        // if spymaster and word isn't flipped
-        // if not spymaster and word is flipped
-        if (!word || (!this.isSpymaster() && this.game.board[word]) ||
-          (this.isSpymaster() && !this.game.board[word])) {
-          switch (id) {
-            case 'R':
-              return 'red darken-3';
-            case 'G':
-              return 'green lighten-1';
-            case 'B':
-              return 'blue darken-2';
-            case 'O':
-              return 'black--text grey lighten-3';
-            case 'X':
-              return 'grey darken-4';
-            case '-':
-              return 'black--text grey lighten-3';
-            default:
-              return '';
-          }
-        } else if (this.isSpymaster() && this.game.board[word]) {
-          switch (id) {
-            case 'R':
-              return 'red--text text--darken-1';
-            case 'G':
-              return 'green--text text--lighten-1';
-            case 'B':
-              return 'blue--text text--darken-1';
-            case 'O':
-              return 'grey--text text--lighten-1';
-            case 'X':
-              return 'grey darken-4';
-            case '-':
-              return 'grey--text text--lighten-1';
-            default:
-              return '';
-          }
-        }
-        return 'grey darken-2';
-      },
-      showFlipCard(word) {
-        if (this.isSpymaster() && !this.game.board[word]) {
-          this.confirmCard = word;
-          this.confirmShow = true;
-        }
-        // if not spymaster, display warning
-        if (!this.isSpymaster()) {
-          this.agentAlert = true;
-        }
-      },
-      flipCard() {
-        // check if card not already clicked and role is spymaster
-        // and not a blackout square
-        if (this.isSpymaster() && !this.game.board[this.confirmCard] && this.confirmCard) {
-          // send request to confirm the card
-          const params = {
-            card: this.confirmCard,
-            room: this.room,
-          };
-          this.$socket.emit('flip_card', params);
-          // reset confirmCard
-          this.confirmCard = null;
-          this.confirmShow = false;
-        } else {
-          // card already flipped
-          this.confirmCard = null;
-        }
-      },
+    responsiveClass() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "body-2";
+        case "lg":
+          return "display-1";
+        case "xl":
+          return "display-1";
+        default:
+          return "headline";
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(["set_room", "set_username"]),
+    isSpymaster() {
+      return this.role === this.spymaster;
     },
-  };
+    getWord(row, cell) {
+      const temp = (row - 1) * this.gridRows + (cell - 1);
+      return this.words[temp];
+    },
+    getTeam(word) {
+      if (word) {
+        return this.cards[word];
+      }
+      return null;
+    },
+    getColor(word, id) {
+      // already flipped cards
+      // if word is null - for starting team card
+      // if spymaster and word isn't flipped
+      // if not spymaster and word is flipped
+      let background = "secondary";
+      let font = "";
+      if (
+        !word ||
+        (!this.isSpymaster() && this.game.board[word]) ||
+        (this.isSpymaster() && !this.game.board[word])
+      ) {
+        switch (id) {
+          case "R":
+            background = "red darken-3";
+            break;
+          case "G":
+            background = "green lighten-1";
+            break;
+          case "B":
+            background = "blue darken-2";
+            break;
+          case "O":
+            background = "grey lighten-3";
+            font = "black--text";
+            break;
+          case "X":
+            background = "grey darken-4";
+            break;
+          case "-":
+            background = "grey lighten-3";
+            font = "black--text";
+            break;
+          default:
+            background = "";
+            break;
+        }
+      } else if (this.isSpymaster() && this.game.board[word]) {
+        switch (id) {
+          case "R":
+            background = "text--darken-1";
+            font = "red--text";
+            break;
+          case "G":
+            background = "text--lighten-1";
+            font = "green--text";
+            break;
+          case "B":
+            background = "text--darken-1";
+            font = "blue--text";
+            break;
+          case "O":
+            background = "text--lighten-1";
+            font = "grey--text"
+            break;
+          case "X":
+            background = "grey darken-4";
+            break;
+          case "-":
+            background = "text--lighten-1";
+            font = "grey--text"
+            break;
+          default:
+            background = "";
+            break;
+        }
+      }
+      return {
+        background,
+        font
+      };
+    },
+    showFlipCard(word) {
+      if (this.isSpymaster() && !this.game.board[word]) {
+        this.confirmCard = word;
+        this.confirmShow = true;
+      }
+      // if not spymaster, display warning
+      if (!this.isSpymaster()) {
+        this.agentAlert = true;
+      }
+    },
+    flipCard() {
+      // check if card not already clicked and role is spymaster
+      // and not a blackout square
+      if (
+        this.isSpymaster() &&
+        !this.game.board[this.confirmCard] &&
+        this.confirmCard
+      ) {
+        // send request to confirm the card
+        const params = {
+          card: this.confirmCard,
+          room: this.room
+        };
+        this.$socket.emit("flip_card", params);
+        // reset confirmCard
+        this.confirmCard = null;
+        this.confirmShow = false;
+      } else {
+        // card already flipped
+        this.confirmCard = null;
+      }
+    }
+  }
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-.cn-card {
-  cursor: pointer;
-  flex-basis: 0;
-  flex-shrink: 0;
-  flex-grow: 1;
+<style>
+.telegram {
+  position: relative;
 }
 
-.cn-text {
-  letter-spacing: 2px!important;
+.telegram::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('https://images.unsplash.com/photo-1532153259564-a5f24f261f51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80');
+  opacity: 0.3;
 }
+
+.telegram > div {
+  position: relative;
+}
+
 </style>

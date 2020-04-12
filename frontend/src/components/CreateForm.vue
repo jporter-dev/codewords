@@ -1,31 +1,29 @@
 <template>
   <v-fade-transition appear>
-    <v-card>
-      <v-card-text>
-        <v-form @submit="createGame" id="create-form">
-          <v-layout row wrap>
-            <v-flex xs12>
-              <dictionary-mixer @setDictionaryOptions="setDictionaryOptions"></dictionary-mixer>
-            </v-flex>
-            <v-flex xs6>
-              <v-radio-group v-model="teams" label="Teams">
-                <v-radio label="2 teams" value="2" ></v-radio>
-                <v-radio label="3 teams" value="3"></v-radio>
-              </v-radio-group>
-            </v-flex>
-            <v-flex xs6>
-              <v-radio-group v-model="size" label="Board Size">
-                <v-radio label="Normal" value="normal" ></v-radio>
-                <v-radio label="Large" value="large"></v-radio>
-              </v-radio-group>
-            </v-flex>
-            <v-flex xs12>
-              <v-btn block color="primary" large @click="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
-            </v-flex>
-          </v-layout>
-        </v-form>
-      </v-card-text>
-    </v-card>
+    <v-form @submit="createGame" id="create-form">
+      <v-card>
+        <v-card-text>
+            <dictionary-mixer @setDictionaryOptions="setDictionaryOptions"></dictionary-mixer>
+            <v-row>
+              <v-col class="py-1">
+                <v-radio-group v-model="teams" label="Teams">
+                  <v-radio label="2 teams" value="2" ></v-radio>
+                  <v-radio label="3 teams" value="3"></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col class="py-1">
+                <v-radio-group v-model="size" label="Board Size">
+                  <v-radio label="Normal" value="normal" ></v-radio>
+                  <v-radio label="Large" value="large"></v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn block color="primary" large @click="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-form>
   </v-fade-transition>
 </template>
 
@@ -55,8 +53,9 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['set_username', 'set_room']),
+    ...mapMutations(['set_username', 'set_room', 'reset_room']),
     createGame() {
+      this.reset_room();
       const params = {
         teams: this.teams,
         size: this.size,
