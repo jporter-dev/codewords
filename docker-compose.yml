@@ -2,23 +2,18 @@ version: '3.7'
 
 services:
   redis:
-    container_name: redis
     image: redis:alpine
     volumes:
       - 'redis:/data/db'
   flask:
-    container_name: flask
     build: ./server
     volumes:
       - ./server:/app
-    ports:
-      - 5000:5000
     links:
       - redis
     depends_on:
       - redis
   frontend:
-    container_name: frontend
     build: ./frontend
     volumes:
       - ./frontend:/app
