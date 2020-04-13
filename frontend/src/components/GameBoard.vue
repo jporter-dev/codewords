@@ -271,25 +271,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.telegram {
-  position: relative;
-}
-
-.telegram::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: url('https://images.unsplash.com/photo-1532153259564-a5f24f261f51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80');
-  opacity: 0.3;
-}
-
-.telegram > div {
-  position: relative;
-}
-
-</style>

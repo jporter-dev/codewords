@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation app class="telegram">
+  <v-bottom-navigation app>
     <v-btn
       replace
       :to="{ name: 'Home' }"

@@ -1,12 +1,14 @@
 version: '3.7'
+
 services:
   redis:
+    container_name: redis
     image: redis:alpine
     volumes:
       - 'redis:/data/db'
   flask:
+    container_name: flask
     build: ./server
-    command: gunicorn -t 60 --worker-class eventlet -w 1 --bind 0.0.0.0:5000 codenames:app
     volumes:
       - ./server:/app
     ports:
@@ -16,8 +18,8 @@ services:
     depends_on:
       - redis
   frontend:
+    container_name: frontend
     build: ./frontend
-    command: npm run serve
     volumes:
       - ./frontend:/app
       - /app/node_modules

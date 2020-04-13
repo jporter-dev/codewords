@@ -3,6 +3,7 @@ import 'vuetify/dist/vuetify.min.css';
 import Vue from 'vue';
 import router from './router';
 import store from './store';
+
 import App from './App';
 import VueResizeText from 'vue-resize-text';
 
@@ -11,6 +12,11 @@ import io from "socket.io-client";
 import VueSocketIO from "vue-socket.io";
 
 // import './registerServiceWorker'
+// navigator.serviceWorker.getRegistrations().then(function(registrations) {
+//   for(let registration of registrations) {
+//     registration.unregister()
+//   }
+// })
 
 // add sentry
 import * as Sentry from '@sentry/browser';
@@ -25,7 +31,7 @@ if (process.env.VUE_APP_SENTRY_DSN) {
 Vue.config.productionTip = false;
 Vue.use(VueResizeText)
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: io(`http://${window.location.host}`),
   vuex: {
       store,

@@ -42,4 +42,23 @@ body {
 #scoreboard {
   font-weight: bold;
 }
+
+.telegram {
+  position: relative;
+}
+
+.telegram::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('/img/paper-texture.png');
+  opacity: 0.4;
+}
+
+.telegram > div {
+  position: relative;
+}
 </style>
