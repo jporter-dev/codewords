@@ -1,6 +1,8 @@
 if [[ $1 = dev* ]];
 then
+echo 'development'
   docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
 else
-  docker-compose -f docker-compose.yml -f docker-compose.production.yml up --build
+echo 'production'
+  docker-compose -f docker-compose.yml -f docker-compose.production.yml up --build -d
 fi

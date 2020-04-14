@@ -34,26 +34,6 @@ if sentry_dsn:
         integrations=[FlaskIntegration()]
     )
 
-def prune():
-    """Prune rooms stale for more than 6 hours"""
-    def delete_room(gid):
-        close_room(room)
-        del ROOMS[gid]
-
-    def is_stale(room):
-        """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
-        return (((datetime.now() - room.date_modified).total_seconds() >= (REDIS_TTL_S)) or
-            ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
-            room.playtime() <= 5))
-
-    if ROOMS:
-        rooms = ROOMS.copy()
-        for key in rooms.keys():
-            if is_stale(ROOMS[key]):
-                delete_room(key)
-        del rooms
-        gc.collect()
-
 @app.route('/debug-sentry')
 def trigger_error():
     division_by_zero = 1 / 0
@@ -61,7 +41,19 @@ def trigger_error():
 @app.route('/stats')
 def stats():
     """display room stats"""
-    resp = db.info()
+    games = {}
+    for k in db.scan_iter():
+        game = get_game(k)
+        games[game.game_id] = {
+            "last_modified": game.date_modified,
+            "playtime_m": game.playtime(),
+            "last_turn_m": round((datetime.now() - game.date_modified).total_seconds() / 60, 2)
+        }
+    games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m'], reverse=True))
+    resp = {
+        "total": db.dbsize(),
+        "games": games
+    }
     return jsonify(resp)
 
 @socketio.on('create')
@@ -101,7 +93,7 @@ def on_create(data):
 def on_join(data):
     """Join a game lobby"""
     # username = data['username']
-    print(request.sid)
+    # print(request.sid)
     room = data['room']
     game = get_game(room)
     # send(request.sid, room=room)
@@ -149,5 +141,6 @@ if __name__ == '__main__':
         app.config['DEBUG'] = True
         use_reloader = True
 
+    app.config['JSON_SORT_KEYS'] = False
     app.config['DEBUG'] = os.environ.get('DEBUG', False)
     socketio.run(app, host='0.0.0.0', use_reloader=use_reloader)
