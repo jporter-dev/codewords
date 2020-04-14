@@ -20,8 +20,7 @@ from codenames import game
 from dotenv import load_dotenv
 load_dotenv()
 
-REDIS_TTL_S = 60*10
-
+REDIS_TTL_S = 60*10 if os.environ.get('FLASK_DEV', False) else  60*60*12
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = os.getenv("SECRET_KEY", "")

@@ -1,6 +1,10 @@
 version: '3.7'
 
 services:
+  redis:
+    restart: always
+  flask:
+    restart: always
   frontend:
     build:
       context: ./frontend
@@ -11,4 +15,4 @@ services:
       - flask
     depends_on:
       - flask
-    # restart: unless-stopped
+    restart: always
