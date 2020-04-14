@@ -1,8 +1,8 @@
 <template>
-  <v-bottom-navigation app>
+  <v-bottom-navigation app grow>
     <v-btn
       replace
-      :to="{ name: 'Home' }"
+      to="/"
     >
       <span>Home</span>
       <v-icon medium>mdi-home</v-icon>
@@ -33,7 +33,6 @@
     </v-btn>
     <v-btn
       @click.stop="drawer = !drawer"
-      to="#"
     >
       <span>Menu</span>
       <v-icon medium>mdi-menu</v-icon>

@@ -77,8 +77,8 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-import GameControls from "@/components/GameControls";
-import GameCard from "@/components/GameCard";
+import GameControls from "@/components/game/Controls";
+import GameCard from "@/components/game/Card";
 
 export default {
   name: "game-board",

@@ -54,11 +54,9 @@
 </template>
 
 <script>
-import CoffeeButton from '@/components/CoffeeButton'
 import { mapState } from 'vuex'
 
 export default {
-  components: { CoffeeButton },
   computed: {
     ...mapState(['connected']),
     drawer: {

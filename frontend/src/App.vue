@@ -13,15 +13,14 @@
 </template>
 
 <script>
-import AppToolbar from "@/components/AppToolbar";
-import AppDrawer from "@/components/AppDrawer";
-import AppNav from "@/components/AppNav";
-import CoffeeButton from "@/components/CoffeeButton";
-import GameControls from "@/components/GameControls";
+import AppToolbar from "@/components/app/Toolbar";
+import AppDrawer from "@/components/app/Drawer";
+import AppNav from "@/components/app/Nav";
+import GameControls from "@/components/game/Controls";
 
 export default {
   name: "app",
-  components: { AppDrawer, AppNav, AppToolbar, CoffeeButton, GameControls },
+  components: { AppDrawer, AppNav, AppToolbar, GameControls },
   data () {
     return {
       drawer: undefined

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import GameBoard from '@/components/GameBoard';
+import GameBoard from '@/components/game/Board';
 import { mapState, mapMutations } from 'vuex';
 
 export default {

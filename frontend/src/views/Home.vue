@@ -75,7 +75,7 @@
 import { mapMutations } from "vuex";
 import CreateForm from "@/components/CreateForm";
 import JoinForm from "@/components/JoinForm";
-import CoffeeButton from "@/components/CoffeeButton";
+import CoffeeButton from "@/components/misc/CoffeeButton";
 
 export default {
   name: "Home",

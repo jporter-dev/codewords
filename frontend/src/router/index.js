@@ -16,6 +16,9 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/home',
+      redirect: '/',
+    },    {
       path: '/create',
       name: 'Create',
       component: Create,
