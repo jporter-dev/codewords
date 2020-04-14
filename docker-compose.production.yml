@@ -11,6 +11,7 @@ services:
       dockerfile: ./Dockerfile.production
     ports:
       - 80:80
+      - 443:443
     links:
       - flask
     depends_on:
