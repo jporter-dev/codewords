@@ -12,7 +12,7 @@
       <div class="d-flex flex-column fill-height">
         <div
           class="d-flex flex-grow-1 align-center justify-center text-center cn-word py-3 cn-text cn-text--upcase"
-          v-resize-text="{ratio: 1.1}"
+          v-resize-text="{ratio: 1.1, minFontSize, maxFontSize}"
         >
           {{word}}
         </div>
@@ -36,6 +36,14 @@
 <script>
 export default {
   props: ["word", "team", "colors"],
+  computed: {
+    minFontSize () {
+      return this.$vuetify.breakpoint.mdAndUp ? 20 : 16
+    },
+    maxFontSize () {
+      return this.$vuetify.breakpoint.mdAndUp ? 30 : 24
+    }
+  },
   methods: {
     getTeamName(team) {
       switch (team) {
