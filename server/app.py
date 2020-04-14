@@ -145,5 +145,10 @@ def get_game(room):
         return None
 
 if __name__ == '__main__':
+    use_reloader = False
+    if os.environ.get('FLASK_DEV', False):
+        app.config['DEBUG'] = True
+        use_reloader = True
+
     app.config['DEBUG'] = os.environ.get('DEBUG', False)
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', use_reloader=use_reloader)

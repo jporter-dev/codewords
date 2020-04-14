@@ -1,6 +1,8 @@
 <template>
   <v-app id="codenames">
+    <app-drawer ></app-drawer>
     <app-toolbar></app-toolbar>
+    <game-controls></game-controls>
     <v-content>
       <v-container fluid fill-height pa-0 class="align-start">
         <router-view></router-view>
@@ -12,12 +14,19 @@
 
 <script>
 import AppToolbar from "@/components/AppToolbar";
+import AppDrawer from "@/components/AppDrawer";
 import AppNav from "@/components/AppNav";
 import CoffeeButton from "@/components/CoffeeButton";
+import GameControls from "@/components/GameControls";
 
 export default {
   name: "app",
-  components: { AppToolbar, AppNav, CoffeeButton },
+  components: { AppDrawer, AppNav, AppToolbar, CoffeeButton, GameControls },
+  data () {
+    return {
+      drawer: undefined
+    }
+  },
   created() {
     this.$vuetify.theme.dark = true;
   }

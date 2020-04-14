@@ -4,7 +4,6 @@ import Home from '@/views/Home';
 import Help from '@/views/Help';
 import Create from '@/views/Create';
 import Player from '@/views/Player';
-import Spymaster from '@/views/Spymaster';
 
 Vue.use(Router);
 
@@ -39,7 +38,8 @@ export default new Router({
     {
       path: '/:room/spymaster',
       name: 'Spymaster',
-      component: Spymaster,
+      component: Player,
+      props: { spymaster: true }
     },
   ],
 });

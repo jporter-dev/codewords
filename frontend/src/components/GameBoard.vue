@@ -169,7 +169,7 @@ export default {
       // if word is null - for starting team card
       // if spymaster and word isn't flipped
       // if not spymaster and word is flipped
-      let background = "secondary";
+      let background = "grey darken-3";
       let font = "";
       if (
         !word ||
@@ -191,10 +191,10 @@ export default {
             font = "black--text";
             break;
           case "X":
-            background = "grey darken-4";
+            background = "black";
             break;
           case "-":
-            background = "grey lighten-3";
+            background = "grey lighten-4";
             font = "black--text";
             break;
           default:
@@ -204,27 +204,22 @@ export default {
       } else if (this.isSpymaster() && this.game.board[word]) {
         switch (id) {
           case "R":
-            background = "text--darken-1";
-            font = "red--text";
+            font = "red--text text--darken-1";
             break;
           case "G":
-            background = "text--lighten-1";
-            font = "green--text";
+            font = "green--text text--lighten-1";
             break;
           case "B":
-            background = "text--darken-1";
-            font = "blue--text";
+            font = "blue--text text--darken-1";
             break;
           case "O":
-            background = "text--lighten-1";
-            font = "grey--text"
+            font = "grey--text text--lighten-1"
             break;
           case "X":
-            background = "grey darken-4";
+            font="black--text";
             break;
           case "-":
-            background = "text--lighten-1";
-            font = "grey--text"
+            font = "grey--text text--lighten-1"
             break;
           default:
             background = "";

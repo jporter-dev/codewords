@@ -46,7 +46,11 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(['connected', 'room', 'error'])
+    ...mapState(['connected', 'room', 'error']),
+    drawer: {
+      get () { return this.$store.state.drawer },
+      set (v) { return this.$store.commit('set_drawer', v) }
+    }
   }
 };
 </script>

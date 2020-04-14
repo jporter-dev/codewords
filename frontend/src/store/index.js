@@ -19,6 +19,8 @@ export default new Vuex.Store({
   })],
   state: {
     connected: false,
+    drawer: false,
+    // game-specific stuff TODO: move into a module
     dictionaries: [],
     game: {},
     room: '',
@@ -75,6 +77,9 @@ export default new Vuex.Store({
   mutations: {
     set_connected(state, payload) {
       state.connected = payload;
+    },
+    set_drawer(state, payload) {
+      state.drawer = payload;
     },
     set_dictionaries(state, payload) {
       state.dictionaries = payload;

@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   flask:
+    environment:
+      FLASK_DEV: development
     volumes:
       - ./server:/app
     ports:
