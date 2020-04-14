@@ -4,22 +4,16 @@ import time
 import random
 import math
 import string
+import yaml
 import os
 
-# dictionaries
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
-DICTIONARIES = {}
-DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
-DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
-DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
-DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
-DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
-DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
-DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
-DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
-DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
+# load dictionaries
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dictionaries.yml')
+with open(config_path, 'r') as stream:
+    try:
+        DICTIONARIES = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        DICTIONARIES = {}
 
 # colors per team
 RED = 'R'
@@ -68,8 +62,7 @@ class Info(object):
                 "teams": self.teams,
                 "mix": self.mix,
                 "custom": self.wordbank
-            },
-
+            }
         }
 
     def generate_board(self, newGame=False):
@@ -117,9 +110,10 @@ class Info(object):
         return round(float(d2_ts-d1_ts) / 60, 2)
 
     def __load_dictionary(self, d):
-        with open(DICTIONARIES[d], 'r') as words_file:
+        path = DICTIONARIES['dictionaries'][d]['filename']
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dictionaries', path)
+        with open(path, 'r') as words_file:
             return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
-
 
     def __get_words(self, size):
         """Generate a list of words"""

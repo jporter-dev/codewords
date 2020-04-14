@@ -23,7 +23,7 @@ load_dotenv()
 REDIS_TTL_S = 60*10 if os.environ.get('FLASK_DEV', False) else  60*60*12
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-app.secret_key = os.getenv("SECRET_KEY", "")
+app.secret_key = os.getenv("SECRET_KEY", "codenames")
 db = redis.Redis(host='redis', port=6379, db=0)
 
 # init sentry
@@ -43,11 +43,11 @@ def stats():
     """display room stats"""
     games = {}
     for k in db.scan_iter():
-        game = get_game(k)
-        games[game.game_id] = {
-            "last_modified": game.date_modified,
-            "playtime_m": game.playtime(),
-            "last_turn_m": round((datetime.now() - game.date_modified).total_seconds() / 60, 2)
+        gm = get_game(k)
+        games[gm.game_id] = {
+            "last_modified": gm.date_modified,
+            "playtime_m": gm.playtime(),
+            "last_turn_m": round((datetime.now() - gm.date_modified).total_seconds() / 60, 2)
         }
     games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m'], reverse=True))
     resp = {
@@ -95,42 +95,42 @@ def on_join(data):
     # username = data['username']
     # print(request.sid)
     room = data['room']
-    game = get_game(room)
+    gm = get_game(room)
     # send(request.sid, room=room)
-    if game:
+    if gm:
         # add player and rebroadcast game object
         # rooms[room].add_player(username)
         join_room(room)
-        send(game.to_json(), room=room)
+        send(gm.to_json(), room=room)
 
 @socketio.on('flip_card')
 def on_flip_card(data):
     """flip card and rebroadcast game object"""
     room = data['room']
-    game = get_game(room)
-    game.flip_card(data['card'])
-    db.setex(room, REDIS_TTL_S, pickle.dumps(game))
-    send(game.to_json(), room=room)
+    gm = get_game(room)
+    gm.flip_card(data['card'])
+    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
+    send(gm.to_json(), room=room)
 
 @socketio.on('regenerate')
 def on_regenerate(data):
     """regenerate the words list"""
     room = data['room']
-    game = get_game(room)
-    game.generate_board(data.get('newGame', False))
-    db.setex(room, REDIS_TTL_S, pickle.dumps(game))
-    send(game.to_json(), room=room)
+    gm = get_game(room)
+    gm.generate_board(data.get('newGame', False))
+    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
+    send(gm.to_json(), room=room)
 
 @socketio.on('list_dictionaries')
 def list_dictionaries():
     """send a list of dictionary names"""
     # send dict list to client
-    emit('list_dictionaries', {'dictionaries': list(game.DICTIONARIES.keys())})
+    emit('list_dictionaries', game.DICTIONARIES)
 
 def get_game(room):
-    game = db.get(room)
-    if game:
-        return pickle.loads(game)
+    gm = db.get(room)
+    if gm:
+        return pickle.loads(gm)
     else:
         emit('error', {'error': 'Unable to join room ['+ room +']. Room does not exist.'})
         return None

@@ -35,7 +35,7 @@
           <v-select
             v-show="!useCustom"
             v-model="selectedDictionaries"
-            :items="dictionaries"
+            :items="Object.keys(dictionaries)"
             :multiple="mix"
             :menu-props="{'max-height': 400}"
             label="Dictionary"

@@ -21,7 +21,7 @@ export default new Vuex.Store({
     connected: false,
     drawer: false,
     // game-specific stuff TODO: move into a module
-    dictionaries: [],
+    dictionaries: {},
     game: {},
     room: '',
     username: '',
