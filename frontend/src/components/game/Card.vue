@@ -10,10 +10,11 @@
       :class="colors.font"
     >
       <div class="d-flex flex-column fill-height">
-        <div class="d-flex flex-grow-1 align-center justify-center text-center cn-word py-3" v-resize-text="{ratio: 1.1}">
-          <span class="cn-text cn-text--upcase">
-            {{word}}
-          </span>
+        <div
+          class="d-flex flex-grow-1 align-center justify-center text-center cn-word py-3 cn-text cn-text--upcase"
+          v-resize-text="{ratio: 1.1}"
+        >
+          {{word}}
         </div>
         <div
           class="d-flex flex-shrink-1 align-end justify-end cn-team"
