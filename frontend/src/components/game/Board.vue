@@ -6,28 +6,20 @@
     py-1
     v-if="role"
   >
-    <slot></slot>
-    <!-- <game-controls></game-controls> -->
-    <v-row
-      class="fill-height"
-      no-gutters
-    >
-      <v-col
-        cols="12"
-        v-for="row in gridRows"
-        :key="row"
-        class="cn-row"
-      >
+    <div class="fill-height d-flex flex-column flex-grow-1">
+      <div class="d-flex flex-shrink-1">
+        <slot></slot>
+      </div>
+      <div class="d-flex flex-grow-1 flex-wrap flex-column">
         <v-row
-          wrap
-          class="fill-height"
           dense
+          v-for="row in gridRows"
+          :key="row"
         >
           <v-col
-            :class="{'fill-height': $vuetify.breakpoint.mdAndUp}"
             v-for="cell in gridCells"
-            @click="showFlipCard(getWord(row, cell))"
             :key="cell"
+            @click="showFlipCard(getWord(row, cell))"
           >
             <game-card
               :word="getWord(row, cell)"
@@ -36,8 +28,8 @@
             ></game-card>
           </v-col>
         </v-row>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
 
     <v-dialog
       v-model="confirmShow"
@@ -89,26 +81,9 @@ export default {
       confirmShow: false,
       confirmCard: null,
       spymaster: "Spymaster",
-      agentAlert: false
+      agentAlert: false,
+      gameBottom: window.screen.height * 2
     };
-  },
-  mounted() {
-    if (!this.username) this.set_username("#unknown");
-    if (!this.room) this.set_room(this.$route.params.room);
-    const params = {
-      username: this.username,
-      room: this.room
-    };
-    this.$socket.emit("join", params);
-  },
-  watch: {
-    "$store.state.error": {
-      immediate: true,
-      handler() {
-        // if (this.$store.state.error !== null)
-        // this.$router.push({path: '/home'})
-      }
-    }
   },
   computed: {
     ...mapState(["connected", "room", "username", "game"]),
@@ -213,13 +188,13 @@ export default {
             font = "blue--text text--darken-1";
             break;
           case "O":
-            font = "grey--text text--lighten-1"
+            font = "grey--text text--lighten-1";
             break;
           case "X":
-            font="black--text";
+            font = "black--text";
             break;
           case "-":
-            font = "grey--text text--lighten-1"
+            font = "grey--text text--lighten-1";
             break;
           default:
             background = "";
@@ -263,6 +238,22 @@ export default {
         this.confirmCard = null;
       }
     }
+  },
+  mounted() {
+    if (!this.username) this.set_username("#unknown");
+    if (!this.room) this.set_room(this.$route.params.room);
+    const params = {
+      username: this.username,
+      room: this.room
+    };
+    this.$socket.emit("join", params);
   }
 };
 </script>
+
+<style scoped>
+#scrollButton {
+  bottom: 60px;
+  opacity: 0.75;
+}
+</style>

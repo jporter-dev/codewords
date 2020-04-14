@@ -10,7 +10,7 @@
       :class="colors.font"
     >
       <div class="d-flex flex-column fill-height">
-        <div class="d-flex flex-grow-1 align-center justify-center cn-word" v-resize-text="{ratio: 1, minFontSize: 18, maxFontSize: 36}">
+        <div class="d-flex flex-grow-1 align-center justify-center text-center cn-word py-3" v-resize-text="{ratio: 1.1}">
           <span class="cn-text cn-text--upcase">
             {{word}}
           </span>
@@ -65,7 +65,7 @@ export default {
 }
 
 .cn-text {
-  letter-spacing: 2px !important;
+  letter-spacing: 5px !important;
 }
 
 .cn-card.dialog-card .cn-team {

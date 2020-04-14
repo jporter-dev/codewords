@@ -18,6 +18,7 @@
             <v-avatar
               tile
               size="128"
+              v-if="$vuetify.breakpoint.mdAndUp"
             >
               <img
                 src="@/assets/logo-256x256.png"
