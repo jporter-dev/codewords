@@ -32,7 +32,7 @@ Vue.config.productionTip = false;
 Vue.use(VueResizeText)
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: io(`http://${window.location.host}`),
+  connection: io(`//${window.location.host}`),
   vuex: {
       store,
       actionPrefix: 'WS_',
