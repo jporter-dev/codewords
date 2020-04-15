@@ -25,7 +25,7 @@
                 alt="codenames logo"
               >
             </v-avatar>
-            <h1 class="cn-text">Codewords</h1>
+            <h1 class="cn-text">{{ $t('codewords') }}</h1>
             <create-form></create-form>
           </v-col>
         </v-row>

@@ -3,16 +3,14 @@
     <v-flex md6>
       <v-card tile flat>
         <v-card-text px-0 class='text-xs-left'>
-          <h4>Getting Started</h4>
+          <h4>{{$t('getting started')}}</h4>
           <p>
-            This application is designed to be played on multiple devices. The "agent"
-            view can be loaded on a TV or mobile devies, and the "spymaster" view
-            should be activated on the phones of the spymasters.
+            {{ $t('getting started directions')}}
           </p>
-          <h4 class="header">How to Play</h4>
-          <p>Codenames consists of two teams with two roles on each team: a spymaster and field agents.</p>
+          <h4 class="header">{{ $t('how to play') }}</h4>
+          <p>{{ $t('how to play instructions') }}</p>
           <p>
-            <a href="https://www.youtube.com/watch?v=zQVHkl8oQEU">Watch an instructional video.</a>
+            <a href="https://www.youtube.com/watch?v=zQVHkl8oQEU">{{ $t('watch instructions') }}</a>
           </p>
         </v-card-text>
       </v-card>

@@ -8,19 +8,19 @@
               <v-col class="py-1">
                 <v-expansion-panels flat>
                   <v-expansion-panel>
-                    <v-expansion-panel-header class="pa-1">Advanced Options</v-expansion-panel-header>
+                    <v-expansion-panel-header class="pa-1">{{ $t('advanced options') }}</v-expansion-panel-header>
                     <v-expansion-panel-content>
                       <v-row>
                         <v-col>
-                          <v-radio-group v-model="teams" label="Teams">
-                            <v-radio label="2 teams" value="2" ></v-radio>
-                            <v-radio label="3 teams" value="3"></v-radio>
+                          <v-radio-group v-model="teams" :label="$t('teams')">
+                            <v-radio :label="$t('2 teams')" value="2" ></v-radio>
+                            <v-radio :label="$t('3 teams')" value="3"></v-radio>
                           </v-radio-group>
                         </v-col>
                         <v-col>
-                          <v-radio-group v-model="size" label="Board Size">
-                            <v-radio label="Normal" value="normal" ></v-radio>
-                            <v-radio label="Large" value="large"></v-radio>
+                          <v-radio-group v-model="size" :label="$t('board size')">
+                            <v-radio :label="$t('normal')" value="normal" ></v-radio>
+                            <v-radio :label="$t('large')" value="large"></v-radio>
                           </v-radio-group>
                         </v-col>
                       </v-row>
@@ -31,7 +31,7 @@
             </v-row>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="primary" large @click="createGame" :disabled="!valid" id="create-btn">Create</v-btn>
+          <v-btn block color="primary" large @click="createGame" :disabled="!valid" id="create-btn">{{ $t('create') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
