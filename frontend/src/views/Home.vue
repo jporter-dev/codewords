@@ -35,7 +35,7 @@
               to="create"
               id="create-btn"
             >
-              Create Game
+              {{ $t('create_game') }}
             </v-btn>
           </v-col>
         </v-row>
