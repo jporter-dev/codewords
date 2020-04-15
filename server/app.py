@@ -5,18 +5,19 @@ import eventlet
 import logging
 import pickle
 import redis
+import atexit
 import json
 import os
 import gc
 from datetime import timedelta
 from sys import getsizeof
 from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, join_room, leave_room, close_room, send, emit
+from flask_socketio import SocketIO, join_room, leave_room, close_room, send, emit, rooms
 from datetime import datetime, timedelta
 from functools import reduce
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from codenames import game
+from codenames import game, players
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -56,6 +57,16 @@ def stats():
     }
     return jsonify(resp)
 
+@socketio.on('disconnect')
+def on_disconnect():
+    for room in rooms(sid=request.sid):
+        gm = get_game(room)
+        if gm:
+            join_room(room)
+            gm.players.remove(request.sid)
+            save_game(gm)
+            send(gm.to_json(), room=room)
+
 @socketio.on('create')
 def on_create(data):
     """Create a game lobby"""
@@ -63,28 +74,27 @@ def on_create(data):
     # create the game
     # handle custom wordbanks
     if data['dictionaryOptions']['useCustom']:
-        gm = game.Info(
+        gm = game.Game(
             size=data['size'],
             teams=data['teams'],
             wordbank=data['dictionaryOptions']['customWordbank'])
     # dict mixer
     elif data['dictionaryOptions']['mix']:
-        gm = game.Info(
+        gm = game.Game(
             size=data['size'],
             teams=data['teams'],
             mix=data['dictionaryOptions']['mixPercentages'])
 
     # handle standard single dictionary
     else:
-        gm = game.Info(
+        gm = game.Game(
             size=data['size'],
             teams=data['teams'],
             dictionary=data['dictionaryOptions']['dictionaries'])
 
     room = gm.game_id
     # write room to redis
-    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
-
+    save_game(gm)
     join_room(room)
     # rooms[room].add_player(username)
     emit('join_room', {'room': room})
@@ -93,7 +103,6 @@ def on_create(data):
 def on_join(data):
     """Join a game lobby"""
     # username = data['username']
-    # print(request.sid)
     room = data['room']
     gm = get_game(room)
     # send(request.sid, room=room)
@@ -101,7 +110,18 @@ def on_join(data):
         # add player and rebroadcast game object
         # rooms[room].add_player(username)
         join_room(room)
+        gm.players.add(request.sid, 'test')
+        save_game(gm)
         send(gm.to_json(), room=room)
+
+@socketio.on('toggle_spymaster')
+def on_toggle_spymaster(data):
+    """flip card and rebroadcast game object"""
+    gm = get_game(data['room'])
+    if (request.sid in gm.players.spymasters and not data['state']) or (request.sid not in gm.players.spymasters and data['state']):
+        gm.players.toggle_spymaster(request.sid, data['state'])
+        save_game(gm)
+        send(gm.to_json(), room=data['room'])
 
 @socketio.on('flip_card')
 def on_flip_card(data):
@@ -109,7 +129,7 @@ def on_flip_card(data):
     room = data['room']
     gm = get_game(room)
     gm.flip_card(data['card'])
-    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
+    save_game(gm)
     send(gm.to_json(), room=room)
 
 @socketio.on('regenerate')
@@ -118,7 +138,7 @@ def on_regenerate(data):
     room = data['room']
     gm = get_game(room)
     gm.generate_board(data.get('newGame', False))
-    db.setex(room, REDIS_TTL_S, pickle.dumps(gm))
+    save_game(gm)
     send(gm.to_json(), room=room)
 
 @socketio.on('list_dictionaries')
@@ -135,6 +155,16 @@ def get_game(room):
         emit('error', {'error': 'Unable to join room ['+ room +']. Room does not exist.'})
         return None
 
+def save_game(game):
+    db.setex(game.game_id, REDIS_TTL_S, pickle.dumps(game))
+
+
+def exit_handler():
+    for room in db.keys():
+        gm = get_game(room)
+        gm.players.reset()
+        save_game(gm)
+
 if __name__ == '__main__':
     use_reloader = False
     if os.environ.get('FLASK_DEV', False):
@@ -143,4 +173,7 @@ if __name__ == '__main__':
 
     app.config['JSON_SORT_KEYS'] = False
     app.config['DEBUG'] = os.environ.get('DEBUG', False)
+
+    atexit.register(exit_handler)
+
     socketio.run(app, host='0.0.0.0', use_reloader=use_reloader)

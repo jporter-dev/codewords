@@ -50,23 +50,40 @@
       </v-list-item>
       <v-divider></v-divider>
     </v-list>
+    <v-subheader>Current Players</v-subheader>
+    <v-list v-if="game.players">
+      <v-list-item
+        v-for="(name,id) in game.players.players"
+        :key="id"
+      >
+        <v-list-item-icon>
+          <v-icon v-if="game.players.spymasters.indexOf(id) >= 0">mdi-library</v-icon>
+          <v-icon v-else>mdi-account</v-icon>
+        </v-list-item-icon>
+        <!-- <v-list-item-title>{{name}}</v-list-item-title> -->
+        <v-list-item-subtitle>{{id}}</v-list-item-subtitle>
+      </v-list-item>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(['connected']),
+    ...mapState(["connected", "game"]),
     drawer: {
-      get () { return this.$store.state.drawer },
-      set (v) { return this.$store.commit('set_drawer', v) }
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(v) {
+        return this.$store.commit("set_drawer", v);
+      }
     }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

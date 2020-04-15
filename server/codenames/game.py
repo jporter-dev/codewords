@@ -6,6 +6,7 @@ import math
 import string
 import yaml
 import os
+from codenames import players
 
 # load dictionaries
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dictionaries.yml')
@@ -26,7 +27,7 @@ BOARD_SIZE = {
 }
 BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 
-class Info(object):
+class Game(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
     def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
@@ -35,12 +36,12 @@ class Info(object):
         self.starting_color = RED
         self.date_created = datetime.now()
         self.date_modified = self.date_created
-        self.players = []
         self.size = size
         self.teams = teams
         self.dictionary = dictionary
         self.mix = mix
         self.minWords = BOARD_SIZE[self.size]
+        self.players = players.Players()
 
         # gererate board
         self.generate_board()
@@ -50,7 +51,7 @@ class Info(object):
         return {
             "game_id": self.game_id,
             "starting_color": self.starting_color,
-            "players": self.players,
+            "players": self.players.as_dict(),
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified),
             "playtime": self.playtime(),

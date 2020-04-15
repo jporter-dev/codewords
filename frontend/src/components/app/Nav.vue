@@ -1,5 +1,8 @@
 <template>
-  <v-bottom-navigation app grow>
+  <v-bottom-navigation
+    app
+    grow
+  >
     <v-btn
       replace
       to="/"
@@ -29,11 +32,14 @@
       v-if="room && connected && !error"
     >
       <span>Spymaster</span>
-      <v-icon medium>mdi-library</v-icon>
+      <v-badge
+        :color="spymastersColor"
+        :content="spymasters"
+      >
+        <v-icon medium>mdi-library</v-icon>
+      </v-badge>
     </v-btn>
-    <v-btn
-      @click.stop="drawer = !drawer"
-    >
+    <v-btn @click.stop="drawer = !drawer">
       <span>Menu</span>
       <v-icon medium>mdi-menu</v-icon>
     </v-btn>
@@ -45,10 +51,24 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(['connected', 'room', 'error']),
+    ...mapState(["connected", "room", "error", "game"]),
     drawer: {
-      get () { return this.$store.state.drawer },
-      set (v) { return this.$store.commit('set_drawer', v) }
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(v) {
+        return this.$store.commit("set_drawer", v);
+      }
+    },
+    spymasters() {
+      return this.game.players.spymasters.length.toString();
+    },
+    spymastersColor() {
+      if(this.game.players.spymasters.length > 2)
+        return 'error'
+      else if (this.game.players.spymasters.length === 0)
+        return 'secondary'
+      return 'primary'
     }
   }
 };
