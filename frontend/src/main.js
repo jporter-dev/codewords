@@ -10,6 +10,7 @@ import VueResizeText from 'vue-resize-text';
 import vuetify from '@/plugins/vuetify';
 import io from "socket.io-client";
 import VueSocketIO from "vue-socket.io";
+import { i18n } from './plugins/i18n.js';
 
 // import './registerServiceWorker'
 // navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -41,6 +42,7 @@ Vue.use(new VueSocketIO({
 }));
 
 new Vue({
+  i18n,
   router,
   store,
   vuetify,
