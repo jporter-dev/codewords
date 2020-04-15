@@ -24,7 +24,7 @@
           align="center"
           justify="center"
         >
-          <h1 class="cn-text">Codewords</h1>
+          <h1 class="cn-text">{{ $t('codewords') }}</h1>
         </v-row>
         <v-row>
           <v-col class="py-1">
@@ -35,7 +35,7 @@
               to="create"
               id="create-btn"
             >
-              {{ $t('create_game') }}
+              {{ $t('create game') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -48,10 +48,10 @@
           <v-col class="py-1">
             <v-card class="text-xs-left">
               <v-card-title>
-                <span class="title font-weight-light">Enjoying Codewords.tv?</span>
+                <span class="title font-weight-light">{{ $t('enjoying codewords?')}}</span>
               </v-card-title>
               <v-card-text class="ma-0 py-1">
-                Consider donating to keep this website running and to support future development!
+                {{ $t('consider donating') }}
               </v-card-text>
               <v-card-actions class="text-xs-left">
                 <coffee-button></coffee-button>

@@ -4,13 +4,13 @@
       <v-row no-gutters>
         <v-col>
           <v-switch
-            label="Use a custom wordbank"
+            :label="$t('use custom wordbank')"
             v-model="useCustom"
             hide-details
           ></v-switch>
           <v-switch
             v-show="!useCustom"
-            label="Mix Dictionaries (Beta)"
+            :label="$t('mix dictionaries')"
             v-model="mix"
             hide-details
           ></v-switch>
@@ -22,10 +22,10 @@
             filled
             v-show="useCustom"
             name="custom-wordbank"
-            label="Custom Wordbank"
+            :label="$t('custom wordbank')"
             v-model="rawWordbank"
             :rules="wordbankRules"
-            placeholder="Enter a comma or newline separated list of words."
+            :placeholder="$t('wordbank directions')"
           ></v-textarea>
         </v-col>
       </v-row>
@@ -38,9 +38,9 @@
             :items="Object.keys(dictionaries)"
             :multiple="mix"
             :menu-props="{'max-height': 400}"
-            label="Dictionary"
-            placeholder="Select..."
-            hint="Select a dictionary"
+            :label="$t('dictionary')"
+            :placeholder="$t('select...')"
+            :hint="$t('select a dictionary')"
             persistent-hint
             @change="setMixes"
           ></v-select>
