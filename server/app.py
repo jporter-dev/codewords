@@ -64,8 +64,8 @@ def on_disconnect():
         if gm:
             join_room(room)
             gm.players.remove(request.sid)
-            save_game(gm)
             send(gm.to_json(), room=room)
+            save_game(gm)
 
 @socketio.on('create')
 def on_create(data):
@@ -94,10 +94,10 @@ def on_create(data):
 
     gm.players.add(request.sid, data.get('username', None))
     # write room to redis
-    save_game(gm)
     join_room(gm.game_id)
     # rooms[room].add_player(username)
     emit('join_room', {'room': gm.game_id})
+    save_game(gm)
 
 @socketio.on('join')
 def on_join(data):
@@ -109,8 +109,8 @@ def on_join(data):
         # add player and rebroadcast game object
         join_room(room)
         gm.players.add(request.sid, data.get('username', None))
-        save_game(gm)
         send(gm.to_json(), room=room)
+        save_game(gm)
 
 @socketio.on('toggle_spymaster')
 def on_toggle_spymaster(data):
@@ -118,8 +118,8 @@ def on_toggle_spymaster(data):
     gm = get_game(data['room'])
     if (request.sid in gm.players.spymasters and not data['state']) or (request.sid not in gm.players.spymasters and data['state']):
         gm.players.toggle_spymaster(request.sid, data['state'])
-        save_game(gm)
         send(gm.to_json(), room=data['room'])
+        save_game(gm)
 
 @socketio.on('flip_card')
 def on_flip_card(data):
@@ -127,8 +127,8 @@ def on_flip_card(data):
     room = data['room']
     gm = get_game(room)
     gm.flip_card(data['card'])
-    save_game(gm)
     send(gm.to_json(), room=room)
+    save_game(gm)
 
 @socketio.on('regenerate')
 def on_regenerate(data):
@@ -136,8 +136,8 @@ def on_regenerate(data):
     room = data['room']
     gm = get_game(room)
     gm.generate_board(data.get('newGame', False))
-    save_game(gm)
     send(gm.to_json(), room=room)
+    save_game(gm)
 
 @socketio.on('list_dictionaries')
 def list_dictionaries():
