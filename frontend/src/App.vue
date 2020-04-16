@@ -80,7 +80,7 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  background: url("/img/paper-texture.png");
+  background: url("https://images.unsplash.com/photo-1532153259564-a5f24f261f51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&h=500&q=80");
   opacity: 0.4;
 }
 
