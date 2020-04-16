@@ -145,6 +145,12 @@ def list_dictionaries():
     # send dict list to client
     emit('list_dictionaries', game.DICTIONARIES)
 
+@socketio.on('test')
+def test():
+    """send a list of dictionary names"""
+    # send dict list to client
+    emit('test', "ack")
+
 def get_game(room):
     gm = db.get(room)
     if gm:

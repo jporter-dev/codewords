@@ -19,6 +19,7 @@ export default new Vuex.Store({
   state: {
     connected: false,
     starting_sid: null,
+    test: 0,
     drawer: false,
     rules: {
       required: value => !!value || "Required."
@@ -87,6 +88,12 @@ export default new Vuex.Store({
     set_starting_sid(state, payload) {
       state.starting_sid = payload;
     },
+    test(state, reset) {
+      if (reset)
+        state.test = 0
+      else
+        state.test += 1;
+    },
     set_drawer(state, payload) {
       state.drawer = payload;
     },
@@ -133,6 +140,9 @@ export default new Vuex.Store({
     WS_disconnect(context) {
       context.commit('set_connected', false);
     },
+    WS_test(context) {
+      context.commit('test');
+    },
     WS_message(context, message) {
       context.commit('reset_error')
       context.commit('set_game', message)
@@ -143,7 +153,7 @@ export default new Vuex.Store({
       context.commit('reset_error')
       context.commit('set_room', message.room)
     },
-    WS_list_dictionaries (context, message) {
+    WS_list_dictionaries(context, message) {
       context.commit('set_dictionaries', message.dictionaries)
     },
     WS_error(state, message) {
