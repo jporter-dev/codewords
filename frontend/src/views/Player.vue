@@ -38,7 +38,7 @@
 
 <script>
 import GameBoard from "@/components/game/Board";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "player",
@@ -48,6 +48,7 @@ export default {
   props: ["spymaster"],
   computed: {
     ...mapState(["room", "spymasterReveal", "game", "connected"]),
+    ...mapGetters(['username']),
     role() {
       if (this.spymaster && !this.spymasterReveal) {
         return null;
@@ -62,6 +63,7 @@ export default {
       handler() {
         if (this.connected) {
           const params = {
+            username: this.username,
             room: this.room
           };
           this.$socket.emit("join", params);

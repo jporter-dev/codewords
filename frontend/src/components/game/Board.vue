@@ -86,8 +86,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["connected", "room", "username", "game"]),
-    ...mapGetters(["words", "gameWon"]),
+    ...mapState(["connected", "room", "game"]),
+    ...mapGetters(["words", "gameWon", "username"]),
     cards() {
       if (this.isSpymaster()) {
         return this.game.solution;
@@ -125,7 +125,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["set_room", "set_username"]),
+    ...mapMutations(["set_room"]),
     isSpymaster() {
       return this.role === this.spymaster;
     },
@@ -239,15 +239,6 @@ export default {
       }
     }
   },
-  mounted() {
-    if (!this.username) this.set_username("#unknown");
-    if (!this.room) this.set_room(this.$route.params.room);
-    const params = {
-      username: this.username,
-      room: this.room
-    };
-    this.$socket.emit("join", params);
-  }
 };
 </script>
 

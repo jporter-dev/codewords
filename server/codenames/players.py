@@ -1,15 +1,17 @@
 import json
+import random
 
 class Players(object):
   def __init__(self):
     self.reset()
 
   def add(self, sid, name):
-    self.players[sid] = name
+    self.players[sid] = name if name else sid
 
   def remove(self, sid):
     self.toggle_spymaster(sid, False)
-    del self.players[sid]
+    if sid in self.players:
+      del self.players[sid]
 
   def toggle_spymaster(self, sid, state):
     if state:

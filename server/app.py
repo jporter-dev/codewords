@@ -92,25 +92,23 @@ def on_create(data):
             teams=data['teams'],
             dictionary=data['dictionaryOptions']['dictionaries'])
 
-    room = gm.game_id
+    gm.players.add(request.sid, data.get('username', None))
     # write room to redis
     save_game(gm)
-    join_room(room)
+    join_room(gm.game_id)
     # rooms[room].add_player(username)
-    emit('join_room', {'room': room})
+    emit('join_room', {'room': gm.game_id})
 
 @socketio.on('join')
 def on_join(data):
     """Join a game lobby"""
-    # username = data['username']
     room = data['room']
     gm = get_game(room)
     # send(request.sid, room=room)
     if gm:
         # add player and rebroadcast game object
-        # rooms[room].add_player(username)
         join_room(room)
-        gm.players.add(request.sid, 'test')
+        gm.players.add(request.sid, data.get('username', None))
         save_game(gm)
         send(gm.to_json(), room=room)
 
@@ -157,7 +155,6 @@ def get_game(room):
 
 def save_game(game):
     db.setex(game.game_id, REDIS_TTL_S, pickle.dumps(game))
-
 
 def exit_handler():
     for room in db.keys():

@@ -5,7 +5,6 @@ import * as Cookies from 'js-cookie'
 
 Vue.use(Vuex);
 const inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000);
-
 export default new Vuex.Store({
   plugins: [createPersistedState({
     storage: {
@@ -19,18 +18,25 @@ export default new Vuex.Store({
   })],
   state: {
     connected: false,
+    starting_sid: null,
     drawer: false,
+    rules: {
+      required: value => !!value || "Required."
+    },
     // game-specific stuff TODO: move into a module
     dictionaries: {},
     game: {},
     room: '',
-    username: '',
+    username: null,
     error: null,
     turn: '',
     spymasterReveal: false,
     popupHides: 0
   },
   getters: {
+    username(state) {
+      return state.username || `Agent ${state.starting_sid.substr(6, 6)}`
+    },
     words(state) {
       if (state.game.solution) {
         return Object.keys(state.game.solution);
@@ -77,6 +83,9 @@ export default new Vuex.Store({
   mutations: {
     set_connected(state, payload) {
       state.connected = payload;
+    },
+    set_starting_sid(state, payload) {
+      state.starting_sid = payload;
     },
     set_drawer(state, payload) {
       state.drawer = payload;

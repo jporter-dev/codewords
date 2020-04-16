@@ -1,10 +1,15 @@
 <template>
   <v-app id="codenames">
-    <app-drawer ></app-drawer>
+    <app-drawer></app-drawer>
     <app-toolbar></app-toolbar>
     <game-controls></game-controls>
     <v-content>
-      <v-container fluid fill-height pa-0 class="align-start">
+      <v-container
+        fluid
+        fill-height
+        pa-0
+        class="align-start"
+      >
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -21,9 +26,21 @@ import GameControls from "@/components/game/Controls";
 export default {
   name: "app",
   components: { AppDrawer, AppNav, AppToolbar, GameControls },
-  data () {
+  data() {
     return {
       drawer: undefined
+    };
+  },
+  watch: {
+    "$store.state.connected": {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          // generate a username
+          if (!this.$store.state.starting_sid)
+            this.$store.commit("set_starting_sid", this.$socket.id);
+        }
+      }
     }
   },
   created() {
@@ -38,7 +55,8 @@ body {
   background: #303030;
 }
 .cn-text {
-  font-family: "Special Elite", "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace!important;
+  font-family: "Special Elite", "Courier New", Courier, "Lucida Sans Typewriter",
+    "Lucida Typewriter", monospace !important;
   letter-spacing: 1px !important;
   &--upcase {
     text-transform: uppercase;
@@ -62,7 +80,7 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  background: url('/img/paper-texture.png');
+  background: url("/img/paper-texture.png");
   opacity: 0.4;
 }
 

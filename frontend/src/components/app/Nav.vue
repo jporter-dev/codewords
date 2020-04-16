@@ -61,14 +61,18 @@ export default {
       }
     },
     spymasters() {
-      return this.game.players.spymasters.length.toString();
+      if (this.game.players)
+        return this.game.players.spymasters.length.toString();
+      return "0";
     },
     spymastersColor() {
-      if(this.game.players.spymasters.length > 2)
-        return 'error'
-      else if (this.game.players.spymasters.length === 0)
-        return 'secondary'
-      return 'primary'
+      if (this.game.players) {
+        if (this.game.players && this.game.players.spymasters.length > 2)
+          return "error";
+        else if (this.game.players.spymasters.length === 0) return "secondary";
+        return "primary";
+      }
+      return "";
     }
   }
 };
