@@ -2,7 +2,6 @@
   <v-container fluid grid-list-md fill-height pa-0 v-if="role">
     <v-layout column>
       <slot></slot>
-      <game-controls></game-controls>
       <v-flex pa-0 v-for="row in gridRows" :key="row">
         <v-layout row wrap :fill-height="$vuetify.breakpoint.mdAndUp">
           <v-flex d-flex class="cn-card" v-for="cell in gridCells" @click="showFlipCard(getWord(row, cell))" :key="cell">
@@ -44,11 +43,9 @@
 
 <script>
   import { mapState, mapGetters, mapMutations } from 'vuex';
-  import GameControls from '@/components/GameControls'
 
   export default {
     name: 'game-board',
-    components: { GameControls },
     props: ['role'],
     data() {
       return {

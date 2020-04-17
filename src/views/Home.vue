@@ -6,11 +6,14 @@
       </v-avatar>
       <h1 class="cn-text">Codewords</h1>
       <v-alert
-        :value="false"
+        :value="true"
         type="warning"
         outline
       >
-        If you experience issues, please try refreshing the page.
+        Codewords.tv is experiencing a higher than usual load.
+        Apologies if the site is down or having issues, please feel free to
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfLs3pnKu7WifF4WQdq0Q8VAtiY1WARyw8O_rmrxjYnm7Zz1g/viewform?usp=sf_link">report an outage</a>
+        or <a href="https://beta.codewords.tv/">try the beta</a>!
       </v-alert>
       <v-btn block color="secondary" large to="create" id="create-btn">Create Game</v-btn>
       <join-form></join-form>

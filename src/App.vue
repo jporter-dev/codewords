@@ -213,7 +213,7 @@ export default {
         {
           title: "Contact",
           icon: "email",
-          href: "mailto:codecaffeinated@gmail.com?subject=Codenames Support"
+          href: "https://docs.google.com/forms/d/e/1FAIpQLSfLs3pnKu7WifF4WQdq0Q8VAtiY1WARyw8O_rmrxjYnm7Zz1g/viewform?usp=sf_link"
         },
         {
           title: "Contribute",
@@ -223,7 +223,7 @@ export default {
         {
           title: "Report a Bug",
           icon: "bug_report",
-          href: "https://github.com/joshporter1/codenames/issues/new"
+          href: "https://docs.google.com/forms/d/e/1FAIpQLSfLs3pnKu7WifF4WQdq0Q8VAtiY1WARyw8O_rmrxjYnm7Zz1g/viewform?usp=sf_link"
         }
       ]
     };

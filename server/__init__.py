@@ -41,7 +41,7 @@ if not app.debug:
     app.logger.setLevel(gunicorn_logger.level)
 
 ROOMS = {}
-
+ACTIVE_CLIENTS = 0
 
 def prune():
     """Prune rooms stale for more than 6 hours"""
@@ -71,15 +71,35 @@ def trigger_error():
 def stats():
     """display room stats"""
     resp = {
+        "active_clients": ACTIVE_CLIENTS,
         "total": len(ROOMS.keys()),
-        "bytes_used": getsizeof(ROOMS)
+        "bytes_used": getsizeof(ROOMS),
+        "rooms": None
     }
-    if 'rooms' in request.args:
-        if ROOMS:
-            resp["rooms"] = sorted([ v.to_json() for v in ROOMS.values() ], key=lambda k: k.get('date_modified'), reverse=True)
+    if 'rooms' in request.args and ROOMS:
+        if 'all' in request.args:
+            resp["rooms"] = sorted([ v.to_json() for v in ROOMS.values() ], \
+                key=lambda k: k.get('date_modified'), reverse=True)
         else:
-            resp["rooms"] = None
+            resp["rooms"] = sorted([ {
+                "id": v.game_id,
+                "dictionary": v.dictionary,
+                "date_modified": v.date_modified,
+                "playtime": v.playtime(),
+                "custom": bool(v.wordbank)
+            } for v in ROOMS.values() ], \
+                key=lambda k: k.get('date_modified'), reverse=True)
     return jsonify(resp)
+
+@socketio.on('connect')
+def on_connect():
+    global ACTIVE_CLIENTS
+    ACTIVE_CLIENTS += 1
+
+@socketio.on('disconnect')
+def on_disconnect():
+    global ACTIVE_CLIENTS
+    ACTIVE_CLIENTS -= 1
 
 @socketio.on('create')
 def on_create(data):
