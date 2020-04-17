@@ -15,7 +15,7 @@
     </v-content>
     <app-nav></app-nav>
     <v-dialog
-      :value="true"
+      :value="disconnected"
       persistent
       max-width="300px"
       overlay-opacity=".75"
