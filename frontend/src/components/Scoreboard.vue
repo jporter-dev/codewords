@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="tileCounts">
     <span class="red--text text--darken-1">{{tileCounts.total.R - tileCounts.flipped.R}}</span>
     <span
       style="padding: 0 10px;"

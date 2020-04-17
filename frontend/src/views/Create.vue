@@ -46,7 +46,7 @@
 
 <script>
 import { mapMutations } from "vuex";
-import CreateForm from "@/components/CreateForm";
+import CreateForm from "@/components/forms/CreateForm";
 
 export default {
   name: "Create",

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home';
 import Create from '@/views/Create';
+const Player = () => import('@/views/Player')
 
 Vue.use(Router);
 
@@ -21,27 +22,17 @@ export default new Router({
       component: Create,
     },
     {
-      path: '/help',
-      name: 'Help',
-      component: () => import('@/views/Help'),
-    },
-    {
       path: '/:room/player',
       name: 'Player',
-      component: () => import('@/views/Player'),
+      component: Player,
     },
     {
       path: '/:room/spymaster',
       name: 'Spymaster',
-      component: () => import('@/views/Player'),
+      component: Player,
       props: {
         spymaster: true
       }
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: () => import('@/views/Test')
     },
   ],
 });

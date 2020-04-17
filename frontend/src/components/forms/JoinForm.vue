@@ -1,40 +1,28 @@
 <template>
   <v-fade-transition appear>
     <v-form
+      ref="form"
       v-model="validForm"
       @submit.prevent="joinGame"
     >
       <v-card>
         <v-card-text>
-          <v-alert
-            type="error"
-            :value="showInputError"
-            transition="slide-y-reverse-transition"
-          >
-            Room ID is required to join.
-          </v-alert>
-          <v-row
-            dense
-            class="mb-3"
-          >
-            <v-col cols="4">
+          <v-row dense>
+            <v-col md="4">
               <v-text-field
                 label="Room ID"
-                placeholder="Enter a Room ID"
-                v-model="room_num"
-                :rules="[rules.required]"
-                mask="AAAAA"
+                placeholder="Enter Room ID..."
+                v-model="room_id"
+                :rules="[rules.required, rules.id_length]"
                 outlined
-                hide-details
               ></v-text-field>
             </v-col>
             <v-col>
               <v-text-field
                 label="Secret Agent Name"
-                placeholder="Pick a secret agent name..."
+                placeholder="Enter a name..."
                 v-model="username"
                 outlined
-                hide-details
               ></v-text-field>
             </v-col>
           </v-row>
@@ -59,8 +47,7 @@ export default {
   data() {
     return {
       validForm: false,
-      room_num: null,
-      showInputError: false
+      room_num: ''
     };
   },
   computed: {
@@ -73,25 +60,24 @@ export default {
         return this.$store.commit("set_username", v);
       }
     },
-    room_id() {
-      return this.room_num.toUpperCase();
+    room_id: {
+      get() {
+        return this.room_num.toUpperCase();
+      },
+      set(v) {
+        this.room_num = v;
+      }
     }
   },
   methods: {
     ...mapMutations(["set_username", "set_room"]),
     joinGame() {
-      this.showInputError = false;
+      this.$refs.form.validate();
       if (this.validForm) {
         this.set_room(this.room_id);
         this.$router.push({ name: "Player", params: { room: this.room_id } });
-      } else {
-        this.showInputError = true;
       }
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

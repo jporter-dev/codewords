@@ -1,22 +1,15 @@
 <template>
   <v-container>
-    <v-row
-      align="center"
-      justify="center"
-    >
+    <v-row justify="center">
       <v-col
         cols="12"
         sm="8"
         md="8"
         lg="6"
         xl="6"
-        align="center"
         justify="center"
       >
-        <v-row
-          align="center"
-          justify="center"
-        >
+        <v-row justify="center">
           <v-avatar
             tile
             size="128"
@@ -73,14 +66,12 @@
 
 <script>
 import { mapMutations } from "vuex";
-import CreateForm from "@/components/CreateForm";
-import JoinForm from "@/components/JoinForm";
+import JoinForm from "@/components/forms/JoinForm";
 import CoffeeButton from "@/components/misc/CoffeeButton";
 
 export default {
   name: "Home",
   components: {
-    CreateForm,
     JoinForm,
     CoffeeButton
   },

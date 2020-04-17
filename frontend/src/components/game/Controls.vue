@@ -40,11 +40,10 @@
       open-on-hover
       direction="bottom"
       transition="slide-y-reverse-transition"
-      v-if="room && spymasterReveal && (isFirstTurn || gameWon)"
+      v-if="room && spymasterReveal"
     >
       <template v-slot:activator>
         <v-btn
-          v-model="fab"
           color="secondary"
           small
           dark
@@ -54,10 +53,7 @@
           <v-icon v-else>mdi-settings</v-icon>
         </v-btn>
       </template>
-      <v-tooltip
-        left
-        v-if="gameWon"
-      >
+      <v-tooltip left>
         <template v-slot:activator="{ on }">
           <v-btn
             fab
@@ -72,16 +68,13 @@
         </template>
         <span>New Game</span>
       </v-tooltip>
-      <v-tooltip
-        left
-        v-else
-      >
+      <v-tooltip left>
         <template v-slot:activator="{ on }">
           <v-btn
             fab
             dark
             small
-            color="green darken-2"
+            color="green"
             v-on="on"
             @click.native="newGame"
           >
@@ -99,12 +92,12 @@
             small
             color="red darken-2"
             v-on="on"
-            :to="{ name: 'Home' }"
+            @click="closeRoom()"
           >
             <v-icon>mdi-door-closed</v-icon>
           </v-btn>
         </template>
-        <span>Leave Room</span>
+        <span>Close Room</span>
       </v-tooltip>
     </v-speed-dial>
   </div>
@@ -135,11 +128,6 @@ export default {
       return true;
     }
   },
-  watch: {
-    gameWon(val) {
-      if (val) this.fab = true;
-    }
-  },
   methods: {
     ...mapMutations(["reset_room"]),
     newGame(reset) {
@@ -151,9 +139,11 @@ export default {
       if (reset === true) {
         this.reset_room();
         params["newGame"] = true;
-        this.$router.push({ path: `/${this.room}/player` });
       }
       this.$socket.emit("regenerate", params);
+    },
+    closeRoom() {
+      this.$socket.emit("close_room", { room: this.room });
     }
   }
 };

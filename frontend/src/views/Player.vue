@@ -1,35 +1,44 @@
 <template>
-  <v-container
-    v-if="spymaster && !spymasterReveal"
-    fill-height
-  >
-    <v-row
-      class="fill-height"
-      align="center"
-      justify="center"
+  <v-container v-if="error">
+    <v-alert
+      type="error"
+      prominent
+      text
+      outlined
     >
-      <v-col
-        cols="12"
-        sm="8"
-        xs="12"
+      <v-row
+        align="center"
+        dense
       >
-        <v-alert
-          outlined
-          type="warning"
-          :value="true"
+        <v-col class="grow">{{error}}</v-col>
+        <v-col
+          class="shrink"
+          v-if="$vuetify.breakpoint.smAndUp"
         >
-          <b>Warning!</b> There should only be two spymasters per game.
-        </v-alert>
-        <v-btn
-          block
-          large
-          color="success"
-          @click="reveal_spymaster"
-          id="spymaster-btn"
-        >I understand. Make me a spymaster!</v-btn>
-      </v-col>
-    </v-row>
+          <v-btn
+            to="/"
+            block
+          >
+            Go Home
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row
+        dense
+        v-if="$vuetify.breakpoint.xs"
+      >
+        <v-col>
+          <v-btn
+            to="/"
+            block
+          >
+            Go Home
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-alert>
   </v-container>
+  <spymaster-warning v-else-if="spymaster && !isSpymaster"></spymaster-warning>
   <game-board
     :role="role"
     v-else
@@ -38,17 +47,19 @@
 
 <script>
 import GameBoard from "@/components/game/Board";
+import SpymasterWarning from "@/components/game/SpymasterWarning";
 import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "player",
   components: {
-    GameBoard
+    GameBoard,
+    SpymasterWarning
   },
   props: ["spymaster"],
   computed: {
-    ...mapState(["room", "spymasterReveal", "game", "connected"]),
-    ...mapGetters(['username']),
+    ...mapState(["room", "spymasterReveal", "game", "connected", "error"]),
+    ...mapGetters(["username", "isSpymaster"]),
     role() {
       if (this.spymaster && !this.spymasterReveal) {
         return null;
@@ -62,6 +73,7 @@ export default {
       immediate: true,
       handler() {
         if (this.connected) {
+          this.set_room(this.$route.params.room);
           const params = {
             username: this.username,
             room: this.room
@@ -71,9 +83,21 @@ export default {
         }
       }
     },
-    spymasterReveal: {
+    "$route.params.room": {
       immediate: true,
       handler() {
+        this.reset_room();
+        this.set_room(this.$route.params.room);
+      }
+    },
+    spymasterReveal: {
+      handler() {
+        this.setSpymaster();
+      }
+    },
+    isSpymaster: {
+      handler(to, from) {
+        if (from) this.forget_spymaster();
         this.setSpymaster();
       }
     },
@@ -82,21 +106,13 @@ export default {
       if (from) this.forget_spymaster();
     }
   },
-  mounted() {
-    // set the room variable to the route param
-    if (!this.room) this.set_room(this.$route.params.room);
-  },
   destroyed() {
     // reset room and spymaster value when navigating away
     this.reset_room();
+    this.$socket.emit("leave_room", { room: this.room });
   },
   methods: {
-    ...mapMutations([
-      "set_room",
-      "reset_room",
-      "reveal_spymaster",
-      "forget_spymaster"
-    ]),
+    ...mapMutations(["set_room", "reset_room", "forget_spymaster"]),
     setSpymaster() {
       const params = {
         room: this.room,

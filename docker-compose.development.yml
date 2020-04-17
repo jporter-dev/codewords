@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   flask:
+    restart: unless-stopped
     environment:
       FLASK_DEV: development
     volumes:

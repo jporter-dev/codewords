@@ -20,14 +20,8 @@
           </v-btn>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Menu</v-list-item-title>
+          <v-list-item-title>{{username}}</v-list-item-title>
         </v-list-item-content>
-        <v-list-item-avatar>
-          <img
-            src="@/assets/logo-64x64.png"
-            alt="codenames logo"
-          />
-        </v-list-item-avatar>
       </v-list-item>
     </v-list>
     <v-list
@@ -83,7 +77,10 @@
         :title="id"
       >
         <v-list-item-icon>
-          <v-icon v-if="game.players.spymasters.indexOf(id) >= 0" color="primary">mdi-library</v-icon>
+          <v-icon
+            v-if="game.players.spymasters.indexOf(id) >= 0"
+            color="primary"
+          >mdi-library</v-icon>
           <v-icon v-else>mdi-account</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{name}}</v-list-item-title>
@@ -93,7 +90,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -127,6 +124,7 @@ export default {
   },
   computed: {
     ...mapState(["connected", "game"]),
+    ...mapGetters(["username"]),
     drawer: {
       get() {
         return this.$store.state.drawer;

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
+import router from '../router';
 
 Vue.use(Vuex);
 const inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000);
@@ -19,10 +20,12 @@ export default new Vuex.Store({
   state: {
     connected: false,
     starting_sid: null,
+    current_sid: null,
     test: 0,
     drawer: false,
     rules: {
-      required: value => !!value || "Required."
+      required: value => !!value || "Required.",
+      id_length: value => (value && value.length === 5) || "Room ID must be 5 characters."
     },
     // game-specific stuff TODO: move into a module
     dictionaries: {},
@@ -36,7 +39,18 @@ export default new Vuex.Store({
   },
   getters: {
     username(state) {
-      return state.username || `Agent ${state.starting_sid.substr(6, 6)}`
+      if (state.username)
+        return state.username
+      else if (state.starting_sid)
+        return `Agent ${state.starting_sid.substr(6, 6)}`
+      else
+        return "Unknown Agent"
+    },
+    isSpymaster(state) {
+      if (state.game.players) {
+        return state.game.players.spymasters.indexOf(state.current_sid) >= 0
+      }
+      return false;
     },
     words(state) {
       if (state.game.solution) {
@@ -88,11 +102,8 @@ export default new Vuex.Store({
     set_starting_sid(state, payload) {
       state.starting_sid = payload;
     },
-    test(state, reset) {
-      if (reset)
-        state.test = 0
-      else
-        state.test += 1;
+    set_current_sid(state, payload) {
+      state.current_sid = payload;
     },
     set_drawer(state, payload) {
       state.drawer = payload;
@@ -124,6 +135,13 @@ export default new Vuex.Store({
     },
     forget_spymaster(state) {
       state.spymasterReveal = false;
+      if (router.currentRoute.name !== 'Player')
+        router.push({
+          name: "Player",
+          params: {
+            room: state.room
+          }
+        })
     },
     reset_room(state) {
       state.game = {};
@@ -140,9 +158,6 @@ export default new Vuex.Store({
     WS_disconnect(context) {
       context.commit('set_connected', false);
     },
-    WS_test(context) {
-      context.commit('test');
-    },
     WS_message(context, message) {
       context.commit('reset_error')
       context.commit('set_game', message)
@@ -156,8 +171,8 @@ export default new Vuex.Store({
     WS_list_dictionaries(context, message) {
       context.commit('set_dictionaries', message.dictionaries)
     },
-    WS_error(state, message) {
-      state.error = message.error;
+    WS_error(context, message) {
+      context.commit('set_error', message.error)
     },
   }
 });

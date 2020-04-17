@@ -14,6 +14,30 @@
       </v-container>
     </v-content>
     <app-nav></app-nav>
+    <v-dialog
+      v-model="disconnected"
+      persistent
+      max-width="300px"
+      overlay-opacity="0"
+    >
+      <v-card>
+        <v-card-title>Unable to connect</v-card-title>
+        <v-card-text>
+          Please stand by
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            block
+            color="secondary"
+          >Report an issue</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -23,22 +47,37 @@ import AppDrawer from "@/components/app/Drawer";
 import AppNav from "@/components/app/Nav";
 import GameControls from "@/components/game/Controls";
 
+import { mapState } from "vuex";
+
 export default {
   name: "app",
   components: { AppDrawer, AppNav, AppToolbar, GameControls },
   data() {
     return {
-      drawer: undefined
+      drawer: undefined,
+      disconnected: false,
+      disconnect_delay: null
     };
   },
+  computed: {
+    ...mapState(["connected"])
+  },
   watch: {
-    "$store.state.connected": {
+    connected: {
       immediate: true,
       handler(val) {
+        if (this.disconnect_delay) clearTimeout(this.disconnect_delay);
         if (val) {
           // generate a username
+          this.disconnected = false;
+          this.$store.commit("set_current_sid", this.$socket.id);
           if (!this.$store.state.starting_sid)
             this.$store.commit("set_starting_sid", this.$socket.id);
+        } else {
+          // reset delay timer
+          this.disconnect_delay = setTimeout(() => {
+            return (this.disconnected = true);
+          }, 3000);
         }
       }
     }
