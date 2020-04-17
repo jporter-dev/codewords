@@ -15,10 +15,11 @@
     </v-content>
     <app-nav></app-nav>
     <v-dialog
-      v-model="disconnected"
+      :value="true"
       persistent
       max-width="300px"
-      overlay-opacity="0"
+      overlay-opacity=".75"
+      overlay-color="black"
     >
       <v-card>
         <v-card-title>Unable to connect</v-card-title>
