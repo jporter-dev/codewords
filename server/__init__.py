@@ -51,7 +51,7 @@ def prune():
 
     def is_stale(room):
         """Stale rooms are older than 6 hours, or have gone 20 minutes less than 5 minutes of total playtime"""
-        return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*24)) or
+        return (((datetime.now() - room.date_modified).total_seconds() >= (60*60*12)) or
             ((datetime.now() - room.date_modified).total_seconds() >= (60*20) and
             room.playtime() <= 5))
 
