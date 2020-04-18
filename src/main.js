@@ -14,11 +14,15 @@ import store from './store';
 
 // temporarily disable service workers
 // import './registerServiceWorker'
-navigator.serviceWorker.getRegistrations().then(function(registrations) {
-  for(let registration of registrations) {
-    registration.unregister()
-  }
-})
+try {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister()
+    }
+  })
+} catch (error) {
+  // serviceWorker not supported
+}
 
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
