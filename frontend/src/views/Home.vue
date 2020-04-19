@@ -76,6 +76,8 @@ import { mapMutations } from "vuex";
 import CreateForm from "@/components/CreateForm";
 import JoinForm from "@/components/JoinForm";
 import CoffeeButton from "@/components/misc/CoffeeButton";
+import messages from "@/plugins/translations/en/home.json";
+// import common_messages from "@/plugins/translations/en/common.json";
 
 export default {
   name: "Home",
@@ -89,6 +91,10 @@ export default {
   },
   methods: {
     ...mapMutations(["reset_error"])
+  },
+  i18n: {
+    messages: messages,
+    sharedMessages: common_messages
   }
 };
 </script>
