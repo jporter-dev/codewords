@@ -18,6 +18,7 @@ export default new Vuex.Store({
   state: {
     connected: false,
     dictionaries: [],
+    clients: 0,
     game: {},
     room: '',
     username: '',
@@ -89,6 +90,9 @@ export default new Vuex.Store({
     },
     SOCKET_LIST_DICTIONARIES: (state, message) => {
       state.dictionaries = message.dictionaries;
+    },
+    SOCKET_ACTIVE_CLIENTS: (state, message) => {
+      state.clients = message;
     },
     SOCKET_ERROR(state, message) {
       state.error = message.error;

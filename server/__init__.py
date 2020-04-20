@@ -95,6 +95,7 @@ def stats():
 def on_connect():
     global ACTIVE_CLIENTS
     ACTIVE_CLIENTS += 1
+    emit('active_clients', ACTIVE_CLIENTS)
 
 @socketio.on('disconnect')
 def on_disconnect():
