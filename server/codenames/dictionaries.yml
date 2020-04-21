@@ -17,6 +17,9 @@ dictionaries:
   Italian:
     language: Italian
     filename: default/italian.txt
+  Polish:
+    language: Polish
+    filename: default/polish.txt
   Portuguese:
     language: Portuguese
     filename: default/portuguese.txt
