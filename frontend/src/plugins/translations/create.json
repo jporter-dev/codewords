@@ -4,7 +4,7 @@
   "wordbank directions": "Enter a comma or newline separated list of words.",
   "mix dictionaries": "Mix Dictionaries (Beta)",
   "dictionary": "Dictionary",
-  "select...": "Select..." ,
+  "select...": "Select...",
   "select a dictionary": "Select a dictionary",
   "advanced options": "Advanced Options",
   "teams": "Teams",
@@ -14,5 +14,6 @@
   "normal": "Normal",
   "large": "Large",
   "create": "Create",
-  "back": "Back"
+  "pick an agent name": "Pick a secret agent name...",
+  "secret agent name": "Secret Agent Name"
 }
