@@ -22,20 +22,13 @@
       overlay-color="black"
     >
       <v-card>
-        <v-card-title>Unable to connect</v-card-title>
+        <v-card-title>{{ $t('unable to connect') }}</v-card-title>
         <v-card-text>
-          Please stand by
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          ></v-progress-linear>
+          {{ $t('please stand by') }}
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            block
-            color="secondary"
-          >Report an issue</v-btn>
+          <v-btn block color="secondary">{{ $t('report an issue') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

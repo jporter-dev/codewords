@@ -2,6 +2,9 @@
   "en": {
     "title": "Codewords",
     "buy me coffee": "Buy me a coffee",
-    "back": "Back"
+    "back": "Back",
+    "unable to connect": "Unable to connect",
+    "please stand by": "Please stand by",
+    "report an issue": "Report an issue"
   }
 }
