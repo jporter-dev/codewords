@@ -1,0 +1,69 @@
+{
+  "name": "codenames",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "test": "vue-cli-service e2e --record",
+    "e2e": "vue-cli-service e2e",
+    "lint": "vue-cli-service lint",
+    "flask": "venv/bin/python server/__init__.py",
+    "gunicorn": "venv/bin/gunicorn --error-logfile - --worker-class eventlet -w 1 server:app -b 0.0.0.0:5000",
+    "setup": "venv/bin/pip install -r requirements.txt && npm install",
+    "e2e:open": "vue-cli-service e2e:open",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "@sentry/browser": "^5.15.4",
+    "@sentry/integrations": "^5.15.4",
+    "js-cookie": "^2.2.1",
+    "raivue": "^0.1.10",
+    "register-service-worker": "^1.7.1",
+    "vue": "^2.6.11",
+    "vue-resize-text": "^0.1.1",
+    "vue-router": "^3.1.6",
+    "vue-socket.io": "~3.0.7",
+    "vuetify": "^2.2.21",
+    "vuex": "^3.1.3",
+    "vuex-persistedstate": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-stage-2": "7.8.3",
+    "@vue/cli-plugin-babel": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-plugin-pwa": "^4.3.1",
+    "@vue/cli-plugin-unit-jest": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/test-utils": "^1.0.0-beta.33",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^25.3.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

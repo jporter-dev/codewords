@@ -4,23 +4,17 @@ import time
 import random
 import math
 import string
+import yaml
 import os
+from codenames import players
 
-# dictionaries
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-FILE_ROOT = os.path.join(APP_ROOT, '..', 'dictionaries')
-DICTIONARIES = {}
-DICTIONARIES["English"] =                   FILE_ROOT + "/english.txt"
-DICTIONARIES["Czech"] =                     FILE_ROOT + "/czech.txt"
-DICTIONARIES["French"] =                    FILE_ROOT + "/french.txt"
-DICTIONARIES["German"] =                    FILE_ROOT + "/german.txt"
-DICTIONARIES["Greek"] =                     FILE_ROOT + "/greek.txt"
-DICTIONARIES["Italian"] =                   FILE_ROOT + "/italian.txt"
-DICTIONARIES["Polski"] =                    FILE_ROOT + "/polski.txt"
-DICTIONARIES["Portuguese"] =                FILE_ROOT + "/portuguese.txt"
-DICTIONARIES["Russian"] =                   FILE_ROOT + "/russian.txt"
-DICTIONARIES["Spanish"] =                   FILE_ROOT + "/spanish.txt"
-DICTIONARIES["Cards Against Humanity"] =    FILE_ROOT + "/cards_against_humanity.txt"
+# load dictionaries
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dictionaries.yml')
+with open(config_path, 'r') as stream:
+    try:
+        DICTIONARIES = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        DICTIONARIES = {}
 
 # colors per team
 RED = 'R'
@@ -33,7 +27,7 @@ BOARD_SIZE = {
 }
 BIG_BLACKOUT_SPOTS = [4, 20, 24, 36, 40, 44, 56, 60, 76]
 
-class Info(object):
+class Game(object):
     # pylint: disable=too-many-instance-attributes
     """Object for tracking game stats"""
     def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
@@ -42,12 +36,12 @@ class Info(object):
         self.starting_color = RED
         self.date_created = datetime.now()
         self.date_modified = self.date_created
-        self.players = []
         self.size = size
         self.teams = teams
         self.dictionary = dictionary
         self.mix = mix
         self.minWords = BOARD_SIZE[self.size]
+        self.players = players.Players()
 
         # gererate board
         self.generate_board()
@@ -57,7 +51,7 @@ class Info(object):
         return {
             "game_id": self.game_id,
             "starting_color": self.starting_color,
-            "players": self.players,
+            "players": self.players.as_dict(),
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified),
             "playtime": self.playtime(),
@@ -69,8 +63,7 @@ class Info(object):
                 "teams": self.teams,
                 "mix": self.mix,
                 "custom": self.wordbank
-            },
-
+            }
         }
 
     def generate_board(self, newGame=False):
@@ -117,8 +110,10 @@ class Info(object):
         d2_ts = time.mktime(d2.timetuple())
         return round(float(d2_ts-d1_ts) / 60, 2)
 
-    def __load_words(self, d):
-        with open(DICTIONARIES[d], 'r') as words_file:
+    def __load_dictionary(self, d):
+        path = DICTIONARIES['dictionaries'][d]['filename']
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dictionaries', path)
+        with open(path, 'r') as words_file:
             return [elem for elem in words_file.read().split('\n') if len(elem.strip()) > 0]
 
     def __get_words(self, size):
@@ -130,13 +125,13 @@ class Info(object):
                 words = []
                 for key in self.mix:
                     # load and shuffle current dict
-                    tempWords = self.__load_words(key)
+                    tempWords = self.__load_dictionary(key)
                     random.shuffle(tempWords)
                     # get word ratio (rounded up)
                     numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
                     words = words + tempWords[0:numWords]
             else:
-                words = self.__load_words(self.dictionary)
+                words = self.__load_dictionary(self.dictionary)
         random.shuffle(words)
         final_words = words[0:BOARD_SIZE[size]]
         return final_words

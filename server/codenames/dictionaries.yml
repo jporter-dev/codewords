@@ -1,0 +1,41 @@
+dictionaries:
+  English:
+    language: English
+    filename: default/english.txt
+  Czech:
+    language: Czech
+    filename: default/czech.txt
+  French:
+    language: French
+    filename: default/french.txt
+  German:
+    language: German
+    filename: default/german.txt
+  Greek:
+    language: Greek
+    filename: default/greek.txt
+  Italian:
+    language: Italian
+    filename: default/italian.txt
+  Polish:
+    language: Polish
+    filename: default/polish.txt
+  Portuguese:
+    language: Portuguese
+    filename: default/portuguese.txt
+  Russian:
+    language: Russian
+    filename: default/russian.txt
+  Spanish:
+    language: Spanish
+    filename: default/spanish.txt
+
+  Cards Against Humanity:
+    language: English
+    filename: other/cards_against_humanity.txt
+  Codenames Undercover:
+    language: English
+    filename: other/codenames_undercover.txt
+  Codenames Duet:
+    language: English
+    filename: other/codenames_duet.txt

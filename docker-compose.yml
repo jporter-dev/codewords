@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  redis:
+    image: redis:alpine
+    volumes:
+      - 'redis:/data/db'
+  flask:
+    build: ./server
+    volumes:
+      - ./server:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 8080:8080
+    links:
+      - flask
+    depends_on:
+      - flask
+    # restart: unless-stopped
+volumes:
+  redis:
