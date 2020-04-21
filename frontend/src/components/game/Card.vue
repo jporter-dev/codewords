@@ -84,4 +84,10 @@ export default {
 .cn-card.dialog-card .cn-word {
   min-height: 100px;
 }
+
+.cn-team {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 </style>

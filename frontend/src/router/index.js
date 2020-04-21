@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/views/Home';
 import Create from '@/views/Create';
 const Player = () => import('@/views/Player')
+const Help = () => import('@/views/Help')
 
 Vue.use(Router);
 
@@ -16,7 +17,13 @@ export default new Router({
     {
       path: '/home',
       redirect: '/',
-    }, {
+    },
+    {
+      path: '/help',
+      name: 'Help',
+      component: Help,
+    },
+    {
       path: '/create',
       name: 'Create',
       component: Create,

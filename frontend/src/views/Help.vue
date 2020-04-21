@@ -1,31 +1,32 @@
 <template>
-  <v-layout align-start justify-center row fill-height>
-    <v-flex md6>
-      <v-card tile flat>
-        <v-card-text px-0 class='text-xs-left'>
+  <v-container>
+    <v-row>
+      <v-card tile>
+        <v-card-title>How to Play</v-card-title>
+        <v-card-text>
           <h4>Getting Started</h4>
           <p>
             This application is designed to be played on multiple devices. The "agent"
             view can be loaded on a TV or mobile devies, and the "spymaster" view
             should be activated on the phones of the spymasters.
           </p>
-          <h4 class="header">How to Play</h4>
-          <p>Codenames consists of two teams with two roles on each team: a spymaster and field agents.</p>
-          <p>
-            <a href="https://www.youtube.com/watch?v=zQVHkl8oQEU">Watch an instructional video.</a>
-          </p>
+          <ol>
+            <li>Create a game by pressing the "Create Game" button</li>
+            <li>Optionally, select an alternative dictionary to play with. (Default: English)</li>
+            <li>Other players can now join using the room code in the top left.</li>
+            <li>Divide players into two teams and select one spymaster per team.</li>
+            <li>The two spymasters shall now click to the "spymaster" view to see the color-coded board.</li>
+            <li>The team that starts is highlighted at the top.</li>
+            <li>The first spymaster shall come up with a number and a single-word codeword to link together as many cards as possible.</li>
+            <li>Spymasters can click the cards to flip them as the agents guess.</li>
+            <li>An agent guessing the enemy team's card or a citizen card ends the turn. Assassin ends the game.</li>
+            <li>Repeat steps 7-9 alternating teams.</li>
+            <li>The first team to clear their cards wins.</li>
+          </ol>
+          <br>
+          For more info, read the <a href="https://en.wikipedia.org/wiki/Codenames_(board_game)#Rules">Wikipedia rules page...</a>
         </v-card-text>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-row>
+  </v-container>
 </template>
-
-<script>
-export default {
-  name: 'help',
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

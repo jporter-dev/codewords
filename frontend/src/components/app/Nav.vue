@@ -18,14 +18,21 @@
       <span>Not Connected</span>
       <v-icon medium>mdi-alert</v-icon>
     </v-btn>
+
     <v-btn
       replace
       :to="{ name: 'Player', params: { room: room }}"
       v-if="room && connected && !error"
     >
       <span>Agent</span>
-      <v-icon medium>mdi-account</v-icon>
+      <v-badge
+        color="secondary"
+        :content="players"
+      >
+        <v-icon medium>mdi-account</v-icon>
+      </v-badge>
     </v-btn>
+
     <v-btn
       replace
       :to="{ name: 'Spymaster', params: { room: room }}"
@@ -60,6 +67,14 @@ export default {
         return this.$store.commit("set_drawer", v);
       }
     },
+    players() {
+      if (this.game.players)
+        return (
+          Object.keys(this.game.players.players).length -
+          this.game.players.spymasters.length
+        ).toString();
+      return "0";
+    },
     spymasters() {
       if (this.game.players)
         return this.game.players.spymasters.length.toString();
@@ -67,7 +82,7 @@ export default {
     },
     spymastersColor() {
       if (this.game.players) {
-        if (this.game.players && this.game.players.spymasters.length > 2)
+        if (this.game.players && this.game.players.spymasters.length > this.game.options.teams)
           return "error";
         else if (this.game.players.spymasters.length === 0) return "secondary";
         return "primary";

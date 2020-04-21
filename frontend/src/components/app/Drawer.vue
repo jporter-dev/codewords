@@ -97,6 +97,11 @@ export default {
     return {
       menuItems: [
         {
+          title: "How to Play",
+          icon: "mdi-book-open-variant",
+          href: "/help"
+        },
+        {
           title: "Leave Feedback",
           icon: "mdi-comment-quote",
           href:
