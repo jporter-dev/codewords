@@ -155,3 +155,5 @@ export default {
   }
 };
 </script>
+
+<i18n src="@/plugins/translations/create.json"/>
