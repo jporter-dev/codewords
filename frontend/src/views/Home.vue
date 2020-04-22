@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col cols="12" sm="8" md="8" lg="6" xl="6" justify="center">
-        <v-row justify="center">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="8" lg="6" xl="6" align="center" justify="center">
+        <v-row align="center" justify="center">
           <v-avatar tile size="128">
             <img src="@/assets/logo-256x256.png" alt="codenames logo" />
           </v-avatar>
