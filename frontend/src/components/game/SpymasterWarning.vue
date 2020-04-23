@@ -49,6 +49,7 @@
         </v-row>
       </v-col>
     </v-row>
+    <slot></slot>
   </v-container>
 </template>
 
