@@ -19,7 +19,7 @@
             to="/"
             block
           >
-            Go Home
+            {{ $t('go home') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -32,7 +32,7 @@
             to="/"
             block
           >
-            Go Home
+            {{ $t('go home') }}
           </v-btn>
         </v-col>
       </v-row>

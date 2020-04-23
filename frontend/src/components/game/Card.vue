@@ -48,15 +48,15 @@ export default {
     getTeamName(team) {
       switch (team) {
         case "R":
-          return "Red";
+          return $('red');
         case "B":
-          return "Blue";
+          return $t('blue');
         case "G":
-          return "Green";
+          return $t('green');
         case "O":
-          return "Citizen";
+          return $t('citizen');
         case "X":
-          return "Assassin";
+          return $('assassin');
         default:
           return "";
       }
@@ -85,3 +85,5 @@ export default {
   min-height: 100px;
 }
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

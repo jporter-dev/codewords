@@ -48,7 +48,7 @@
               large
               color="secondary"
               @click.stop="flipCard"
-            >Confirm</v-btn>
+            >{{ $t('confirm') }}</v-btn>
           </v-card-actions>
         </template>
       </game-card>
@@ -58,11 +58,11 @@
       :vertical="true"
       v-model="agentAlert"
     >
-      Only the Spymaster can flip cards.
+      {{ $t('only spymaster flip') }}
       <v-btn
         text
         :to="{ name: 'Spymaster', params: { room: room }}"
-      >Switch to Spymaster</v-btn>
+      >{{ $t('switch to spymaster') }}</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -248,3 +248,5 @@ export default {
   opacity: 0.75;
 }
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

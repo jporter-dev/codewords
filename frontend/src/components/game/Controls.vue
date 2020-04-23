@@ -9,24 +9,24 @@
         color="secondary"
         class="telegram"
       >
-        <v-card-title class="justify-center">Game Over!</v-card-title>
+        <v-card-title class="justify-center">{{$t('game over')}}</v-card-title>
         <v-card-title class="justify-center">
           <scoreboard></scoreboard>
         </v-card-title>
-        <v-card-text>Start a new game with current game settings or create a new lobby.</v-card-text>
+        <v-card-text>{{ $t('start or create') }}</v-card-text>
         <v-card-actions class="justify-center">
           <v-btn
             color="primary"
             @click="newGame"
           >
-            New Game
+            {{ $t('new game') }}
           </v-btn>
           <v-btn
             color="red darken-2"
             @click="newGame"
             :to="{ name: 'Home' }"
           >
-            Leave Room
+            {{ $t('leave room') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -66,7 +66,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
-        <span>New Game</span>
+        <span>{{ $t('new game') }}</span>
       </v-tooltip>
       <v-tooltip left>
         <template v-slot:activator="{ on }">
@@ -81,7 +81,7 @@
             <v-icon>mdi-shuffle</v-icon>
           </v-btn>
         </template>
-        <span>Regenerate Board</span>
+        <span>{{ $t('regenerate board') }}</span>
       </v-tooltip>
 
       <v-tooltip left>
@@ -97,7 +97,7 @@
             <v-icon>mdi-door-closed</v-icon>
           </v-btn>
         </template>
-        <span>Close Room</span>
+        <span>{{ $t('close room') }}</span>
       </v-tooltip>
     </v-speed-dial>
   </div>
@@ -154,3 +154,5 @@ export default {
   top: 75px;
 }
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>
