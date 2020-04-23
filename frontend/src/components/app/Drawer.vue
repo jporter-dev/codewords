@@ -55,10 +55,10 @@
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
-            Status: {{connected ? 'Connected' : 'Not Connected'}}
+            {{ $t('status:') }} {{$t(connected ? 'connected' : 'not connected')}}
           </v-list-item-title>
           <v-list-item-subtitle v-if="connected">
-            Connection: {{this.$socket.io.engine.transport.name}}
+            {{ $t('connection:') }} {{this.$socket.io.engine.transport.name}}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -66,7 +66,7 @@
     </v-list>
     <v-list v-if="game.players">
       <v-list-item>
-        <v-list-item-subtitle>Current Players</v-list-item-subtitle>
+        <v-list-item-subtitle>{{ $t('current players') }}</v-list-item-subtitle>
         <v-list-item-avatar>
           <v-chip small>{{Object.keys(game.players.players).length}}</v-chip>
         </v-list-item-avatar>
@@ -139,3 +139,5 @@ export default {
 
 <style>
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

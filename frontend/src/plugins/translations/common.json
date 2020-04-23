@@ -8,8 +8,11 @@
     "report an issue": "Report an issue",
     "go home": "Go Home",
     "confirm": "Confirm",
-    "game over": "Game Over!",
-    "new game": "New Game",
-    "warning": "Warning!"
+    "warning": "Warning!",
+    "room id": "Room ID",
+    "enter room id": "Enter Room ID...",
+    "secret agent name": "Secret Agent Name",
+    "enter name": "Enter a name...",
+    "join": "Join"
   }
 }
