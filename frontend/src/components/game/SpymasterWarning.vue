@@ -57,11 +57,13 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["room"])
+    ...mapState(["connected", "room"])
   },
   methods: {
     revealSpymaster() {
-      this.$socket.emit("toggle_spymaster", { room: this.room, state: true });
+      if (this.connected) {
+        this.$socket.emit("toggle_spymaster", { room: this.room, state: true });
+      }
     }
   }
 };
