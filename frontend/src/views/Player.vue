@@ -62,10 +62,10 @@ export default {
   },
   props: ["spymaster"],
   computed: {
-    ...mapState(["room", "spymasterReveal", "game", "connected", "error"]),
+    ...mapState(["room", "game", "connected", "error"]),
     ...mapGetters(["username", "isSpymaster"]),
     role() {
-      if (this.spymaster && !this.spymasterReveal) {
+      if (this.spymaster && !this.isSpymaster) {
         return null;
       }
       return this.$route.name;
@@ -83,7 +83,6 @@ export default {
             room: this.room
           };
           this.$socket.emit("join", params);
-          this.setSpymaster();
         }
       }
     },
@@ -94,20 +93,14 @@ export default {
         this.set_room(this.$route.params.room);
       }
     },
-    spymasterReveal: {
-      handler() {
-        this.setSpymaster();
-      }
-    },
     isSpymaster: {
       handler(to, from) {
-        if (from) this.forget_spymaster();
-        this.setSpymaster();
+        if (from) this.forgetSpymaster();
       }
     },
     // reset spymaster if user switches back to agent away
     spymaster(to, from) {
-      if (from) this.forget_spymaster();
+      if (from) this.forgetSpymaster();
     }
   },
   destroyed() {
@@ -116,13 +109,20 @@ export default {
     this.$socket.emit("leave_room", { room: this.room });
   },
   methods: {
-    ...mapMutations(["set_room", "reset_room", "forget_spymaster"]),
-    setSpymaster() {
-      const params = {
-        room: this.room,
-        state: this.spymasterReveal
-      };
-      this.$socket.emit("toggle_spymaster", params);
+    ...mapMutations(["set_room", "reset_room"]),
+    forgetSpymaster() {
+      if (this.isSpymaster)
+        this.$socket.emit("toggle_spymaster", {
+          room: this.room,
+          state: false
+        });
+      if (this.$route.name !== "Player")
+        this.$router.push({
+          name: "Player",
+          params: {
+            room: this.room
+          }
+        });
     }
   }
 };

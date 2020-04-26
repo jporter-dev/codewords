@@ -28,7 +28,7 @@
               block
               large
               color="success"
-              @click.prevent="reveal_spymaster"
+              @click.prevent="revealSpymaster"
               id="spymaster-btn"
             >
               Make me a spymaster!
@@ -54,10 +54,15 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["room"])
+  },
   methods: {
-    ...mapMutations(["reveal_spymaster"])
+    revealSpymaster() {
+      this.$socket.emit("toggle_spymaster", { room: this.room, state: true });
+    }
   }
 };
 </script>

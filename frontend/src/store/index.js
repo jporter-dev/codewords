@@ -130,19 +130,6 @@ export default new Vuex.Store({
       state.room = null;
       state.error = null;
     },
-    reveal_spymaster(state) {
-      state.spymasterReveal = true;
-    },
-    forget_spymaster(state) {
-      state.spymasterReveal = false;
-      if (router.currentRoute.name !== 'Player')
-        router.push({
-          name: "Player",
-          params: {
-            room: state.room
-          }
-        })
-    },
     reset_room(state) {
       state.game = {};
       state.spymasterReveal = false;
