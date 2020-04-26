@@ -19,6 +19,9 @@ export default new Vuex.Store({
   })],
   state: {
     connected: false,
+    disconnected: false,
+    disconnect_delay: null,
+
     starting_sid: null,
     current_sid: null,
     test: 0,
@@ -141,9 +144,23 @@ export default new Vuex.Store({
   actions: {
     WS_connect(context) {
       context.commit('set_connected', true);
+      // set sids
+      if (context.state.starting_sid)
+        context.commit("set_starting_sid", Vue.prototype.$socket.id);
+      context.commit("set_current_sid", Vue.prototype.$socket.id);
+
+      // clear disconnect timeout and reconnect
+      if (context.state.disconnect_delay) clearTimeout(context.state.disconnect_delay);
+      context.state.disconnected = false;
     },
     WS_disconnect(context) {
       context.commit('set_connected', false);
+      // reset delay timer
+      if (context.state.disconnect_delay) clearTimeout(context.state.disconnect_delay);
+      context.state.disconnect_delay = setTimeout(() => {
+        return (context.state.disconnected = true);
+      }, 3000);
+
     },
     WS_message(context, message) {
       context.commit('reset_error')

@@ -39,9 +39,6 @@
     </v-alert>
   </v-container>
   <spymaster-warning v-else-if="spymaster && !isSpymaster">
-    <span class="grey--text text--darken-4">
-      {{spymaster}} - {{!isSpymaster}}
-    </span>
   </spymaster-warning>
   <game-board
     :role="role"

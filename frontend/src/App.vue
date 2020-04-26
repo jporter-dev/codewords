@@ -55,33 +55,11 @@ export default {
   components: { AppDrawer, AppNav, AppToolbar, GameControls },
   data() {
     return {
-      drawer: undefined,
-      disconnected: false,
-      disconnect_delay: null
+      drawer: undefined
     };
   },
   computed: {
-    ...mapState(["connected"])
-  },
-  watch: {
-    connected: {
-      immediate: true,
-      handler(val) {
-        if (this.disconnect_delay) clearTimeout(this.disconnect_delay);
-        if (val) {
-          // generate a username
-          this.disconnected = false;
-          this.$store.commit("set_current_sid", this.$socket.id);
-          if (!this.$store.state.starting_sid)
-            this.$store.commit("set_starting_sid", this.$socket.id);
-        } else {
-          // reset delay timer
-          this.disconnect_delay = setTimeout(() => {
-            return (this.disconnected = true);
-          }, 3000);
-        }
-      }
-    }
+    ...mapState(["connected", "disconnected"])
   },
   created() {
     this.$vuetify.theme.dark = true;

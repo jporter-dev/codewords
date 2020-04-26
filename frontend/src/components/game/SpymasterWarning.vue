@@ -62,6 +62,7 @@ export default {
   methods: {
     revealSpymaster() {
       if (this.connected) {
+        this.$store.commit("set_current_sid", this.$socket.id);
         this.$socket.emit("toggle_spymaster", { room: this.room, state: true });
       }
     }
