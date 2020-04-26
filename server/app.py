@@ -154,8 +154,8 @@ def on_toggle_spymaster(data):
     if (gm):
         if (request.sid in gm.players.spymasters and not data['state']) or (request.sid not in gm.players.spymasters and data['state']):
             gm.players.toggle_spymaster(request.sid, data['state'])
-            save_game(gm)
-            send(gm.to_json(), room=data['room'])
+        save_game(gm)
+        send(gm.to_json(), room=data['room'])
 
 @socketio.on('flip_card')
 def on_flip_card(data):
