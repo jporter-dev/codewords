@@ -13,6 +13,15 @@
     "enter room id": "Enter Room ID...",
     "secret agent name": "Secret Agent Name",
     "enter name": "Enter a name...",
-    "join": "Join"
+    "join": "Join",
+    "home": "Home",
+    "status:":  "Status:",
+    "connection:": "Connection:",
+    "connected": "Connected",
+    "not connected": "Not Connected",
+    "agent": "Agent",
+    "spymaster": "Spymaster",
+    "menu": "Menu",
+    "new game": "New Game"
   }
 }

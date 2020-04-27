@@ -7,7 +7,7 @@
       replace
       to="/"
     >
-      <span>Home</span>
+      <span>{{ $t('home') }}</span>
       <v-icon medium>mdi-home</v-icon>
     </v-btn>
     <v-btn
@@ -15,7 +15,7 @@
       v-if="!connected"
       value="false"
     >
-      <span>Not Connected</span>
+      <span>{{ $t('not connected') }}</span>
       <v-icon medium>mdi-alert</v-icon>
     </v-btn>
     <v-btn
@@ -23,7 +23,7 @@
       :to="{ name: 'Player', params: { room: room }}"
       v-if="room && connected && !error"
     >
-      <span>Agent</span>
+      <span>{{ $t('agent') }}</span>
       <v-icon medium>mdi-account</v-icon>
     </v-btn>
     <v-btn
@@ -31,7 +31,7 @@
       :to="{ name: 'Spymaster', params: { room: room }}"
       v-if="room && connected && !error"
     >
-      <span>Spymaster</span>
+      <span>{{ $t('spymaster') }}</span>
       <v-badge
         :color="spymastersColor"
         :content="spymasters"
@@ -40,7 +40,7 @@
       </v-badge>
     </v-btn>
     <v-btn @click.stop="drawer = !drawer">
-      <span>Menu</span>
+      <span>{{ $t('menu') }}</span>
       <v-icon medium>mdi-menu</v-icon>
     </v-btn>
   </v-bottom-navigation>
@@ -80,3 +80,5 @@ export default {
 
 <style>
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

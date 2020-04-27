@@ -16,12 +16,7 @@
     "only two spymasters": "There should only be two spymasters per game.",
     "make me a spymaster": "Make me a spymaster!",
     "remain an agent": "Remain an agent...",
-    "status:":  "Status:",
-    "connected": "Connected",
-    "not connected": "Not Connected",
-    "connection:": "Connection:",
     "current players": "Current Players",
-    "game over": "Game Over!",
-    "new game": "New Game"
+    "game over": "Game Over!"
   }
 }
