@@ -37,7 +37,6 @@ export default new Vuex.Store({
     username: null,
     error: null,
     turn: '',
-    spymasterReveal: false,
     popupHides: 0
   },
   getters: {
@@ -135,7 +134,6 @@ export default new Vuex.Store({
     },
     reset_room(state) {
       state.game = {};
-      state.spymasterReveal = false;
     },
     incrementPopupHides(state) {
       state.popupHides++
@@ -145,7 +143,7 @@ export default new Vuex.Store({
     WS_connect(context) {
       context.commit('set_connected', true);
       // set sids
-      if (context.state.starting_sid)
+      if (!context.state.starting_sid)
         context.commit("set_starting_sid", Vue.prototype.$socket.id);
       context.commit("set_current_sid", Vue.prototype.$socket.id);
 

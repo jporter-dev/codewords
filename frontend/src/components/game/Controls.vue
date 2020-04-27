@@ -31,7 +31,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-speed-dial
       v-model="fab"
       top
@@ -40,7 +39,7 @@
       open-on-hover
       direction="bottom"
       transition="slide-y-reverse-transition"
-      v-if="room && spymasterReveal"
+      v-if="room && isSpymaster"
     >
       <template v-slot:activator>
         <v-btn
@@ -116,8 +115,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["room", "game", "connected", "spymasterReveal"]),
-    ...mapGetters(["gameWon"]),
+    ...mapState(["room", "game", "connected"]),
+    ...mapGetters(["gameWon", "isSpymaster"]),
     isFirstTurn() {
       if (!this.connected) {
         return true;
@@ -152,5 +151,8 @@ export default {
 <style lang="scss" scoped>
 .v-speed-dial {
   top: 75px;
+}
+#show-more {
+  bottom: 75px;
 }
 </style>
