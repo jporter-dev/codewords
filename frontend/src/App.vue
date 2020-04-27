@@ -3,6 +3,7 @@
     <app-drawer></app-drawer>
     <app-toolbar></app-toolbar>
     <game-controls></game-controls>
+    <app-notification></app-notification>
     <v-content>
       <v-container
         fluid
@@ -45,6 +46,7 @@
 <script>
 import AppToolbar from "@/components/app/Toolbar";
 import AppDrawer from "@/components/app/Drawer";
+import AppNotification from "@/components/app/Notification";
 import AppNav from "@/components/app/Nav";
 import GameControls from "@/components/game/Controls";
 
@@ -52,7 +54,7 @@ import { mapState } from "vuex";
 
 export default {
   name: "app",
-  components: { AppDrawer, AppNav, AppToolbar, GameControls },
+  components: { AppDrawer, AppNav, AppNotification, AppToolbar, GameControls },
   data() {
     return {
       drawer: undefined

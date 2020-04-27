@@ -6,6 +6,7 @@
     >
       Invite
     </v-btn>
+    <span class="title mx-2" v-if="$vuetify.breakpoint.smAndUp">{{room}}</span>
     <v-dialog
       v-model="showDialog"
       max-width="450"

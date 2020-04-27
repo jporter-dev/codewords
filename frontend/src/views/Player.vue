@@ -1,61 +1,73 @@
 <template>
-  <v-container v-if="error">
-    <v-alert
-      type="error"
-      prominent
-      text
-      outlined
-    >
-      <v-row
-        align="center"
-        dense
+  <v-container
+    class="align-start"
+    fill-height
+    fluid
+    ma-0
+    pa-0
+  >
+    <username-prompt></username-prompt>
+    <v-container v-if="error">
+      <v-alert
+        type="error"
+        prominent
+        text
+        outlined
       >
-        <v-col class="grow">{{error}}</v-col>
-        <v-col
-          class="shrink"
-          v-if="$vuetify.breakpoint.smAndUp"
+        <v-row
+          align="center"
+          dense
         >
-          <v-btn
-            to="/"
-            block
+          <v-col class="grow">{{error}}</v-col>
+          <v-col
+            class="shrink"
+            v-if="$vuetify.breakpoint.smAndUp"
           >
-            Go Home
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row
-        dense
-        v-if="$vuetify.breakpoint.xs"
-      >
-        <v-col>
-          <v-btn
-            to="/"
-            block
-          >
-            Go Home
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-alert>
+            <v-btn
+              to="/"
+              block
+            >
+              Go Home
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row
+          dense
+          v-if="$vuetify.breakpoint.xs"
+        >
+          <v-col>
+            <v-btn
+              to="/"
+              block
+            >
+              Go Home
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-alert>
+    </v-container>
+    <spymaster-warning v-else-if="spymaster && !isSpymaster">
+    </spymaster-warning>
+    <game-board
+      :role="role"
+      v-else
+    ></game-board>
   </v-container>
-  <spymaster-warning v-else-if="spymaster && !isSpymaster">
-  </spymaster-warning>
-  <game-board
-    :role="role"
-    v-else
-  ></game-board>
+
 </template>
 
 <script>
 import GameBoard from "@/components/game/Board";
 import SpymasterWarning from "@/components/game/SpymasterWarning";
+import UsernamePrompt from "@/components/misc/UsernamePrompt";
 import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "player",
   components: {
     GameBoard,
-    SpymasterWarning
+    SpymasterWarning,
+    UsernamePrompt
   },
   props: ["spymaster"],
   computed: {
@@ -75,11 +87,13 @@ export default {
       handler() {
         if (this.connected) {
           this.set_room(this.$route.params.room);
-          const params = {
-            username: this.username,
-            room: this.room
-          };
-          this.$socket.emit("join", params);
+          if (this.$store.state.username) {
+            const params = {
+              username: this.username,
+              room: this.room
+            };
+            this.$socket.emit("join", params);
+          }
         }
       }
     },

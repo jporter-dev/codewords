@@ -4,7 +4,7 @@
     fill-height
     px-2
     py-1
-    v-if="role"
+    v-if="role && game.board"
   >
     <div class="fill-height d-flex flex-column flex-grow-1">
       <div class="d-flex flex-shrink-1">
@@ -30,7 +30,6 @@
         </v-row>
       </div>
     </div>
-
     <v-dialog
       v-model="confirmShow"
       max-width="290"
@@ -65,16 +64,18 @@
       >Switch to Spymaster</v-btn>
     </v-snackbar>
   </v-container>
+  <skeleton v-else></skeleton>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
 import GameControls from "@/components/game/Controls";
 import GameCard from "@/components/game/Card";
+import Skeleton from "@/components/game/Skeleton";
 
 export default {
   name: "game-board",
-  components: { GameControls, GameCard },
+  components: { GameControls, GameCard, Skeleton },
   props: ["role"],
   data() {
     return {
@@ -238,7 +239,7 @@ export default {
         this.confirmCard = null;
       }
     }
-  },
+  }
 };
 </script>
 

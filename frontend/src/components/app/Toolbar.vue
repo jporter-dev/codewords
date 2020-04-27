@@ -3,7 +3,7 @@
     app
     fixed
     :color="getColor"
-    v-if="!error && room"
+    v-if="!error && room && game.board"
     class="telegram"
   >
     <v-toolbar-title v-if="isFirstTurn">

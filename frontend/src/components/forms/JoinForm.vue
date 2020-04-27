@@ -22,6 +22,7 @@
                 label="Secret Agent Name"
                 placeholder="Enter a name..."
                 v-model="username"
+                :rules="[rules.required]"
                 outlined
               ></v-text-field>
             </v-col>
@@ -47,7 +48,7 @@ export default {
   data() {
     return {
       validForm: false,
-      room_num: ''
+      room_num: ""
     };
   },
   computed: {

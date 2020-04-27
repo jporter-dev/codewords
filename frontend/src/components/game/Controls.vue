@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="game && game.board && isSpymaster">
     <v-dialog
       v-model="gameWon"
       max-width="290"
@@ -39,7 +39,6 @@
       open-on-hover
       direction="bottom"
       transition="slide-y-reverse-transition"
-      v-if="room && isSpymaster"
     >
       <template v-slot:activator>
         <v-btn
