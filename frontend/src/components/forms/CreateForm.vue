@@ -1,8 +1,10 @@
 <template>
   <v-fade-transition appear>
     <v-form
-      @submit="createGame"
+      @submit.prevent="createGame"
       id="create-form"
+      ref="form"
+      v-model="valid"
     >
       <v-card>
         <v-card-text>
@@ -68,8 +70,7 @@
             block
             color="primary"
             large
-            @click="createGame"
-            :disabled="!valid"
+            type="submit"
             id="create-btn"
           >Create</v-btn>
         </v-card-actions>
@@ -89,7 +90,7 @@ export default {
     return {
       teams: "2",
       size: "normal",
-      valid: true,
+      valid: false,
       dictionaryOptions: {},
       errors: []
     };
@@ -114,18 +115,21 @@ export default {
   methods: {
     ...mapMutations(["set_username", "set_room", "reset_room"]),
     createGame() {
-      this.reset_room();
-      const params = {
-        username: this.$store.getters.username,
-        teams: this.teams,
-        size: this.size,
-        dictionaryOptions: this.dictionaryOptions
-      };
-      this.set_username(this.username);
+      this.$refs.form.validate();
       if (this.valid) {
-        this.$socket.emit("create", params);
-      } else {
-        this.errors.push("Please select a dictionary.");
+        this.reset_room();
+        const params = {
+          username: this.$store.getters.username,
+          teams: this.teams,
+          size: this.size,
+          dictionaryOptions: this.dictionaryOptions
+        };
+        this.set_username(this.username);
+        if (this.valid) {
+          this.$socket.emit("create", params);
+        } else {
+          this.errors.push("Please select a dictionary.");
+        }
       }
     },
     setDictionaryOptions(opts) {

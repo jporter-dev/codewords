@@ -45,25 +45,25 @@ def trigger_error():
 @app.route('/stats')
 def stats():
     """display room stats"""
-    games = {}
-    for k in db.scan_iter(GAME_NAMESPACE + '*'):
-        gm = get_game(k, False)
-        games[gm.game_id] = {
-            "last_modified": gm.date_modified,
-            "playtime_h": gm.playtime()/60,
-            "playtime_m": gm.playtime(),
-            "last_turn_m": round((datetime.now() - gm.date_modified).total_seconds() / 60, 2),
-            "dictionary": gm.dictionary,
-            "custom": bool(gm.wordbank) ,
-            "players": len(gm.players.all_players)
-        }
-    games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m']))
     resp = {
         "active_clients": ACTIVE_CLIENTS,
         "active_games": len(db.keys(GAME_NAMESPACE + '*'))
     }
 
     if request.args.get('g') is not None:
+        games = {}
+        for k in db.scan_iter(GAME_NAMESPACE + '*'):
+            gm = get_game(k, False)
+            games[gm.game_id] = {
+                "last_modified": gm.date_modified,
+                "playtime_m": gm.playtime(),
+                "last_turn_m": round((datetime.now() - gm.date_modified).total_seconds() / 60, 2),
+                "dictionary": gm.dictionary,
+                "custom": bool(gm.wordbank),
+                "total_players": len(gm.players.all_players),
+                "current_players": list(gm.players.players.values())
+            }
+        games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m']))
         resp['all_games'] = games
     return jsonify(resp)
 
@@ -110,7 +110,13 @@ def on_create(data):
             teams=data['teams'],
             dictionary=data['dictionaryOptions']['dictionaries'])
 
+    # add current user to players list
     gm.players.add(request.sid, data.get('username', None))
+
+    # check if ID exists
+    while(get_game(gm.game_id) is not None):
+        gm.regenerate_id()
+
     # write room to redis
     join_room(gm.game_id)
     save_game(gm)

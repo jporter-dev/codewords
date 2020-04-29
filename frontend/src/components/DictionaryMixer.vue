@@ -47,7 +47,9 @@
 
         </v-col>
       </v-row>
-      <v-row no-gutters v-show="mix && typeof selectedDictionaries === 'object' && selectedDictionaries && selectedDictionaries.length > 1"
+      <v-row
+        no-gutters
+        v-show="mix && typeof selectedDictionaries === 'object' && selectedDictionaries && selectedDictionaries.length > 1"
         v-for="(val, dict) in mixes"
         :key="dict"
       >
@@ -77,12 +79,7 @@ export default {
       selectedDictionaries: "English",
       mixes: {},
       useCustom: false,
-      rawWordbank: "",
-      wordbankRules: [
-        () =>
-          (this.wordbank && this.wordbank.length >= 25) ||
-          "Word bank must contain at least 25 words."
-      ]
+      rawWordbank: ""
     };
   },
   watch: {
@@ -98,6 +95,14 @@ export default {
   },
   computed: {
     ...mapState(["dictionaries"]),
+    wordbankRules() {
+      if (!this.useCustom) return [];
+      return [
+        () =>
+          (this.wordbank && this.wordbank.length >= 25) ||
+          "Word bank must contain at least 25 words."
+      ];
+    },
     dictionaryOptions() {
       return {
         mix: this.mix,
