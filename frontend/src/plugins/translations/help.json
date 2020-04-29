@@ -1,7 +1,9 @@
 {
-  "getting started": "Getting Started",
-  "getting started directions": " This application is designed to be played on multiple devices. The \"agent\" view can be loaded on a TV or mobile devies, and the \"spymaster\" view should be activated on the phones of the spymasters.",
-  "how to play": "How to Play",
-  "how to play directions": "Codenames consists of two teams with two roles on each team: a spymaster and field agents.",
-  "watch instructions": "Watch an instructional video."
+  "en": {
+    "getting started": "Getting Started",
+    "getting started directions": " This application is designed to be played on multiple devices. The \"agent\" view can be loaded on a TV or mobile devies, and the \"spymaster\" view should be activated on the phones of the spymasters.",
+    "how to play": "How to Play",
+    "how to play directions": "Codenames consists of two teams with two roles on each team: a spymaster and field agents.",
+    "watch instructions": "Watch an instructional video."
+  }
 }

@@ -4,7 +4,10 @@ import messages from './translations/common.json'
 
 Vue.use(VueI18n);
 export const i18n = new VueI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
+  locale: navigator.language,
+  fallbackLocale: {
+     'en': ['en'],
+  },
+  silentFallbackWarn: true,
   messages
 })
