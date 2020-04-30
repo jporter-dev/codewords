@@ -1,8 +1,76 @@
 <template>
-  <div v-if="game && game.board && isSpymaster">
+  <div v-if="game && game.board">
+    <div v-if="isSpymaster">
+      <v-speed-dial
+        v-model="fab"
+        top
+        right
+        fixed
+        open-on-hover
+        direction="bottom"
+        transition="slide-y-reverse-transition"
+      >
+        <template v-slot:activator>
+          <v-btn
+            color="secondary"
+            small
+            dark
+            fab
+          >
+            <v-icon v-if="fab">mdi-close</v-icon>
+            <v-icon v-else>mdi-settings</v-icon>
+          </v-btn>
+        </template>
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              fab
+              dark
+              small
+              color="primary"
+              v-on="on"
+              @click.native="newGame(true)"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>New Game</span>
+        </v-tooltip>
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              fab
+              dark
+              small
+              color="green"
+              v-on="on"
+              @click.native="newGame"
+            >
+              <v-icon>mdi-shuffle</v-icon>
+            </v-btn>
+          </template>
+          <span>Regenerate Board</span>
+        </v-tooltip>
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              fab
+              dark
+              small
+              color="red darken-2"
+              v-on="on"
+              @click="closeRoom()"
+            >
+              <v-icon>mdi-door-closed</v-icon>
+            </v-btn>
+          </template>
+          <span>Close Room</span>
+        </v-tooltip>
+      </v-speed-dial>
+    </div>
     <v-dialog
       v-model="gameWon"
-      max-width="290"
+      max-width="350"
       persistent
     >
       <v-card
@@ -11,13 +79,15 @@
       >
         <v-card-title class="justify-center">Game Over!</v-card-title>
         <v-card-title class="justify-center">
-          <scoreboard></scoreboard>
+          Cards remaining:<scoreboard class="ml-2"></scoreboard>
         </v-card-title>
-        <v-card-text>Start a new game with current game settings or create a new lobby.</v-card-text>
+        <v-card-text v-if="isSpymaster">Start a new game with current game settings or create a new lobby.</v-card-text>
+        <v-card-text v-else>Wait for a Spymaster to start a new game or return to the home screen.</v-card-text>
         <v-card-actions class="justify-center">
           <v-btn
             color="primary"
             @click="newGame"
+            v-if="isSpymaster"
           >
             New Game
           </v-btn>
@@ -31,73 +101,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-speed-dial
-      v-model="fab"
-      top
-      right
-      fixed
-      open-on-hover
-      direction="bottom"
-      transition="slide-y-reverse-transition"
-    >
-      <template v-slot:activator>
-        <v-btn
-          color="secondary"
-          small
-          dark
-          fab
-        >
-          <v-icon v-if="fab">mdi-close</v-icon>
-          <v-icon v-else>mdi-settings</v-icon>
-        </v-btn>
-      </template>
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            fab
-            dark
-            small
-            color="primary"
-            v-on="on"
-            @click.native="newGame(true)"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </template>
-        <span>New Game</span>
-      </v-tooltip>
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            fab
-            dark
-            small
-            color="green"
-            v-on="on"
-            @click.native="newGame"
-          >
-            <v-icon>mdi-shuffle</v-icon>
-          </v-btn>
-        </template>
-        <span>Regenerate Board</span>
-      </v-tooltip>
-
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            fab
-            dark
-            small
-            color="red darken-2"
-            v-on="on"
-            @click="closeRoom()"
-          >
-            <v-icon>mdi-door-closed</v-icon>
-          </v-btn>
-        </template>
-        <span>Close Room</span>
-      </v-tooltip>
-    </v-speed-dial>
   </div>
 
 </template>
