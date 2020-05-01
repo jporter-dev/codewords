@@ -114,10 +114,10 @@ export default {
       if (from) this.forgetSpymaster();
     }
   },
-  destroyed() {
+  beforeDestroy() {
     // reset room and spymaster value when navigating away
+    this.$socket.emit("leave", { room: this.room });
     this.reset_room();
-    this.$socket.emit("leave_room", { room: this.room });
   },
   methods: {
     ...mapMutations(["set_room", "reset_room"]),
