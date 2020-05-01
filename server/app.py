@@ -61,6 +61,7 @@ def stats():
                 "dictionary": gm.dictionary,
                 "custom": bool(gm.wordbank),
                 "total_players": len(gm.players.all_players),
+                "all_players":  list(gm.players.all_players),
                 "current_players": list(gm.players.players.values())
             }
         games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m']))
@@ -135,7 +136,7 @@ def on_join(data):
         send(gm.to_json(), room=room)
 
 @socketio.on('leave')
-def on_join(data):
+def on_leave(data):
     """Join a game lobby"""
     room = data['room']
     gm = get_game(room)
