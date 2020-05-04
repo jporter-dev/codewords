@@ -8,7 +8,7 @@ Olio
 Spiaggia
 Coda
 Accordo
-negozio
+Negozio
 Battuta
 Gioco
 Conduttore
@@ -61,7 +61,7 @@ Pane
 Modello
 Ketchup
 Folletto
-Casin�
+Casinò
 Messico
 Grattacielo
 Indice
@@ -139,7 +139,7 @@ Marmo
 Testa
 Pranzo
 Polo
-Caff�
+Caffè
 Centro
 Colombo
 Parco
@@ -331,7 +331,7 @@ Ambasciata
 Verso
 Tromba
 Pesca
-Pupazzo di Neve
+Pupazzo di neve
 Alpi
 Principessa
 Scampo
