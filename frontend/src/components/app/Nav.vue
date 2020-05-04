@@ -2,23 +2,12 @@
   <v-bottom-navigation
     app
     grow
+    max-height="48px"
   >
-    <v-btn
-      replace
-      to="/"
-    >
-      <span>Home</span>
-      <v-icon medium>mdi-home</v-icon>
+    <v-btn @click.stop="drawer = !drawer">
+      <span>Menu</span>
+      <v-icon medium>mdi-menu</v-icon>
     </v-btn>
-    <v-btn
-      color="red darken-3"
-      v-if="!connected"
-      value="false"
-    >
-      <span>Not Connected</span>
-      <v-icon medium>mdi-alert</v-icon>
-    </v-btn>
-
     <v-btn
       replace
       :to="{ name: 'Player', params: { room: room }}"
@@ -46,9 +35,12 @@
         <v-icon medium>mdi-library</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn @click.stop="drawer = !drawer">
-      <span>Menu</span>
-      <v-icon medium>mdi-menu</v-icon>
+    <v-btn
+      v-if="game && game.players"
+      @click.stop="infoDrawer = !infoDrawer"
+    >
+      <span>Game Info</span>
+      <v-icon medium>mdi-information</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -67,6 +59,14 @@ export default {
         return this.$store.commit("set_drawer", v);
       }
     },
+    infoDrawer: {
+      get() {
+        return this.$store.state.info_drawer;
+      },
+      set(v) {
+        return this.$store.commit("set_info_drawer", v);
+      }
+    },
     players() {
       if (this.game.players)
         return (
@@ -82,7 +82,10 @@ export default {
     },
     spymastersColor() {
       if (this.game.players) {
-        if (this.game.players && this.game.players.spymasters.length > this.game.options.teams)
+        if (
+          this.game.players &&
+          this.game.players.spymasters.length > this.game.options.teams
+        )
           return "error";
         else if (this.game.players.spymasters.length === 0) return "secondary";
         return "primary";

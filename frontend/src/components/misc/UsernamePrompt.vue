@@ -2,6 +2,7 @@
   <v-dialog
     v-model="showDialog"
     max-width="450"
+    hide-overlay
     persistent
   >
     <v-form

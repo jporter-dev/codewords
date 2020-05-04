@@ -1,3 +1,5 @@
+process.env.VUE_APP_VERSION = require('./package.json').version
+console.log(process.env.VUE_APP_VERSION)
 module.exports = {
   lintOnSave: false,
   devServer: {

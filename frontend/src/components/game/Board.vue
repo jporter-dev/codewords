@@ -30,9 +30,10 @@
         </v-row>
       </div>
     </div>
+    <game-over></game-over>
     <v-dialog
       v-model="confirmShow"
-      max-width="290"
+      max-width="300"
     >
       <game-card
         class="dialog-card"
@@ -47,42 +48,32 @@
               large
               color="secondary"
               @click.stop="flipCard"
-            >Confirm</v-btn>
+            >
+              Flip Card
+            </v-btn>
           </v-card-actions>
         </template>
       </game-card>
     </v-dialog>
-    <v-snackbar
-      color="red darken-3"
-      :vertical="true"
-      v-model="agentAlert"
-    >
-      Only the Spymaster can flip cards.
-      <v-btn
-        text
-        :to="{ name: 'Spymaster', params: { room: room }}"
-      >Switch to Spymaster</v-btn>
-    </v-snackbar>
   </v-container>
   <skeleton v-else></skeleton>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-import GameControls from "@/components/game/Controls";
+import GameOver from "@/components/game/GameOver";
 import GameCard from "@/components/game/Card";
 import Skeleton from "@/components/game/Skeleton";
 
 export default {
   name: "game-board",
-  components: { GameControls, GameCard, Skeleton },
+  components: { GameOver, GameCard, Skeleton },
   props: ["role"],
   data() {
     return {
       confirmShow: false,
       confirmCard: null,
       spymaster: "Spymaster",
-      agentAlert: false,
       gameBottom: window.screen.height * 2
     };
   },
@@ -208,20 +199,15 @@ export default {
       };
     },
     showFlipCard(word) {
-      if (this.isSpymaster() && !this.game.board[word]) {
+      if (!this.game.board[word]) {
         this.confirmCard = word;
         this.confirmShow = true;
-      }
-      // if not spymaster, display warning
-      if (!this.isSpymaster()) {
-        this.agentAlert = true;
       }
     },
     flipCard() {
       // check if card not already clicked and role is spymaster
       // and not a blackout square
       if (
-        this.isSpymaster() &&
         !this.game.board[this.confirmCard] &&
         this.confirmCard
       ) {

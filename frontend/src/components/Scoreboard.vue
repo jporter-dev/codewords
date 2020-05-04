@@ -13,7 +13,7 @@
       </v-avatar>
     </span>
     <span v-else> - </span>
-    <span class="blue--text text--darken-1">{{tileCounts.total.B - tileCounts.flipped.B}}</span>
+    <span class="blue--text text--lighten-2">{{tileCounts.total.B - tileCounts.flipped.B}}</span>
     <template v-if="'G' in tileCounts.flipped">
       <span> - </span>
       <span class="green--text text--lighten-1">{{tileCounts.total.R - tileCounts.flipped.G}}</span>

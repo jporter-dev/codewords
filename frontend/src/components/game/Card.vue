@@ -5,6 +5,7 @@
     raised
     tile
   >
+    <slot name="title"></slot>
     <v-card-text
       class="fill-height pa-1"
       :class="colors.font"
@@ -37,11 +38,11 @@
 export default {
   props: ["word", "team", "colors"],
   computed: {
-    minFontSize () {
-      return this.$vuetify.breakpoint.mdAndUp ? 20 : 16
+    minFontSize() {
+      return this.$vuetify.breakpoint.mdAndUp ? 20 : 18;
     },
-    maxFontSize () {
-      return this.$vuetify.breakpoint.mdAndUp ? 30 : 24
+    maxFontSize() {
+      return this.$vuetify.breakpoint.mdAndUp ? 30 : 24;
     }
   },
   methods: {

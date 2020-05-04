@@ -2,11 +2,11 @@
   <div>
     <v-btn
       outlined
+      class="px-2"
       @click="showDialog = true"
     >
       Invite
     </v-btn>
-    <span class="title mx-2" v-if="$vuetify.breakpoint.smAndUp">{{room}}</span>
     <v-dialog
       v-model="showDialog"
       max-width="450"

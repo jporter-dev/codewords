@@ -29,8 +29,13 @@ export default new Router({
       component: Create,
     },
     {
-      path: '/:room/player',
+      path: '/:room',
       name: 'Player',
+      component: Player,
+    },
+    {
+      path: '/:room/player',
+      name: 'PlayerView',
       component: Player,
     },
     {

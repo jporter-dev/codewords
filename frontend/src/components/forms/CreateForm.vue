@@ -14,9 +14,9 @@
                 label="Secret Agent Name"
                 placeholder="Pick a secret agent name..."
                 v-model="username"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.name_length]"
+                counter="20"
                 outlined
-                hide-details
               ></v-text-field>
             </v-col>
           </v-row>

@@ -24,7 +24,7 @@
           align="center"
           justify="center"
         >
-          <h1 class="cn-text">Codewords</h1>
+          <h1 class="cn-text">Codenames</h1>
         </v-row>
         <v-row>
           <v-col class="py-1">
@@ -48,7 +48,7 @@
           <v-col class="py-1">
             <v-card class="text-xs-left">
               <v-card-title>
-                <span class="title font-weight-light">Enjoying Codewords.tv?</span>
+                <span class="title font-weight-light">Enjoying Codenames.tv?</span>
               </v-card-title>
               <v-card-text class="ma-0 py-1">
                 Consider donating to keep this website running and to support future development!

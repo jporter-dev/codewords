@@ -171,6 +171,7 @@ def on_flip_card(data):
     gm = get_game(room)
     gm.flip_card(data['card'])
     save_game(gm)
+    emit("resetTimer", room=room)
     send(gm.to_json(), room=room)
 
 @socketio.on('regenerate')
@@ -179,7 +180,8 @@ def on_regenerate(data):
     room = data['room']
     gm = get_game(room)
     gm.generate_board(data.get('newGame', False))
-    gm.players.reset_spymasters()
+    if data.get('newGame') is True:
+        gm.players.reset_spymasters()
     save_game(gm)
     send(gm.to_json(), room=room)
 
@@ -188,6 +190,16 @@ def list_dictionaries():
     """send a list of dictionary names"""
     # send dict list to client
     emit('list_dictionaries', game.DICTIONARIES)
+
+@socketio.on('start_timer')
+def start_timer(data):
+    emit("startTimer", room=data['room'])
+
+
+@socketio.on('reset_timer')
+def reset_timer(data):
+    emit("resetTimer", room=data['room'])
+
 
 def get_game(room, prefix=True):
     room = GAME_NAMESPACE + room if prefix else room

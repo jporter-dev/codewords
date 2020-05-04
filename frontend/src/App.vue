@@ -1,8 +1,8 @@
 <template>
   <v-app id="codenames">
     <app-drawer></app-drawer>
+    <info-drawer></info-drawer>
     <app-toolbar></app-toolbar>
-    <game-controls></game-controls>
     <app-notification></app-notification>
     <v-content>
       <v-container
@@ -15,31 +15,7 @@
       </v-container>
     </v-content>
     <app-nav></app-nav>
-    <v-dialog
-      :value="disconnected"
-      persistent
-      max-width="300px"
-      overlay-opacity=".75"
-      overlay-color="black"
-    >
-      <v-card>
-        <v-card-title>Unable to connect</v-card-title>
-        <v-card-text>
-          Please stand by
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          ></v-progress-linear>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            block
-            color="secondary"
-          >Report an issue</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <connection-dialog></connection-dialog>
   </v-app>
 </template>
 
@@ -48,20 +24,36 @@ import AppToolbar from "@/components/app/Toolbar";
 import AppDrawer from "@/components/app/Drawer";
 import AppNotification from "@/components/app/Notification";
 import AppNav from "@/components/app/Nav";
-import GameControls from "@/components/game/Controls";
+import InfoDrawer from "@/components/app/InfoDrawer";
+import ConnectionDialog from "@/components/misc/ConnectionDialog";
 
 import { mapState } from "vuex";
 
 export default {
   name: "app",
-  components: { AppDrawer, AppNav, AppNotification, AppToolbar, GameControls },
+  components: {
+    AppDrawer,
+    InfoDrawer,
+    AppNav,
+    AppNotification,
+    AppToolbar,
+    ConnectionDialog
+  },
   data() {
     return {
       drawer: undefined
     };
   },
   computed: {
-    ...mapState(["connected", "disconnected"])
+    ...mapState(["connected", "idleVue"])
+  },
+  watch: {
+    "idleVue.isIdle": {
+      handler(val) {
+        if (val) this.$socket.disconnect();
+        else this.$socket.connect();
+      }
+    }
   },
   created() {
     this.$vuetify.theme.dark = true;
