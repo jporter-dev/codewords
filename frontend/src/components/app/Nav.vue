@@ -36,7 +36,7 @@
       </v-badge>
     </v-btn>
     <v-btn
-      v-if="game && game.players"
+      v-if="room && connected && !error"
       @click.stop="infoDrawer = !infoDrawer"
     >
       <span>Game Info</span>

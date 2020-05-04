@@ -14,7 +14,7 @@
         {{minutes}}:{{seconds}}
       </v-btn>
     </template>
-    <v-tooltip right>
+    <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
           fab
@@ -29,7 +29,7 @@
       </template>
       <span>Start Timer</span>
     </v-tooltip>
-    <v-tooltip right>
+    <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
           fab

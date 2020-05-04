@@ -2,7 +2,7 @@
 
 > Realtime browser-based implementation of the classic social word game, Codenames, designed to be played on multiple devices, or using a shared screen and mobile phones.
 
-[Try it out!](https://codewords.tv)
+[Try it out!](https://codenames.tv)
 
 ## Blog Series
 
