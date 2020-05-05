@@ -14,7 +14,10 @@
         {{minutes}}:{{seconds}}
       </v-btn>
     </template>
-    <v-tooltip left>
+    <v-tooltip
+      left
+      v-if="!interval"
+    >
       <template v-slot:activator="{ on }">
         <v-btn
           fab
@@ -29,6 +32,25 @@
       </template>
       <span>Start Timer</span>
     </v-tooltip>
+    <v-tooltip
+      left
+      v-else
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          fab
+          dark
+          small
+          color="orange"
+          v-on="on"
+          @click="pause"
+        >
+          <v-icon>mdi-pause</v-icon>
+        </v-btn>
+      </template>
+      <span>Pause Timer</span>
+    </v-tooltip>
+
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
@@ -54,7 +76,7 @@ export default {
     return {
       fab: false,
       tick: tickTime,
-      interval: null
+      interval: undefined
     };
   },
   computed: {
@@ -71,19 +93,27 @@ export default {
   },
   sockets: {
     startTimer() {
-      this.interval = setInterval(() => {
-        if (this.tick > 0) this.tick -= 1000;
-        else clearInterval(this.interval);
-      }, 1000);
+      if (!this.interval) {
+        this.interval = setInterval(() => {
+          if (this.tick > 0) this.tick -= 1000;
+          else clearInterval(this.interval);
+        }, 1000);
+      }
+    },
+    pauseTimer() {
+      this.interval = clearInterval(this.interval);
     },
     resetTimer() {
-      clearInterval(this.interval);
+      this.interval = clearInterval(this.interval);
       this.tick = tickTime; // 3 minutes
     }
   },
   methods: {
     start() {
       this.$socket.emit("start_timer", { room: this.$store.state.room });
+    },
+    pause() {
+      this.$socket.emit("pause_timer", { room: this.$store.state.room });
     },
     reset() {
       this.$socket.emit("reset_timer", { room: this.$store.state.room });
@@ -93,7 +123,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@-webkit-keyframes flash {
+@keyframes flash {
   0% {
     background-color: white;
   }

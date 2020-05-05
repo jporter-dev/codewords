@@ -195,6 +195,9 @@ def list_dictionaries():
 def start_timer(data):
     emit("startTimer", room=data['room'])
 
+@socketio.on('pause_timer')
+def pause_timer(data):
+    emit("pauseTimer", room=data['room'])
 
 @socketio.on('reset_timer')
 def reset_timer(data):
