@@ -86,6 +86,9 @@ export default {
     ...mapMutations(["new_game"])
   },
   watch: {
+    tileCounts() {
+      this.showDialog = false;
+    },
     gameWon: {
       immediate: true,
       handler(won) {
