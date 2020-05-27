@@ -76,6 +76,9 @@ export default {
 
 .cn-text {
   letter-spacing: 5px !important;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter",
+    "Lucida Typewriter", monospace !important;
+  font-weight: bold;
 }
 
 .cn-card.dialog-card .cn-team {

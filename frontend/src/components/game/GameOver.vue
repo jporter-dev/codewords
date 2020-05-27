@@ -2,17 +2,27 @@
   <v-dialog
     v-model="showDialog"
     max-width="350"
+    v-if="!minimized"
   >
     <v-card
       color="secondary"
       class="telegram"
     >
-      <v-card-title
-        class="justify-center telegram"
+      <v-toolbar
         :class="winner"
+        class="telegram"
       >
-        Game Over!
-      </v-card-title>
+        <v-toolbar-title class="justify-center">
+          Game Over!
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          icon
+          @click="showDialog=false"
+        >
+          <v-icon>mdi-window-minimize</v-icon>
+        </v-btn>
+      </v-toolbar>
       <v-card-title class="justify-center">
         Cards remaining:<scoreboard class="ml-2"></scoreboard>
       </v-card-title>
@@ -50,6 +60,18 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-btn
+    fab
+    fixed
+    bottom
+    right
+    small
+    color="primary"
+    class="maximize"
+    v-else
+  >
+    <v-icon @click="showDialog = true">mdi-window-maximize</v-icon>
+  </v-btn>
 </template>
 
 <script>
@@ -66,6 +88,10 @@ export default {
   },
   computed: {
     ...mapGetters(["gameWon", "tileCounts"]),
+    minimized() {
+      if (!this.showDialog && this.gameWon) return true;
+      else return false;
+    },
     winner() {
       let teamMap = {
         R: "red",
@@ -101,5 +127,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.maximize {
+  bottom: 65px;
+}
 </style>
