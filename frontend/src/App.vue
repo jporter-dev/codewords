@@ -1,8 +1,9 @@
 <template>
   <v-app id="codenames">
     <app-drawer></app-drawer>
+    <info-drawer></info-drawer>
     <app-toolbar></app-toolbar>
-    <game-controls></game-controls>
+    <app-notification></app-notification>
     <v-content>
       <v-container
         fluid
@@ -14,65 +15,43 @@
       </v-container>
     </v-content>
     <app-nav></app-nav>
-    <v-dialog
-      :value="disconnected"
-      persistent
-      max-width="300px"
-      overlay-opacity=".75"
-      overlay-color="black"
-    >
-      <v-card>
-        <v-card-title>{{ $t('unable to connect') }}</v-card-title>
-        <v-card-text>
-          {{ $t('please stand by') }}
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn block color="secondary">{{ $t('report an issue') }}</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <connection-dialog></connection-dialog>
   </v-app>
 </template>
 
 <script>
 import AppToolbar from "@/components/app/Toolbar";
 import AppDrawer from "@/components/app/Drawer";
+import AppNotification from "@/components/app/Notification";
 import AppNav from "@/components/app/Nav";
-import GameControls from "@/components/game/Controls";
+import InfoDrawer from "@/components/app/InfoDrawer";
+import ConnectionDialog from "@/components/misc/ConnectionDialog";
 
 import { mapState } from "vuex";
 
 export default {
   name: "app",
-  components: { AppDrawer, AppNav, AppToolbar, GameControls },
+  components: {
+    AppDrawer,
+    InfoDrawer,
+    AppNav,
+    AppNotification,
+    AppToolbar,
+    ConnectionDialog
+  },
   data() {
     return {
-      drawer: undefined,
-      disconnected: false,
-      disconnect_delay: null
+      drawer: undefined
     };
   },
   computed: {
-    ...mapState(["connected"])
+    ...mapState(["connected", "idleVue"])
   },
   watch: {
-    connected: {
-      immediate: true,
+    "idleVue.isIdle": {
       handler(val) {
-        if (this.disconnect_delay) clearTimeout(this.disconnect_delay);
-        if (val) {
-          // generate a username
-          this.disconnected = false;
-          this.$store.commit("set_current_sid", this.$socket.id);
-          if (!this.$store.state.starting_sid)
-            this.$store.commit("set_starting_sid", this.$socket.id);
-        } else {
-          // reset delay timer
-          this.disconnect_delay = setTimeout(() => {
-            return (this.disconnected = true);
-          }, 3000);
-        }
+        if (val) this.$socket.disconnect();
+        else this.$socket.connect();
       }
     }
   },

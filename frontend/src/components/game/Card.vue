@@ -5,6 +5,7 @@
     raised
     tile
   >
+    <slot name="title"></slot>
     <v-card-text
       class="fill-height pa-1"
       :class="colors.font"
@@ -37,11 +38,11 @@
 export default {
   props: ["word", "team", "colors"],
   computed: {
-    minFontSize () {
-      return this.$vuetify.breakpoint.mdAndUp ? 20 : 16
+    minFontSize() {
+      return this.$vuetify.breakpoint.mdAndUp ? 20 : 18;
     },
-    maxFontSize () {
-      return this.$vuetify.breakpoint.mdAndUp ? 30 : 24
+    maxFontSize() {
+      return this.$vuetify.breakpoint.mdAndUp ? 30 : 24;
     }
   },
   methods: {
@@ -75,6 +76,9 @@ export default {
 
 .cn-text {
   letter-spacing: 5px !important;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter",
+    "Lucida Typewriter", monospace !important;
+  font-weight: bold;
 }
 
 .cn-card.dialog-card .cn-team {
@@ -83,6 +87,12 @@ export default {
 
 .cn-card.dialog-card .cn-word {
   min-height: 100px;
+}
+
+.cn-team {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 </style>
 

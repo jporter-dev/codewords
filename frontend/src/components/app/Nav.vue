@@ -2,21 +2,11 @@
   <v-bottom-navigation
     app
     grow
+    max-height="48px"
   >
-    <v-btn
-      replace
-      to="/"
-    >
-      <span>{{ $t('home') }}</span>
-      <v-icon medium>mdi-home</v-icon>
-    </v-btn>
-    <v-btn
-      color="red darken-3"
-      v-if="!connected"
-      value="false"
-    >
-      <span>{{ $t('not connected') }}</span>
-      <v-icon medium>mdi-alert</v-icon>
+    <v-btn @click.stop="drawer = !drawer">
+      <span>{{ $t('menu') }}</span>
+      <v-icon medium>mdi-menu</v-icon>
     </v-btn>
     <v-btn
       replace
@@ -24,7 +14,12 @@
       v-if="room && connected && !error"
     >
       <span>{{ $t('agent') }}</span>
-      <v-icon medium>mdi-account</v-icon>
+      <v-badge
+        color="secondary"
+        :content="players"
+      >
+        <v-icon medium>mdi-account</v-icon>
+      </v-badge>
     </v-btn>
     <v-btn
       replace
@@ -39,9 +34,12 @@
         <v-icon medium>mdi-library</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn @click.stop="drawer = !drawer">
-      <span>{{ $t('menu') }}</span>
-      <v-icon medium>mdi-menu</v-icon>
+    <v-btn
+      v-if="room && connected && !error"
+      @click.stop="infoDrawer = !infoDrawer"
+    >
+      <span>{{ $t('game info') }}</span>
+      <v-icon medium>mdi-information</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -60,6 +58,22 @@ export default {
         return this.$store.commit("set_drawer", v);
       }
     },
+    infoDrawer: {
+      get() {
+        return this.$store.state.info_drawer;
+      },
+      set(v) {
+        return this.$store.commit("set_info_drawer", v);
+      }
+    },
+    players() {
+      if (this.game.players)
+        return (
+          Object.keys(this.game.players.players).length -
+          this.game.players.spymasters.length
+        ).toString();
+      return "0";
+    },
     spymasters() {
       if (this.game.players)
         return this.game.players.spymasters.length.toString();
@@ -67,7 +81,10 @@ export default {
     },
     spymastersColor() {
       if (this.game.players) {
-        if (this.game.players && this.game.players.spymasters.length > 2)
+        if (
+          this.game.players &&
+          this.game.players.spymasters.length > this.game.options.teams
+        )
           return "error";
         else if (this.game.players.spymasters.length === 0) return "secondary";
         return "primary";

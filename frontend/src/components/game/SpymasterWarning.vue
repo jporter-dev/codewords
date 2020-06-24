@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-row
-      align="center"
       justify="center"
     >
       <v-col
@@ -28,7 +27,7 @@
               block
               large
               color="success"
-              @click.prevent="reveal_spymaster"
+              @click.prevent="revealSpymaster"
               id="spymaster-btn"
             >
               {{ $t('make me a spymaster') }}
@@ -49,14 +48,23 @@
         </v-row>
       </v-col>
     </v-row>
+    <slot></slot>
   </v-container>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["connected", "room"])
+  },
   methods: {
-    ...mapMutations(["reveal_spymaster"])
+    revealSpymaster() {
+      if (this.connected) {
+        this.$store.commit("set_current_sid", this.$socket.id);
+        this.$socket.emit("toggle_spymaster", { room: this.room, state: true });
+      }
+    }
   }
 };
 </script>

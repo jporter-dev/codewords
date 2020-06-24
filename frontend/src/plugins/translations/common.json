@@ -4,6 +4,7 @@
     "buy me coffee": "Buy me a coffee",
     "back": "Back",
     "unable to connect": "Unable to connect",
+    "connection to server lost": "Connection to server lost...",
     "please stand by": "Please stand by",
     "report an issue": "Report an issue",
     "go home": "Go Home",
@@ -22,6 +23,7 @@
     "agent": "Agent",
     "spymaster": "Spymaster",
     "menu": "Menu",
-    "new game": "New Game"
+    "new game": "New Game",
+    "game info": "Game Info"
   }
 }

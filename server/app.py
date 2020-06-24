@@ -45,25 +45,26 @@ def trigger_error():
 @app.route('/stats')
 def stats():
     """display room stats"""
-    games = {}
-    for k in db.scan_iter(GAME_NAMESPACE + '*'):
-        gm = get_game(k, False)
-        games[gm.game_id] = {
-            "last_modified": gm.date_modified,
-            "playtime_h": gm.playtime()/60,
-            "playtime_m": gm.playtime(),
-            "last_turn_m": round((datetime.now() - gm.date_modified).total_seconds() / 60, 2),
-            "dictionary": gm.dictionary,
-            "custom": bool(gm.wordbank) ,
-            "players": len(gm.players.all_players)
-        }
-    games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m']))
     resp = {
         "active_clients": ACTIVE_CLIENTS,
         "active_games": len(db.keys(GAME_NAMESPACE + '*'))
     }
 
     if request.args.get('g') is not None:
+        games = {}
+        for k in db.scan_iter(GAME_NAMESPACE + '*'):
+            gm = get_game(k, False)
+            games[gm.game_id] = {
+                "last_modified": gm.date_modified,
+                "playtime_m": gm.playtime(),
+                "last_turn_m": round((datetime.now() - gm.date_modified).total_seconds() / 60, 2),
+                "dictionary": gm.dictionary,
+                "custom": bool(gm.wordbank),
+                "total_players": len(gm.players.all_players),
+                "all_players":  list(gm.players.all_players),
+                "current_players": list(gm.players.players.values())
+            }
+        games = dict(sorted(games.items(), key=lambda x: x[1]['last_turn_m']))
         resp['all_games'] = games
     return jsonify(resp)
 
@@ -110,7 +111,13 @@ def on_create(data):
             teams=data['teams'],
             dictionary=data['dictionaryOptions']['dictionaries'])
 
+    # add current user to players list
     gm.players.add(request.sid, data.get('username', None))
+
+    # check if ID exists
+    while(get_game(gm.game_id) is not None):
+        gm.regenerate_id()
+
     # write room to redis
     join_room(gm.game_id)
     save_game(gm)
@@ -129,7 +136,7 @@ def on_join(data):
         send(gm.to_json(), room=room)
 
 @socketio.on('leave')
-def on_join(data):
+def on_leave(data):
     """Join a game lobby"""
     room = data['room']
     gm = get_game(room)
@@ -154,8 +161,8 @@ def on_toggle_spymaster(data):
     if (gm):
         if (request.sid in gm.players.spymasters and not data['state']) or (request.sid not in gm.players.spymasters and data['state']):
             gm.players.toggle_spymaster(request.sid, data['state'])
-            save_game(gm)
-            send(gm.to_json(), room=data['room'])
+        save_game(gm)
+        send(gm.to_json(), room=data['room'])
 
 @socketio.on('flip_card')
 def on_flip_card(data):
@@ -164,6 +171,7 @@ def on_flip_card(data):
     gm = get_game(room)
     gm.flip_card(data['card'])
     save_game(gm)
+    emit("resetTimer", room=room)
     send(gm.to_json(), room=room)
 
 @socketio.on('regenerate')
@@ -172,7 +180,8 @@ def on_regenerate(data):
     room = data['room']
     gm = get_game(room)
     gm.generate_board(data.get('newGame', False))
-    gm.players.reset_spymasters()
+    if data.get('newGame') is True:
+        gm.players.reset_spymasters()
     save_game(gm)
     send(gm.to_json(), room=room)
 
@@ -181,6 +190,19 @@ def list_dictionaries():
     """send a list of dictionary names"""
     # send dict list to client
     emit('list_dictionaries', game.DICTIONARIES)
+
+@socketio.on('start_timer')
+def start_timer(data):
+    emit("startTimer", room=data['room'])
+
+@socketio.on('pause_timer')
+def pause_timer(data):
+    emit("pauseTimer", room=data['room'])
+
+@socketio.on('reset_timer')
+def reset_timer(data):
+    emit("resetTimer", room=data['room'])
+
 
 def get_game(room, prefix=True):
     room = GAME_NAMESPACE + room if prefix else room

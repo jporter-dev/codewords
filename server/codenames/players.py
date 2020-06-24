@@ -7,8 +7,8 @@ class Players(object):
     self.reset()
 
   def add(self, sid, name):
-    self.players[sid] = name if name else sid
     self.all_players.add(name if name else sid)
+    self.players[sid] = name if name else sid
 
   def remove(self, sid):
     self.toggle_spymaster(sid, False)

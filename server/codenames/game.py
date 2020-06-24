@@ -100,6 +100,9 @@ class Game(object):
         return ''.join(random.SystemRandom().choice(
             string.ascii_uppercase) for _ in range(id_length))
 
+    def regenerate_id(self):
+        self.game_id = self.generate_room_id()
+
     def playtime(self):
         # 2018-08-12 10:12:25.700528
         fmt = '%Y-%m-%d %H:%M:%S'

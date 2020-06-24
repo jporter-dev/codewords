@@ -2,33 +2,41 @@
   <v-app-bar
     app
     fixed
+    dense
     :color="getColor"
-    v-if="!error && room"
+    v-if="!error && room && game.board"
     class="telegram"
   >
-    <v-toolbar-title class="cn-text headline">{{room}}</v-toolbar-title>
-    <v-spacer></v-spacer>
+    <v-toolbar-title v-if="isFirstTurn">
+      <invite-link></invite-link>
+    </v-toolbar-title>
     <v-toolbar-title
-      v-if="isFirstTurn"
-      class="cn-text"
-    >{{getTurn}}</v-toolbar-title>
-    <v-toolbar-title
-      v-else
       class="cn-text headline"
       id="scoreboard"
+      v-else
     >
       <scoreboard></scoreboard>
-
     </v-toolbar-title>
+    <v-toolbar-title
+      class="cn-text ml-4 mt-1 grow text-center"
+      v-if="isFirstTurn"
+    >
+      {{getTurn}}
+    </v-toolbar-title>
+    <v-spacer v-else></v-spacer>
+    <timer></timer>
   </v-app-bar>
 </template>
 
 <script>
 import Scoreboard from "@/components/Scoreboard";
+import InviteLink from "@/components/misc/InviteLink";
+import Timer from "@/components/game/Timer";
+
 import { mapState, mapGetters } from "vuex";
 
 export default {
-  components: { Scoreboard },
+  components: { Scoreboard, InviteLink, Timer },
   computed: {
     ...mapState(["connected", "room", "error", "game", "turn"]),
     ...mapGetters(["tileCounts"]),

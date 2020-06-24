@@ -4,7 +4,7 @@
     fill-height
     px-2
     py-1
-    v-if="role"
+    v-if="role && game.board"
   >
     <div class="fill-height d-flex flex-column flex-grow-1">
       <div class="d-flex flex-shrink-1">
@@ -30,10 +30,10 @@
         </v-row>
       </div>
     </div>
-
+    <game-over></game-over>
     <v-dialog
       v-model="confirmShow"
-      max-width="290"
+      max-width="300"
     >
       <game-card
         class="dialog-card"
@@ -48,40 +48,32 @@
               large
               color="secondary"
               @click.stop="flipCard"
-            >{{ $t('confirm') }}</v-btn>
+            >
+              {{ $t('flip card') }}
+            </v-btn>
           </v-card-actions>
         </template>
       </game-card>
     </v-dialog>
-    <v-snackbar
-      color="red darken-3"
-      :vertical="true"
-      v-model="agentAlert"
-    >
-      {{ $t('only spymaster flip') }}
-      <v-btn
-        text
-        :to="{ name: 'Spymaster', params: { room: room }}"
-      >{{ $t('switch to spymaster') }}</v-btn>
-    </v-snackbar>
   </v-container>
+  <skeleton v-else></skeleton>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-import GameControls from "@/components/game/Controls";
+import GameOver from "@/components/game/GameOver";
 import GameCard from "@/components/game/Card";
+import Skeleton from "@/components/game/Skeleton";
 
 export default {
   name: "game-board",
-  components: { GameControls, GameCard },
+  components: { GameOver, GameCard, Skeleton },
   props: ["role"],
   data() {
     return {
       confirmShow: false,
       confirmCard: null,
       spymaster: "Spymaster",
-      agentAlert: false,
       gameBottom: window.screen.height * 2
     };
   },
@@ -207,20 +199,15 @@ export default {
       };
     },
     showFlipCard(word) {
-      if (this.isSpymaster() && !this.game.board[word]) {
+      if (!this.game.board[word]) {
         this.confirmCard = word;
         this.confirmShow = true;
-      }
-      // if not spymaster, display warning
-      if (!this.isSpymaster()) {
-        this.agentAlert = true;
       }
     },
     flipCard() {
       // check if card not already clicked and role is spymaster
       // and not a blackout square
       if (
-        this.isSpymaster() &&
         !this.game.board[this.confirmCard] &&
         this.confirmCard
       ) {
@@ -238,7 +225,7 @@ export default {
         this.confirmCard = null;
       }
     }
-  },
+  }
 };
 </script>
 

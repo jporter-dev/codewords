@@ -22,6 +22,8 @@
                 :label="$t('secret agent name')"
                 :placeholder="$t('enter name')"
                 v-model="username"
+                :rules="[rules.required, rules.name_length]"
+                counter="20"
                 outlined
               ></v-text-field>
             </v-col>
@@ -47,7 +49,7 @@ export default {
   data() {
     return {
       validForm: false,
-      room_num: ''
+      room_num: ""
     };
   },
   computed: {
