@@ -22,10 +22,6 @@ export default new Router({
       path: '/help',
       name: 'Help',
       component: Help,
-    },
-    {
-      path: '/home',
-      redirect: '/',
     }, {
       path: '/create',
       name: 'Create',

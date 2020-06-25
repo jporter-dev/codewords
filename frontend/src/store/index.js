@@ -18,14 +18,21 @@ export default new Vuex.Store({
     }
   })],
   state: {
+    feedback_form: "https://docs.google.com/forms/d/e/1FAIpQLSfLs3pnKu7WifF4WQdq0Q8VAtiY1WARyw8O_rmrxjYnm7Zz1g/viewform?usp=sf_link",
+    drawer: false,
+    info_drawer: false,
+
     connected: false,
+    disconnected: false,
+    disconnect_delay: null,
+
     starting_sid: null,
     current_sid: null,
     test: 0,
-    drawer: false,
     rules: {
       required: value => !!value || "Required.",
-      id_length: value => (value && value.length === 5) || "Room ID must be 5 characters."
+      id_length: value => (value && value.length === 5) || "Room ID must be 5 characters.",
+      name_length: value => (value && value.length <= 20) || "Name must be less than 20 characters."
     },
     // game-specific stuff TODO: move into a module
     dictionaries: {},
@@ -34,8 +41,6 @@ export default new Vuex.Store({
     username: null,
     error: null,
     turn: '',
-    spymasterReveal: false,
-    popupHides: 0
   },
   getters: {
     username(state) {
@@ -108,6 +113,9 @@ export default new Vuex.Store({
     set_drawer(state, payload) {
       state.drawer = payload;
     },
+    set_info_drawer(state, payload) {
+      state.info_drawer = payload;
+    },
     set_dictionaries(state, payload) {
       state.dictionaries = payload;
     },
@@ -130,33 +138,42 @@ export default new Vuex.Store({
       state.room = null;
       state.error = null;
     },
-    reveal_spymaster(state) {
-      state.spymasterReveal = true;
-    },
-    forget_spymaster(state) {
-      state.spymasterReveal = false;
-      if (router.currentRoute.name !== 'Player')
-        router.push({
-          name: "Player",
-          params: {
-            room: state.room
-          }
-        })
-    },
     reset_room(state) {
       state.game = {};
-      state.spymasterReveal = false;
     },
-    incrementPopupHides(state) {
-      state.popupHides++
-    },
+    new_game(state, reset) {
+      // reset spymaster state and go to player view
+      // emit message to start a new game
+      let params = {
+        room: state.room
+      };
+      if (reset === true) {
+        this.commit('reset_room');
+        params["newGame"] = true;
+      }
+      Vue.prototype.$socket.emit("regenerate", params);
+    }
   },
   actions: {
     WS_connect(context) {
       context.commit('set_connected', true);
+      // set sids
+      if (!context.state.starting_sid)
+        context.commit("set_starting_sid", Vue.prototype.$socket.id);
+      context.commit("set_current_sid", Vue.prototype.$socket.id);
+
+      // clear disconnect timeout and reconnect
+      if (context.state.disconnect_delay) clearTimeout(context.state.disconnect_delay);
+      context.state.disconnected = false;
     },
     WS_disconnect(context) {
       context.commit('set_connected', false);
+      // reset delay timer
+      if (context.state.disconnect_delay) clearTimeout(context.state.disconnect_delay);
+      context.state.disconnect_delay = setTimeout(() => {
+        return (context.state.disconnected = true);
+      }, 3000);
+
     },
     WS_message(context, message) {
       context.commit('reset_error')
@@ -173,6 +190,6 @@ export default new Vuex.Store({
     },
     WS_error(context, message) {
       context.commit('set_error', message.error)
-    },
+    }
   }
 });
