@@ -71,7 +71,7 @@ class Game(object):
     def generate_board(self, newGame=False):
         """Generate a list of words"""
         # remove current words from bank if newGame and not shuffle
-        if newGame and hasattr(self, 'words'):
+        if newGame and hasattr(self, 'words') and not self.mix:
             if (self.wordbank and len(self.wordbank) - self.minWords >= self.minWords):
                 for word in self.words:
                     self.wordbank.remove(word)
