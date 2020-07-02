@@ -32,13 +32,15 @@ class Game(object):
     """Object for tracking game stats"""
     def __init__(self, dictionary='English', size='normal', teams=2, wordbank=False, mix=False):
         self.wordbank = wordbank
+        self.dictionary = dictionary        
+        self.wordbank = wordbank if wordbank else self.__load_dictionary(self.dictionary)
+        self.original_wordbank = self.wordbank[:]
         self.game_id = self.generate_room_id()
         self.starting_color = RED
         self.date_created = datetime.now()
         self.date_modified = self.date_created
         self.size = size
         self.teams = teams
-        self.dictionary = dictionary
         self.mix = mix
         self.minWords = BOARD_SIZE[self.size]
         self.players = players.Players()
@@ -69,9 +71,13 @@ class Game(object):
     def generate_board(self, newGame=False):
         """Generate a list of words"""
         # remove current words from bank if newGame and not shuffle
-        if newGame and hasattr(self, 'words') and (self.wordbank and len(self.wordbank) - self.minWords >= self.minWords):
-            for word in self.words:
-                self.wordbank.remove(word)
+        if newGame and hasattr(self, 'words'):
+            if (self.wordbank and len(self.wordbank) - self.minWords >= self.minWords):
+                for word in self.words:
+                    self.wordbank.remove(word)
+            # reset wordbank to original list if wordbank exhausted
+            else:
+                self.wordbank = self.original_wordbank[:]
         self.words = self.__get_words(self.size)
         self.layout = self.__get_layout(self.size, int(self.teams))
         self.board = dict.fromkeys(self.words, False)
@@ -123,18 +129,15 @@ class Game(object):
         """Generate a list of words"""
         # override words with the wordbank
         words = self.wordbank
-        if not self.wordbank:
-            if self.mix:
-                words = []
-                for key in self.mix:
-                    # load and shuffle current dict
-                    tempWords = self.__load_dictionary(key)
-                    random.shuffle(tempWords)
-                    # get word ratio (rounded up)
-                    numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
-                    words = words + tempWords[0:numWords]
-            else:
-                words = self.__load_dictionary(self.dictionary)
+        if self.mix:
+            words = []
+            for key in self.mix:
+                # load and shuffle current dict
+                tempWords = self.__load_dictionary(key)
+                random.shuffle(tempWords)
+                # get word ratio (rounded up)
+                numWords = int(math.ceil((self.mix[key]/100.0)*BOARD_SIZE[size]))
+                words = words + tempWords[0:numWords]
         random.shuffle(words)
         final_words = words[0:BOARD_SIZE[size]]
         return final_words
