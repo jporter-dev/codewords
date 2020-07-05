@@ -1,0 +1,23 @@
+{
+  "en": {
+    "only spymaster flip": "Only the Spymaster can flip cards.",
+    "switch to spymaster": "Switch to Spymaster",
+    "red": "Red",
+    "blue": "Blue",
+    "green": "Green",
+    "citizen": "Citizen",
+    "assassin": "Assassin",
+    "team": "Team",
+    "starts": "Starts",
+    "start or create": "Start a new game with current game settings or create a new lobby.",
+    "leave room": "Leave Room",
+    "regenerate board": "Regenerate Board",
+    "close room": "Close Room",
+    "only two spymasters": "There should only be two spymasters per game.",
+    "make me a spymaster": "Make me a spymaster!",
+    "remain an agent": "Remain an agent...",
+    "current players": "Current Players",
+    "game over": "Game Over!",
+    "flip card": "Flip Card"
+  }
+}

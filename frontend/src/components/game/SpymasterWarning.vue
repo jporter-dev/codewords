@@ -17,7 +17,7 @@
               type="warning"
               :value="true"
             >
-              <b>Warning!</b> There should only be two spymasters per game.
+              <b>{{ $t('warning') }}</b> {{ $t('only two spymasters') }}
             </v-alert>
           </v-col>
         </v-row>
@@ -30,7 +30,7 @@
               @click.prevent="revealSpymaster"
               id="spymaster-btn"
             >
-              Make me a spymaster!
+              {{ $t('make me a spymaster') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -42,7 +42,7 @@
               color="secondary"
               :to="{name: 'Player', params: {room: $route.params.room } }"
             >
-              Remain an agent...
+              {{ $t('remain an agent') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -71,3 +71,5 @@ export default {
 
 <style>
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

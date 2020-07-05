@@ -11,8 +11,8 @@
           <v-row>
             <v-col>
               <v-text-field
-                label="Secret Agent Name"
-                placeholder="Pick a secret agent name..."
+                :label="$t('secret agent name')"
+                :placeholder="$t('pick an agent name')"
                 v-model="username"
                 :rules="[rules.required, rules.name_length]"
                 counter="20"
@@ -25,20 +25,20 @@
             <v-col class="py-1">
               <v-expansion-panels flat>
                 <v-expansion-panel>
-                  <v-expansion-panel-header class="pa-1">Advanced Options</v-expansion-panel-header>
+                  <v-expansion-panel-header class="pa-1">{{ $t('advanced options') }}</v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-row>
                       <v-col>
                         <v-radio-group
                           v-model="teams"
-                          label="Teams"
+                          :label="$t('teams')"
                         >
                           <v-radio
-                            label="2 teams"
+                            :label="$t('2 teams')"
                             value="2"
                           ></v-radio>
                           <v-radio
-                            label="3 teams"
+                            :label="$t('3 teams')"
                             value="3"
                           ></v-radio>
                         </v-radio-group>
@@ -46,14 +46,14 @@
                       <v-col>
                         <v-radio-group
                           v-model="size"
-                          label="Board Size"
+                          :label="$t('board size')"
                         >
                           <v-radio
-                            label="Normal"
+                            :label="$t('normal')"
                             value="normal"
                           ></v-radio>
                           <v-radio
-                            label="Large"
+                            :label="$t('large')"
                             value="large"
                           ></v-radio>
                         </v-radio-group>
@@ -72,7 +72,7 @@
             large
             type="submit"
             id="create-btn"
-          >Create</v-btn>
+          >{{ $t('create') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -145,3 +145,5 @@ export default {
   }
 };
 </script>
+
+<i18n src="@/plugins/translations/create.json"/>

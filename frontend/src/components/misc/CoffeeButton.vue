@@ -6,10 +6,10 @@
   >
     <img
       src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
-      alt="Buy me a coffee"
+      :alt="$t('buy me coffee')"
     />
     <span style="margin-left:15px;font-size:19px !important;">
-      Buy me a coffee
+      {{ $t('buy me coffee') }}
     </span>
   </a>
 </template>

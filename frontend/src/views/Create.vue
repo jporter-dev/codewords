@@ -25,7 +25,7 @@
                 alt="codenames logo"
               >
             </v-avatar>
-            <h1 class="cn-text">Codenames</h1>
+            <h1 class="cn-text">{{ $t('title') }}</h1>
             <create-form></create-form>
           </v-col>
         </v-row>
@@ -36,7 +36,7 @@
               color="secondary"
               large
               to="home"
-            >Back</v-btn>
+            >{{ $t('back') }}</v-btn>
           </v-col>
         </v-row>
       </v-col>

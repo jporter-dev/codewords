@@ -15,7 +15,7 @@
             >
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>Codenames.tv</v-list-item-title>
+            <v-list-item-title>{{ $t('title.com') }}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn
@@ -113,3 +113,5 @@ export default {
 
 <style>
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

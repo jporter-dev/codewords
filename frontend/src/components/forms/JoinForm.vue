@@ -10,8 +10,8 @@
           <v-row dense>
             <v-col md="4">
               <v-text-field
-                label="Room ID"
-                placeholder="Enter Room ID..."
+                :label="$t('room id')"
+                :placeholder="$t('enter room id')"
                 v-model="room_id"
                 :rules="[rules.required, rules.id_length]"
                 outlined
@@ -19,8 +19,8 @@
             </v-col>
             <v-col>
               <v-text-field
-                label="Secret Agent Name"
-                placeholder="Enter a name..."
+                :label="$t('secret agent name')"
+                :placeholder="$t('enter name')"
                 v-model="username"
                 :rules="[rules.required, rules.name_length]"
                 counter="20"
@@ -34,7 +34,7 @@
             large
             type="submit"
             @click.stop="joinGame"
-          >Join</v-btn>
+          >{{ $t('join') }}</v-btn>
         </v-card-text>
       </v-card>
     </v-form>

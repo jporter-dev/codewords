@@ -73,13 +73,15 @@ export default {
       if (!this.connected) {
         return "Unable to connect to server.";
       }
+
+      const team_starts = `${this.$t('team')} ${this.$t('starts')}`
       switch (this.turn) {
         case "R":
-          return "Red's Turn";
+          return `${this.$t('red')} ${team_starts}`;
         case "G":
-          return "Green's Turn";
+          return `${this.$t('green')} ${team_starts}`;
         case "B":
-          return "Blue's Turn";
+          return `${this.$t('blue')} ${team_starts}`;
         default:
           return "";
       }
@@ -90,3 +92,5 @@ export default {
 
 <style>
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>

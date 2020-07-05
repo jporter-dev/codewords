@@ -1,0 +1,21 @@
+{
+  "en": {
+    "getting started": "Getting Started",
+    "getting started directions": " This application is designed to be played on multiple devices. The \"agent\" view can be loaded on a TV or mobile devies, and the \"spymaster\" view should be activated on the phones of the spymasters.",
+    "how to play": "How to Play",
+    "how to play directions": "Codenames consists of two teams with two roles on each team: a spymaster and field agents.",
+    "step 1": "Create a game by pressing the \"Create Game\" button",
+    "step 2": "Optionally, select an alternative dictionary to play with. (Default: English)",
+    "step 3": "Other players can now join using the room code in the top left.",
+    "step 4": "Divide players into two teams and select one spymaster per team.",
+    "step 5": "The two spymasters shall now click to the \"spymaster\" view to see the color-coded board.",
+    "step 6": "The team that starts is highlighted at the top.",
+    "step 7": "The first spymaster shall come up with a number and a single-word codeword to link together as many cards as possible.",
+    "step 8": "Spymasters can click the cards to flip them as the agents guess.",
+    "step 9": "An agent guessing the enemy team's card or a citizen card ends the turn. Assassin ends the game.",
+    "step 10": "Repeat steps 7-9 alternating teams.",
+    "step 11": "The first team to clear their cards wins.",
+    "for more info read pt1": "For more info, read the ",
+    "for more info read pt2": "Wikipedia rules page..."
+  }
+}

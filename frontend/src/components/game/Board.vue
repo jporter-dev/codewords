@@ -49,7 +49,7 @@
               color="secondary"
               @click.stop="flipCard"
             >
-              Flip Card
+              {{ $t('flip card') }}
             </v-btn>
           </v-card-actions>
         </template>
@@ -235,3 +235,5 @@ export default {
   opacity: 0.75;
 }
 </style>
+
+<i18n src="@/plugins/translations/game.json"/>
