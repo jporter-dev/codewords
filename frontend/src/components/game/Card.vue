@@ -37,15 +37,15 @@ export default {
     getTeamName(team) {
       switch (team) {
         case "R":
-          return `$t("red")`;
+          return `${this.$t("red")}`;
         case "B":
-          return `$t("blue")`;
+          return `${this.$t("blue")}`;
         case "G":
-          return `$t("green")`;
+          return `${this.$t("green")}`;
         case "O":
-          return `$t("citizen")`;
+          return `${this.$t("citizen")}`;
         case "X":
-          return `$t("assassin")`;
+          return `${this.$t("assasin")}`;
         default:
           return "";
       }
