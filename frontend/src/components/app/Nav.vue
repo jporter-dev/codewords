@@ -3,6 +3,7 @@
     app
     grow
     max-height="48px"
+    v-if="$route.name !== 'Takedown'"
   >
     <v-btn @click.stop="drawer = !drawer">
       <span>{{ $t('menu') }}</span>
