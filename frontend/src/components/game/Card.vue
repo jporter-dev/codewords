@@ -49,7 +49,7 @@ export default {
     getTeamName(team) {
       switch (team) {
         case "R":
-          return $('red');
+          return $t('red');
         case "B":
           return $t('blue');
         case "G":
@@ -57,7 +57,7 @@ export default {
         case "O":
           return $t('citizen');
         case "X":
-          return $('assassin');
+          return $t('assassin');
         default:
           return "";
       }
