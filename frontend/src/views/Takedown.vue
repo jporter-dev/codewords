@@ -73,8 +73,9 @@ export default {
         "Blog Series":
           "https://medium.com/hackervalleystudio/weekend-project-part-1-creating-a-real-time-web-based-application-using-flask-vue-and-socket-b71c73f37df7",
         "View Source": "https://github.com/joshporter1/codenames",
+        "Buy Me a Coffee": "https://www.buymeacoffee.com/codecaffeinated",
         "Buy Codenames":
-          "https://amzn.to/2BYettc",
+          "https://amzn.to/2P6Aklv",
         "Play Codenames": "https://codenames.game"
       }
     };
