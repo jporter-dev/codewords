@@ -1,8 +1,4 @@
-# Codenames
-
-> Realtime browser-based implementation of the classic social word game, Codenames, designed to be played on multiple devices, or using a shared screen and mobile phones.
-
-[Try it out!](https://codenames.tv)
+> Note: This project is no longer maintained and the site has been taken down.
 
 ## Blog Series
 
@@ -20,10 +16,6 @@ To read more about how this project came to fruition and how to build an app usi
   <img src="screenshots/player-mobile.png" alt="Player - mobile" width="49%">
   <img src="screenshots/spymaster-mobile.png" alt="Spymaster - mobile" width="49%">
 </p>
-
-## Rules
-
-Rules for codenames can be found [here](https://en.wikipedia.org/wiki/Codenames_(board_game)#Rules).
 
 ## Development
 
