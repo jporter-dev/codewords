@@ -15,7 +15,7 @@ gunicorn==20.0.4
 isort==4.3.21
 itsdangerous==1.1.0
 jedi==0.16.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 lazy-object-proxy==1.4.3
 logilab-common==1.5.2
 MarkupSafe==1.1.1
