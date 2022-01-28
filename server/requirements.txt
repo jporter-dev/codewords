@@ -6,7 +6,7 @@ dnspython==1.16.0
 dominate==2.5.1
 enum-compat==0.0.3
 enum34==1.1.10
-eventlet==0.25.2
+eventlet==0.31.0
 Flask==1.1.2
 Flask-Bootstrap==3.3.7.1
 Flask-SocketIO==4.2.1
