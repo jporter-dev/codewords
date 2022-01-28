@@ -13,7 +13,7 @@ services:
       - 80:80
       - 443:443
     links:
-      - flask
+      - backend
     depends_on:
-      - flask
+      - backend
     restart: always
