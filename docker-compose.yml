@@ -5,7 +5,7 @@ services:
     image: redis:alpine
     volumes:
       - 'redis:/data/db'
-  flask:
+  backend:
     build: ./server
     volumes:
       - ./server:/app
@@ -21,9 +21,9 @@ services:
     ports:
       - 8080:8080
     links:
-      - flask
+      - backend
     depends_on:
-      - flask
+      - backend
     # restart: unless-stopped
 volumes:
   redis:

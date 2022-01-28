@@ -1,14 +1,14 @@
 version: '3.7'
 
 services:
-  flask:
+  backend:
     restart: unless-stopped
     environment:
       FLASK_DEV: development
     volumes:
       - ./server:/app
     ports:
-      - 5000:5000
+      - 3000:5000
   frontend:
     volumes:
       - ./frontend:/app
