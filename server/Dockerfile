@@ -7,5 +7,5 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY . .
 ENV HOST 0.0.0.0
-EXPOSE 5000
+EXPOSE 3000
 CMD ["python", "app.py"]

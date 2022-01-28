@@ -21,7 +21,7 @@ module.exports = {
     },
     proxy: {
       '/socket.io': {
-        target: `http://${process.env.VUE_APP_FLASK_HOST}:3000`,
+        target: `http://${process.env.VUE_APP_FLASK_HOST}:5000`,
         ws: true,
         changeOrigin: true
       },
