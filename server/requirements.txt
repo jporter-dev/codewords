@@ -11,7 +11,7 @@ Flask==1.1.2
 Flask-Bootstrap==3.3.7.1
 Flask-SocketIO==4.2.1
 greenlet==0.4.15
-gunicorn==20.0.4
+gunicorn==22.0.0
 isort==4.3.21
 itsdangerous==1.1.0
 jedi==0.16.0
